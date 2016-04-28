@@ -1,0 +1,1 @@
+Haz click en el enlace para resetear tu contraseña {{url('account/confirm/'.$token)}}

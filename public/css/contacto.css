@@ -1,0 +1,152 @@
+body
+{
+	background-color: rgb(8,51,143);
+}
+
+#informacion
+{
+	resize:none;
+}
+
+#sucursales
+{
+	background-color: rgb(8,51,143);
+	width:250px;
+	height:45px;
+	border-radius: 0px 0px 26px 26px;
+	margin-left:5%;
+}
+
+#lblSucursal
+{
+   font-size:20px;	
+   color:rgb(229,229,229);
+   margin-left:50px;
+   margin-top:2px;
+}
+
+.separador
+{
+	height: 5px;
+}
+
+.colorFondo
+{
+
+	background-color: rgb(8,51,143);
+}
+
+.contactanos
+{
+	font-size:40px;
+	margin-top:15px;
+}
+
+.fondoContenido
+{
+	background-color:rgb(229,229,229);
+}
+
+.colorCajaTexto
+{
+  background-color: rgb(8,51,143);
+  border-radius:0.7em;
+  color:white;
+}
+
+input::-webkit-input-placeholder{
+  color: white !important;
+}
+
+input:-moz-placeholder {
+  color: white !important; 
+}
+input:-ms-input-placeholder { 
+  color: white !important; 
+}
+
+/*color placeholder textarea*/
+#txtInformacion::-webkit-input-placeholder,
+#informacion::-webkit-input-placeholder
+{
+  color: white;
+}
+
+#txtInformacion:-moz-placeholder,
+#informacion:-moz-placeholder 
+{
+  color: white;
+}
+
+#txtInformacion::-moz-placeholder,
+#informacion::-moz-placeholder 
+{
+  color: white;
+}
+
+#txtInformacion:-ms-input-placeholder,
+#informacion:-ms-input-placeholder 
+{
+  color: white;
+}
+
+
+
+.tamano
+{
+	height:40px;
+	margin-bottom:15px;
+}
+
+.container
+{
+	background-color:rgb(229,229,229);
+	
+}
+
+.frmContacto
+{
+  background-color:rgb(229,229,229);
+  border:none;
+  margin-left:5%;
+}
+
+.btnSolicitar
+{
+ 	background-color:rgb(89,89,89);	
+ 	width: 90px;
+ 	height:30px;
+ 	font-size:11px;
+ 	position:right;
+}
+
+.mapa
+{
+	border:1px solid;
+	width:50%;
+	margin-bottom:30px;
+}
+
+.informacionContactos
+{
+	margin-left:5%;
+	color:white;
+}
+
+.contactoSiguenos
+{
+	margin-top:7%;
+	margin-left:5%;
+	color:white;
+}
+
+.lblSiguenos
+{
+	color:white;
+	font-size:20px;
+}
+
+.piePagina
+{
+	background-color:rgba(10,32,79,1);		
+}

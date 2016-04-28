@@ -1,0 +1,156 @@
+body {
+  color: white; }
+
+.page p {
+  color: black; }
+.page h2 {
+  color: #d37f15; }
+.page ul {
+  color: black; }
+
+.empresa li {
+  color: black; }
+
+.imgpage {
+  width: 100px;
+  height: auto;
+  margin-left: 10px;
+  margin-bottom: 20px; }
+
+.Cobertura ul li {
+  colo: black; }
+
+#menu {
+  background-color: #d37f15;
+  border-radius: 0;
+  border-color: #d37f15; }
+
+.footer-box {
+  background-color: #d37f15;
+  padding: 20px; }
+  .footer-box p {
+    color: white; }
+  .footer-box h4 {
+    color: white; }
+  .footer-box b {
+    color: white; }
+
+.correo {
+  color: white; }
+
+.pofa {
+  position: relative;
+  left: 10px; }
+
+.baner1 {
+  background-color: #d37f15;
+  padding: 15px;
+  box-shadow: 1px 1px 1px #888888;
+  z-index: 10; }
+  .baner1 h2 {
+    color: white;
+    text-align: center;
+    margin-bottom: 0 !important;
+    margin-top: 0 !important;
+    text-shadow: 2px 2px 3px black; }
+
+.historia {
+  background-image: url("../img-cresolido/banner4.png");
+  padding: 40px 0px 10px 0px; }
+  .historia table p {
+    colo: #d37f15; }
+
+label {
+  color: black; }
+
+h3 {
+  color: #d37f15; }
+
+.sectiones {
+  margin-bottom: 30px;
+  margin-top: 30px; }
+
+.hr {
+  margin-top: 0;
+  margin-bottom: 0;
+  border: 0;
+  border-top: 2px solid #d37f15; }
+
+.green {
+  background: green; }
+
+.content-inf {
+  background: green; }
+  .content-inf h3 {
+    colo: white; }
+
+.Informacion {
+  margin-bottom: 0px;
+  margin-top: 0px; }
+  .Informacion h2 {
+    margin-top: 5px; }
+    .Informacion h2:hover {
+      cursor: hand; }
+  .Informacion table {
+    color: #FFF;
+    font-size: 12px;
+    margin-bottom: 45px; }
+
+.gray {
+  background: gray;
+  font-size: 16px;
+  font-weight: bold; }
+
+.content-registro {
+  background-color: white; }
+
+.grales {
+  padding-top: 1px;
+  padding-left: 15px;
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+  display: none; }
+
+.datos {
+  background-color: #d37f15;
+  border-radius: 14px;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+  padding: 20px 47px;
+  width: 100%;
+  text-align: left; }
+
+.logocolapce {
+  position: absolute;
+  width: 50px;
+  height: auto;
+  margin-left: 45px;
+  margin-top: 5px; }
+
+.wrapworl {
+  word-wrap: break-word; }
+
+@media (max-width: 768px) {
+  .datos {
+    padding: 1px 3px;
+    margin-left: -38px;
+    width: 100%; }
+
+  .logocre {
+    width: 0px;
+    height: auto; }
+
+  .img-footer {
+    text-align: center;
+    width: 80px;
+    height: auto; }
+
+  .colapce {
+    margin: 0;
+    text-align: center; } }
+@media (min-width: 768px) {
+  .logocolapce {
+    display: none; } }
+.noexiste {
+  color: black;}
+
+/*# sourceMappingURL=estilos.css.map */

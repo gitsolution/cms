@@ -1,0 +1,103 @@
+/*!
+ * Start Bootstrap - Business Frontpage HTML Template (http://startbootstrap.com)
+ * Code licensed under the Apache License v2.0.
+ * For details, see http://www.apache.org/licenses/LICENSE-2.0.
+ */
+
+
+
+body {
+    padding-top: 50px; /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+}
+
+
+
+/* */
+html, body, #wrap {height: 100%;}
+
+
+body > #wrap {height: auto; min-height: 100%;}
+
+#main {padding-bottom: 150px;}  
+
+#footer {position: relative !important;
+    margin-top: -150px !important; 
+    height: 150px !important;
+    clear:both !important;} 
+
+/* */
+/* Header Image Background - Change the URL below to your image path (example: ../images/background.jpg) */
+
+.footer_menu { clear:both;   text-align:center; }
+
+.footer_menu span.current{ 
+    height:32px; padding: 14px 0 0 0;
+    color:#BBB;
+}
+.footer_menu li{ 
+    display: inline;
+}
+
+.footer_menu li.selected{ 
+
+}
+
+  
+.footer_menu a {
+    margin: 0; 
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: .9em; 
+    color:gray;
+    width:160px;
+    height:32px;
+    padding:10px 10px 0 10px;
+}
+
+#footer_menu a.current {background:url(../images/menu_current.png) left top no-repeat; }
+
+
+
+.business-header {
+    max-height: 400px;
+    margin-top: 48px;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+}
+
+/* Customize the text color and shadow color and to optimize text legibility. */
+
+.tagline {
+    text-shadow: 0 0 10px #000;
+    color: #fff;
+}
+
+.img-center {
+    margin: 0 auto;
+}
+
+footer {
+    margin: 0px 0;
+}
+
+@media screen and(max-width: 840px) {
+
+  body {
+        background-color: black;
+    }
+.logo{
+    width: 100px;
+     height: 40px;
+}
+
+}
+.nav-link:hover { 
+    background-color: white !important;
+}
+
+.breadcrumb {
+     background-color: white !important;   
+     color: #0F5BFF !important;
+     font-style: bold !important;
+}

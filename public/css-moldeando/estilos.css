@@ -1,0 +1,322 @@
+body {
+  color: black; }
+
+.banhed {
+  background-color: #d37f15;
+  height: 15px;
+  width: 100%; }
+
+.panel {
+  margin-bottom: 3px; }
+
+.bansect {
+  background-color: #118d43;
+  height: 3px;
+  width: 100%; }
+
+.container-fluid {
+  padding-right: 0;
+  padding-left: 0; }
+
+.navbar-nav {
+  margin-top: 0px; }
+
+.navbar-nav li a {
+  padding-left: 25px; }
+
+.container {
+  padding-left: 0;
+  padding-right: 0; }
+  .container .navbar-header {
+    margin-right: 2px; }
+
+.page p {
+  color: black; }
+.page h2 {
+  color: #3c3b3c; }
+.page ul {
+  color: black; }
+
+.empresa li {
+  color: black; }
+
+.imgpage {
+  width: 100%;
+  height: auto;
+  margin-left: 10px;
+  margin-bottom: 20px; }
+
+.Cobertura ul li {
+  colo: black; }
+
+#menu {
+  background-color: #3c3b3c;
+  border-radius: 0;
+  border-color: #3c3b3c; }
+
+.footer-box {
+  background-color: #3c3b3c;
+  padding: 20px; }
+  .footer-box p {
+    color: white; }
+  .footer-box h4 {
+    color: white;
+    margin-top: 0; }
+  .footer-box b {
+    color: white; }
+
+.correo {
+  color: white; }
+
+.pofa {
+  position: relative;
+  left: 10px; }
+
+.baner1 {
+  background-color: #3c3b3c;
+  padding: 15px;
+  box-shadow: 1px 1px 1px #888888;
+  z-index: 10; }
+  .baner1 h2 {
+    color: white;
+    text-align: center;
+    margin-bottom: 0 !important;
+    margin-top: 0 !important;
+    text-shadow: 2px 2px 3px black; }
+
+label {
+  color: black; }
+
+h3 {
+  color: #3c3b3c; }
+
+.sectiones {
+  margin-bottom: 30px;
+  margin-top: 30px; }
+
+.hr {
+  margin-top: 0;
+  margin-bottom: 0;
+  border: 0;
+  border-top: 2px solid #3c3b3c; }
+
+.contenedor {
+  width: 25%;
+  height: 250px; }
+  .contenedor h3 {
+    color: white; }
+  .contenedor p {
+    color: white; }
+
+.green {
+  background: green; }
+
+.content-inf {
+  background: green; }
+  .content-inf h3 {
+    colo: white; }
+
+.Informacion {
+  margin-bottom: 0px;
+  margin-top: 0px; }
+  .Informacion h2 {
+    margin-top: 5px; }
+    .Informacion h2:hover {
+      cursor: hand; }
+  .Informacion table {
+    color: #FFF;
+    font-size: 12px;
+    margin-bottom: 45px; }
+
+.gray {
+  background: gray;
+  font-size: 16px;
+  font-weight: bold; }
+
+.content-registro {
+  background-color: white; }
+
+.grales {
+  padding-top: 1px;
+  padding-left: 15px;
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+  display: none; }
+
+.datos {
+  background-color: #3c3b3c;
+  border-radius: 14px;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+  padding: 20px 47px;
+  width: 100%;
+  text-align: left; }
+
+.logocolapce {
+  position: absolute;
+  width: 56px;
+  height: auto;
+  margin-left: 45px;
+  margin-top: 5px; }
+
+.wrapworl {
+  word-wrap: break-word; }
+  .wrapworl hr {
+    border: 1px solid silver; }
+
+.btn-social {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+  text-align: center;
+  font-size: 20px;
+  line-height: 45px; }
+
+.colorcon0 {
+  background-color: #10215d; }
+
+.colorcon1 {
+  background-color: #cf6f35; }
+
+.colorcon2 {
+  background-color: #118d43; }
+
+.colorcon3 {
+  background-color: #136daa; }
+
+.colorcon4 {
+  background-color: #16215d; }
+
+.colorcon5 {
+  background-color: #9365b8; }
+
+.colorcon6 {
+  background-color: #fac51c; }
+
+.colorcon7 {
+  background-color: #e14938; }
+
+.colorcon8 {
+  background-color: #1abc9c; }
+
+.footer-box .col-md-2 {
+  width: 19%; }
+
+.separador {
+  height: 20px; }
+
+.contcat {
+  width: 25%; }
+
+.bannt {
+  width: 100%;
+  background-color: #cf6f35; }
+  .bannt p {
+    color: white;
+    font-size: 22px;
+    margin: 0 0 0.5px; }
+
+.banev {
+  width: 100%;
+  background-color: #118d43; }
+  .banev p {
+    color: white;
+    font-size: 22px;
+    margin: 0 0 0.5px; }
+
+.banpro {
+  width: 100%;
+  background-color: #10215d; }
+  .banpro p {
+    color: white;
+    font-size: 22px;
+    margin: 0 0 0.5px; }
+
+.categos {
+  height: 515px;
+  background-color: #edeeef; }
+
+.padin {
+  padding-left: 10px; }
+
+.marg {
+  padding-left: 8px; }
+
+.navbar-nav :hover {
+  background-color: white; }
+
+.posimg {
+  height: 430px;
+  width: 100%; }
+
+.imgpop {
+  width: 100%;
+  height: 50px; }
+
+.popular p {
+  color: black; }
+.popular h5 {
+  color: black;
+  font-style: bold; }
+  .popular h5:hover {
+    color: orange; }
+.popular a {
+  text-decoration: none; }
+.popular hr {
+  margin-top: 1px; }
+.popular h4 {
+  margin-top: 80px; }
+
+.conpopu {
+  height: 80px; }
+  .conpopu .col-md-3 {
+    padding-left: 3px;
+    padding-right: 3px; }
+  .conpopu .col-md-9 {
+    padding-left: 3px;
+    padding-right: 3px; }
+
+@media (max-width: 768px) {
+  .datos {
+    padding: 1px 3px;
+    margin-left: -38px;
+    width: 100%; }
+
+  .logocre {
+    width: 0px;
+    height: auto; }
+
+  .img-footer {
+    text-align: center;
+    width: 80px;
+    height: auto; }
+
+  .colapce {
+    margin: 0;
+    text-align: center; }
+
+  .banhed {
+    display: none; }
+
+  .carousel-indicators {
+    bottom: -10px; }
+
+  .contenedor {
+    width: 100%; }
+
+  h3 {
+    margin-top: 0; }
+
+  .categos {
+    margin-left: 0px; }
+
+  .posimg {
+    height: 100px; }
+
+  .imgpop {
+    width: 25%; } }
+@media (min-width: 768px) {
+  .logocolapce {
+    display: none; } }
+
+/*# sourceMappingURL=estilos.css.map */

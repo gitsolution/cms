@@ -1,0 +1,496 @@
+
+.contenedor{margin-left: 210px;}
+
+.ColumColor{
+background-color: rgb(52,73,94);
+color: white;
+
+}
+.columbord
+{
+ border-radius: 0.3em;
+}
+
+/*editado raul form Types*/
+/*--Type--*/
+textarea{
+
+	
+}
+
+.UserColor
+{
+color: rgb(61,142,185);
+font-style: bold;
+font-size: 16px;
+font-family:Segoe UI;
+
+}
+
+.derecha{
+    margin-top: 0px;
+       margin-left:86px;
+}
+.footerTamano{
+    width: 30px;
+    color:red;
+}
+
+.contimage{
+width: 50%;
+margin-left: 20%;
+}
+img{
+    width: 100%;
+}
+.hoverimg
+{
+text-decoration: none;
+}
+a{
+    text-decoration: none;
+}
+
+
+/*check box*/
+.material-switch > input[type="checkbox"] {
+    display: none;   
+}
+
+.material-switch > label {
+    cursor: pointer;
+    height: 0px;
+    position: relative; 
+    width: 40px;  
+}
+
+.material-switch > label::before {
+    background: rgb(0, 0, 0);
+    box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    content: '';
+    height: 16px;
+    margin-top: -8px;
+    position:absolute;
+    opacity: 0.3;
+    transition: all 0.4s ease-in-out;
+    width: 40px;
+}
+.material-switch > label::after {
+    background: rgb(255, 255, 255);
+    border-radius: 16px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+    content: '';
+    height: 24px;
+    left: -4px;
+    margin-top: -8px;
+    position: absolute;
+    top: -4px;
+    transition: all 0.3s ease-in-out;
+    width: 24px;
+}
+.material-switch > input[type="checkbox"]:checked + label::before {
+    background: inherit;
+    opacity: 0.5;
+}
+.material-switch > input[type="checkbox"]:checked + label::after {
+    background: inherit;
+    left: 20px;
+}
+
+#toolbar .editors-container {
+  overflow: hidden;
+  height: 0;
+  transition: height 200ms;
+}
+#toolbar .editors-container.active {
+  height: auto;
+}
+#main #editor {
+  background: #FFF;
+  padding: 2% 4%;
+  border: dashed 5px #27c0d8;
+}
+
+.contenedor
+{
+	margin-left: 250px;
+}
+
+/* estilos para registro de usuario*/
+.frmEspacios	
+{
+	margin-bottom: 30px;
+}
+
+#frmLogin
+{
+	/*background: black;*/
+}
+
+.registro
+{
+	background: white;
+	height: 500px;
+}
+
+.titulo
+{
+	padding: 16px;
+	background: #3c8dbc;
+	height: 60px;
+	color: white;
+}
+
+.btnRegistrar
+{
+	background-color: #3c8dbc;
+    border-color: #367fa9;
+    outline: none;
+    font-size: 1.35em;
+    border: 3px solid #000;
+}
+
+.positionBtn
+{
+    margin-right: 10%;
+}
+
+/* editado raul fin*/
+.btn span.glyphicon {       
+ opacity: 0;    
+}
+.btn.active span.glyphicon {    
+ opacity: 1;    
+}
+
+
+.colorfooter{
+  
+    padding: 16px;
+    bottom: 0;
+    
+}
+.posFoo{
+    margin-left: 85px;
+}
+.poscondu{
+    margin-left: 90px;
+}
+.footcontac{
+
+    font-size: 12px !important;
+}
+
+.hoverclas:hover
+{     -webkit-transform: scale(1.1); 
+   
+   position: relative; 
+   z-index: 5; 
+}
+
+.shadow
+{
+    
+-webkit-box-shadow: 0 3px 6px rgba(0,0,0,.5); 
+}
+
+.piealbum{
+    background-color: rgb(171,183,183);
+    color: black;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.mailComnet
+{
+ background-color: rgb(249,249,249);
+ width: 100%;
+ height: 32px;
+padding: inherit;
+color:rgb(97,198,226);
+}
+.coment
+{
+
+padding: inherit;
+
+
+}
+
+
+* {
+    margin: 0;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+ }
+ 
+ a {
+    color: #03658c;
+    text-decoration: none;
+ }
+ 
+ul {
+    list-style-type: none;
+}
+ 
+
+
+/** ====================
+ * Lista de Comentarios
+ =======================*/
+.comments-container {
+    margin: 20px  auto 15px;
+    width: 768px;
+}
+ 
+.comments-container h1 {
+    font-size: 36px;
+    color: #283035;
+    font-weight: 400;
+}
+ 
+.comments-container h1 a {
+    font-size: 18px;
+    font-weight: 700;
+}
+ 
+.comments-list {
+    margin-top: 30px;
+    position: relative;
+}
+ 
+/**
+ * Lineas / Detalles
+ -----------------------*/
+/*.comments-list:before {
+    content: '';
+    width: 2px;
+    height: 100%;
+    background: #c7cacb;
+    position: absolute;
+    left: 66px;
+    top: 0;
+}
+ 
+.comments-list:after {
+    content: '';
+    position: absolute;
+    background: #c7cacb;
+    bottom: 0;
+    left: 27px;
+    width: 7px;
+    height: 7px;
+    border: 3px solid #dee1e3;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+}
+ 
+.reply-list:before, .reply-list:after {display: none;}
+.reply-list li:before {
+      content: '';
+    width: 80px;
+    height: 2px;
+    background: #c7cacb;
+    position: absolute;
+    top: 16px;
+    left: -21px;
+}*/
+ 
+ 
+.comments-list li {
+    margin-bottom: 15px;
+    display: block;
+    position: relative;
+}
+ 
+.comments-list li:after {
+    content: '';
+    display: block;
+    clear: both;
+    height: 0;
+    width: 0;
+}
+ 
+.reply-list {
+    padding-left: 72px;
+    clear: both;
+    margin-top: 15px;
+}
+/**
+ * Avatar
+ ---------------------------*/
+.comments-list .comment-avatar {
+    width: 65px;
+    height: 65px;
+    position: relative;
+    z-index: 99;
+    float: left;
+    border: 3px solid #FFF;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    overflow: hidden;
+}
+ 
+.comments-list .comment-avatar img {
+    width: 100%;
+    height: 100%;
+}
+ 
+.reply-list .comment-avatar {
+    width: 50px;
+    height: 50px;
+}
+ 
+.comment-main-level:after {
+    content: '';
+    width: 0;
+    height: 0;
+    display: block;
+    clear: both;
+}
+/**
+ * Caja del Comentario
+ ---------------------------*/
+.comments-list .comment-box {
+    width: 680px;
+    float: left;
+    position: relative;
+    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.15);
+    -moz-box-shadow: 0 1px 1px rgba(0,0,0,0.15);
+    box-shadow: 0 1px 1px rgba(0,0,0,0.15);
+}
+ 
+.comments-list .comment-box:before, .comments-list .comment-box:after {
+    content: '';
+    height: 0;
+    width: 0;
+    position: absolute;
+    display: block;
+    border-width: 10px 12px 10px 0;
+    border-style: solid;
+    border-color: transparent rgb(236,240,241); /*pestanita color*/
+    top: 8px;
+    left: -11px;
+}
+ 
+.comments-list .comment-box:before {
+    border-width: 11px 13px 11px 0;
+    border-color: transparent rgba(0,0,0,0.05);
+    left: -12px;
+}
+ 
+.reply-list .comment-box {
+    width: 610px;
+}
+.comment-box .comment-head {
+    background: rgb(236,240,241);
+    padding: 10px 12px;
+    border-bottom: 1px solid #E5E5E5;
+    overflow: hidden;
+    -webkit-border-radius: 4px 4px 0 0;
+    -moz-border-radius: 4px 4px 0 0;
+    border-radius: 4px 4px 0 0;
+}
+ 
+.comment-box .comment-head i {
+    float: right;
+    margin-left: 14px;
+    position: relative;
+    top: 2px;
+    color: #A6A6A6;
+    cursor: pointer;
+    -webkit-transition: color 0.3s ease;
+    -o-transition: color 0.3s ease;
+    transition: color 0.3s ease;
+}
+ 
+.comment-box .comment-head i:hover {
+    color: #03658c;
+}
+ 
+.comment-box .comment-name {
+    color: #283035;
+    font-size: 14px;
+    font-weight: 700;
+    float: left;
+    margin-right: 10px;
+}
+ 
+.comment-box .comment-name a {
+    color: #283035;
+}
+ 
+.comment-box .comment-head span {
+    float: left;
+    color: #999;
+    font-size: 13px;
+    position: relative;
+    top: 1px;
+}
+ 
+.comment-box .comment-content {
+    background: #FFF;
+    padding: 12px;
+    font-size: 15px;
+    color: #595959;
+    -webkit-border-radius: 0 0 4px 4px;
+    -moz-border-radius: 0 0 4px 4px;
+    border-radius: 0 0 4px 4px;
+}
+ 
+.comment-box .comment-name.by-author, .comment-box .comment-name.by-author a {color: #03658c;}
+.comment-box .comment-name.by-author:after {
+    content: 'autor';
+    background: #03658c;
+    color: #FFF;
+    font-size: 12px;
+    padding: 3px 5px;
+    font-weight: 700;
+    margin-left: 10px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+textarea{
+    resize: none;
+}
+
+/** =====================
+ * Responsive
+ ========================*/
+@media only screen and (max-width: 766px) {
+    .comments-container {
+        width: 480px;
+    }
+ 
+    .comments-list .comment-box {
+        width: 390px;
+    }
+ 
+    .reply-list .comment-box {
+        width: 320px;
+    }
+}
+
+.comentario
+{
+    font-size: 19px;
+    font-weight: bold;
+}
+
+.colorForm
+{
+background-color: rgb(236,240,241);
+    margin: 4px 0px 10px 0px;
+padding: 12px;
+
+}
+
