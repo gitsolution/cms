@@ -1,15 +1,13 @@
 @extends('posadaparaiso.index')
 @section('maincontent')
-<div>
+<div >
    @include('posadaparaiso.sliderShow')
 
 </div>
 
 
 <div class="ladrillos container-fluid " >
-  <div >
     @include('posadaparaiso.frmreservaenlinea-horizontal')
-  </div>
 </div>
 
 <div class="bienbenido-al-paraiso">

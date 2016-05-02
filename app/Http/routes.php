@@ -70,7 +70,7 @@ Route::get('DocList/{option}','moldeandoController@listDocument');
 /// Posada paraiso
 
 //Rutas en español
-Route::resource('Inicio','PosadaParaisoController@index');
+Route::resource('Inicio','PosadaParaisoController');
 Route::get('Restaurante','PosadaParaisoController@restaurant');
 Route::get('Hotel','PosadaParaisoController@hotel');
 
@@ -113,7 +113,7 @@ Route::resource('Debut','PosadaParaisoController@index');
 Route::get('Restaurant','PosadaParaisoController@restaurant');
 Route::get('Hotel','PosadaParaisoController@hotel');
 
-Route::get('histoire',function(){
+Route::get('Histoire',function(){
     return Redirect::to("Debut#histoire");
 });
 Route::get('Contact',function(){
@@ -126,6 +126,8 @@ Route::get('Galerie',function(){
     return Redirect::to("Hotel#Galerie");
 });
 
+/*Rutas para las reservaciones */
+Route::resource('Reservation','pp_reservationController');
 
 
 /*Ruta para los cambios idiomas*/
@@ -145,6 +147,9 @@ Route::get('/{lang}', function ($lang) {
 
 
 
+//Rutas para los idiomas en Panel de administración
+Route::resource('admin/languages','languageController');
+Route::get('admin/languages/{id}/destroy','languageController@destroy');
 
 
 

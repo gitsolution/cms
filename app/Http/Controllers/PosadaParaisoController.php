@@ -55,7 +55,7 @@ class PosadaParaisoController extends Controller
             ->where('med_pictures.active','=', $flag)   
             ->where('med_pictures.publish','=',$publish)
             ->where('med_albums.title','=',$album)        
-            ->orderBy('med_albums.order_by','DESC')->paginate(20);
+            ->orderBy('med_albums.order_by','DESC')->get();
 
         return view('posadaparaiso.home',['sectionHistory'=>$sectionHistory,'sectionContact'=>$sectionContact,'sectionLocation'=> $sectionLocation,'media'=>$media]);
     
@@ -70,7 +70,7 @@ class PosadaParaisoController extends Controller
         $sectionRooms = null;
         $sectionRooms =  DB::table('cms_sections')->where('id_language','=',$this->id_language)->where('uri','=', $uri)->where('publish','=',1)->where('active','=',1)->first();   
         
-        $album="Restaurante";
+        $album="Restaurante";//(para el slider del Header)
         $flag='1';  
         $band='1';  
         $publish='1';  
@@ -84,7 +84,7 @@ class PosadaParaisoController extends Controller
             ->where('med_pictures.active','=', $flag)   
             ->where('med_pictures.publish','=',$publish)
             ->where('med_albums.title','=',$album)        
-            ->orderBy('med_albums.order_by','DESC')->paginate(20);
+            ->orderBy('med_albums.order_by','DESC')->get();
 
         return view('posadaparaiso.restaurant',['sectionRestaurant'=>$sectionRestaurant,'sectionRooms'=>$sectionRooms,'media'=>$media]);
     
@@ -95,8 +95,8 @@ class PosadaParaisoController extends Controller
         $sectionHotel = null;
         $sectionHotel =  DB::table('cms_sections')->where('id_language','=',$this->id_language)->where('uri','=', $uri)->where('publish','=',1)->where('active','=',1)->first();   
      
-
-        $album="hotel";//nombre del albúm que se le dio en el panel de administración
+       //(para el slider del Header)
+        $album="hotel";//nombre del albúm que se le dio en el panel de administración 
         $flag='1';  
         $band='1';  
         $publish='1';  
@@ -110,117 +110,39 @@ class PosadaParaisoController extends Controller
             ->where('med_pictures.active','=', $flag)   
             ->where('med_pictures.publish','=',$publish)
             ->where('med_albums.title','=',$album)        
-            ->orderBy('med_albums.order_by','DESC')->paginate(20);
-         
-        return view('posadaparaiso.hotel',['sectionHotel'=>$sectionHotel,'media'=>$media]);
-    }
+            ->orderBy('med_albums.order_by','DESC')->get();
 
-
-    public function listGalleries(Request $request){
-        $flag='1';  
-        $band='1';  
-        $publish='1';  
-      
-
-        $media =  DB::table('med_albums')
+        $albumGaleryHotel=null;
+        $album="hotel";//para la galeria
+        $albumGaleryHotel =  DB::table('med_albums')
             ->join('med_pictures', 'med_albums.id', '=', 'med_pictures.id_album')            
             ->select('med_albums.*', 'med_pictures.path as pic', 'med_pictures.id_album as idal')        
             ->where('med_albums.active','=', $flag)
             ->where('med_albums.publish','=', $publish)
             ->where('med_pictures.active','=', $flag)   
-            ->where('med_pictures.publish','=',$publish)        
-            ->orderBy('med_albums.order_by','DESC')->paginate(20);
-            //$uris = $this->getBreadcrumb($request);
-           $uris="/bnm";
+            ->where('med_pictures.publish','=',$publish)
+            ->where('med_albums.title','=',$album)        
+            ->orderBy('med_albums.order_by','DESC')->simplePaginate(20);
+           
+         //   $albumGaleryHotel->setPath('Hotel/Gallery');
 
-               dd($media);
-             
 
-            return view('cresolido.galery',['media'=>$media ,'band'=>$band, 'uris'=>$uris] );
-    }
-
-    public function galleries(){
-        $uri = $option;    
-        $flag='1';  
-        $publish='1';  
-        $band='0';  
-
-        $items =  DB::table('med_pictures')
-            ->join('med_albums', 'med_pictures.id_album', '=', 'med_albums.id')            
-            ->select('med_pictures.*', 'med_albums.title as album')        
+        $albumGaleryRooms=null;
+        $album="habitaciones";//para la galeria
+        $albumGaleryRooms =  DB::table('med_albums')
+            ->join('med_pictures', 'med_albums.id', '=', 'med_pictures.id_album')            
+            ->select('med_albums.*', 'med_pictures.path as pic', 'med_pictures.id_album as idal')        
             ->where('med_albums.active','=', $flag)
             ->where('med_albums.publish','=', $publish)
-            ->where('med_pictures.active','=', $flag) 
-            ->where('med_albums.uri','=',$uri)  
-            ->where('med_pictures.publish','=',$publish)      
-            ->orderBy('med_pictures.order_by','DESC')->paginate(20);
-            $uris = $this->getBreadcrumb($request);
-            $this->aumentarHits($uri);
-
-                 return view('cresolido.galery',['items'=>$items, 'band'=>$band, 'uris'=>$uris] );
-    } 
-
-
-    public function Setings(Request $request)
-    {
-        $Setps= DB::table('cms_senttingspages')->get(); 
-        return view('cresolido.index',['Setps'=>$Setps]);
+            ->where('med_pictures.active','=', $flag)   
+            ->where('med_pictures.publish','=',$publish)
+            ->where('med_albums.title','=',$album)        
+            ->orderBy('med_albums.order_by','DESC')->paginate(20);
+         
+        return view('posadaparaiso.hotel',['sectionHotel'=>$sectionHotel,'media'=>$media,'albumGaleryHotel'=>$albumGaleryHotel,'albumGaleryRooms'=>$albumGaleryRooms]);
     }
 
 
-    public function aumentarHits($uri)
-    {
-               
-        /*********** Hits section ************/
-            $modulo = new cms_section;
-            $modulo->whereuri($uri)->whereactive(1)
-            ->increment('hits');
-        /****************************/
-
-        /*********** Hits para categoria ******/
-            $categories = new cms_category;
-            $categories ->whereuri($uri)->whereactive(1)
-            ->increment('hits');
-        /****************************/
-
-        /*********** Hits para documents ******/
-            $document = new cms_document;
-            $document ->whereuri($uri)->whereactive(1)
-            ->increment('hits');
-        /****************************/
-
-        /*********** Hits para med_albums ******/
-            $media = new Media;
-            $media ->whereuri($uri)->whereactive(1)
-            ->increment('hits');
-        /****************************/
-        
-        /*********** Hits para med_pictures ******/
-            $media = new Item;
-            $media ->whereuri($uri)->whereactive(1)
-            ->increment('hits');
-        /****************************/
-    }
-
-    public function getBreadcrumb(Request $request){        
-        $uris = explode("/",$request->path());
-        $ahref= "";
-        
-
-        /*for($i=0;$i<count($uris);$i++){
-        $ahref=$ahref+$uris[$i];
-                if((count($uris)-1)==$i)
-                {
-                    $uris[$i]="{!!link_to(".$ahref.",".$ahref.",array('class'=>'nav-link')) !!}";
-                    break;
-                }
-                else{
-                $ahref=$ahref+"/";
-                }               
-            $uris[$i]="link_to(".$ahref.",".$ahref.",array('class'=>'nav-link'))";
-        }*/
-        return $uris; 
-    } 
 
 
 }

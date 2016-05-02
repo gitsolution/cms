@@ -14,7 +14,7 @@
     </ol>
     
     <!--Contenedor e los slide-->
-    <div class="carousel-inner " style="background:rgb(12,12,23)" role="listbox">
+    <div class="carousel-inner sliderContent " style="" role="listbox" >
       <?php $i=0;?>
       @foreach($media as $imagen)
          @if($i==0)
@@ -23,7 +23,7 @@
             <div class="item ">
          @endif
               <center>
-               <img src='{{$imagen->pic}}' class="img-responsive " alt=""/>
+               <img src='{{$imagen->pic}}' class="img-responsive " alt=""  />
                <div class="carousel-caption hidden-xs">
                </div>
               </center>

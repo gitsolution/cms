@@ -31,6 +31,12 @@ if(isset($menu)) {
 <br>
  <div class="row">
  <div class="form-group" >
+ 	  {!!Form::label('Idioma:')!!}
+      {!!Form::select('id_language', \App\cms_language::lists('label','id'),null,['class'=>'form-control select2'] )!!}
+               
+ </div>
+
+ <div class="form-group" >
  	  {!!Form::label('Posición:')!!}
       {!!Form::select('id_men_type', \App\TypeMenu::lists('title','id'),null,['class'=>'form-control select2'] )!!}
                
@@ -46,12 +52,6 @@ if(isset($menu)) {
  	  {!!Form::textarea('description',$description,['class'=>'form-control', 'placeholder'=>'Ingresa la Descripción del Albúm'])!!}
 </div>
 
-
- <div class="form-group" >
- 	  {!!Form::label('Idioma:')!!}
-      {!!Form::select('id_language', \App\cms_language::lists('label','id'),null,['class'=>'form-control select2'] )!!}
-               
- </div>
 
 
 <div class="form-group" >	 

@@ -7,5 +7,7 @@ return [
     'habitaciones' => 'Chambres',
     'restaurante' => 'Restaurant-12',
     'contacto' => 'Contact',   
+
+    'ubicacion'=>'Emplacement'
  
 ];

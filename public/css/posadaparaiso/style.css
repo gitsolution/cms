@@ -1,6 +1,79 @@
 
 /*Posada paraiso***********/
 
+.sliderContent{
+    height:500px;
+	background:rgb(12,12,23);
+	
+ }
+ 
+ @media screen and (min-width: 780px) {/*Computadoras*/
+   .navbar-header {/*Para cuando no hay contenido en el menú*/
+     min-height:80px;
+   }
+}
+
+@media screen and (max-width: 780px) {/*Tablets*/
+   .sliderContent{/*Para cambiar el tamaño de las imagenes del slider*/
+	/*  width:100%;height:500px; */
+	 height:300px;
+	background:rgb(254,246,234);
+   }
+}
+
+@media only screen and (max-width: 600px) {/*Celulares*/
+   .sliderContent{/*Para cambiar el tamaño de las imagenes del slider*/
+	/*  width:100%;height:500px; */
+	background:rgb(254,246,234);
+	 height:150px;
+
+   }
+}
+
+
+/* para darle efcto de que se mueven hacia la derecha  */
+body li{
+	transition: 0.5s all ease;
+	-webkit-transition: 0.5s all ease;
+	-moz-transition: 0.5s all ease;
+	-o-transition: 0.5s all ease;
+	-ms-transition: 0.5s all ease;
+}
+/* para darle efcto de que se mueven hacia la derecha  */
+body a{
+	transition: 0.5s all ease;
+	-webkit-transition: 0.5s all ease;
+	-moz-transition: 0.5s all ease;
+	-o-transition: 0.5s all ease;
+	-ms-transition: 0.5s all ease;
+}
+
+
+.main-menu{
+background-color:rgb(231,96,18);
+color:white;
+}
+.item-menu{
+background:rgb(222,96,18);
+}
+
+.item-menu:hover{
+margin-left:-1%;
+margin-top:-1%;
+border-radius:5px;
+-webkit-box-shadow: inset 0 1px rgba(255, 255, 255, 0.3), inset 0 0 1px 1px rgba(255, 255, 255, 0.1), 0 2px 10px rgba(0, 0, 0, 0.5);
+box-shadow: inset 0 1px rgba(255, 255, 255, 0.3), inset 0 0 1px 1px rgba(255, 255, 255, 0.1), 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.itema-active{
+background:rgb(211,120,21);
+}
+
+.container-image{
+/* height:90px;
+background:gray;
+ */}
+
 .icon-logo-empresa {
   margin: 1em 0 0 .5em;
   width: 140px;

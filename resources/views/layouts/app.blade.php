@@ -235,6 +235,18 @@
                                 </ul>
                             </li>
                         @endcan
+
+
+                        @can('Configuraciónes.Modulodeconfiguraciondemetas')  
+                            <li>
+                                <a href="#"><i class="fa fa-globe"></i> Lenguajes<span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                                    <li>
+                                        {!!link_to('admin/languages', '&nbsp;&nbsp;&nbsp;Lenguaje',array('class'=>'fa fa-globe')) !!}
+                                    </li>
+                                </ul>
+                            </li>
+                        @endcan
                 </div>
                 <!-- /.sidebar-collapse -->
             </div>
