@@ -129,7 +129,19 @@ Route::get('Galerie',function(){
 /*Rutas para las reservaciones */
 Route::resource('Reservation','pp_reservationController');
 
+/*Rutas para paypal*/
+Route::get('payment', array(//Envia la información a paypal
+    'as' => 'payment',
+    'uses' => 'PaypalController@postPayment',
+));
+ 
+Route::get('payment/status', array(//Recibir la respuesta de paypal(a donde nos redirige cuando nos contesta)
+    'as' => 'payment.status',
+    'uses' => 'PaypalController@getPaymentStatus',
+));
 
+
+Route::get('callPaypalMethod','PaypalController@postPayment');
 /*Ruta para los cambios idiomas*/
 Route::get('/{lang}', function ($lang) {
         session(['lang' => $lang]);

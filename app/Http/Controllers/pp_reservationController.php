@@ -8,6 +8,9 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App;
 use DB;
+use App\Http\Controllers\PaypalController;
+
+use Route;
 
 class pp_reservationController extends Controller
 {     
@@ -22,7 +25,21 @@ class pp_reservationController extends Controller
     }
     
     public function store(Request $request){
-     \App\reservacion::create([
+  
+    $arrayItemToPay = array(
+      'llegada'=>$request['llegada'],
+      'salida'=>$request['salida'],
+      'habitacion'=>$request['habitacion'],
+      'adultos'=>$request['adultos'],
+      'menores'=>$request['menores'],
+      'promo'=>$request['promo'],
+    );
+
+    $request2 = Request::create('/callPaypalMethod', 'GET',$arrayItemToPay);
+    return Route::dispatch($request2)->getContent();
+    
+
+     App\reservacion::create([
       'llegada'=>$request['llegada'],
       'salida'=>$request['salida'],
       'habitacion'=>$request['habitacion'],
@@ -30,8 +47,7 @@ class pp_reservationController extends Controller
       'menores'=>$request['menores'],
       'promo'=>$request['promo'],
       ]);
-      //Session::flash('message','Reservación Guardada Correctamente');    
-      return redirect('/Inicio');
+    return redirect('/Inicio');
 
     } 
 
