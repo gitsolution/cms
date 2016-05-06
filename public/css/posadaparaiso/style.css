@@ -30,6 +30,11 @@
    }
 }
 
+.style-alert-orange{
+background:rgb(220,90,18);
+color:white;
+margin:0px;
+}
 
 /* para darle efcto de que se mueven hacia la derecha  */
 body li{

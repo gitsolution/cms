@@ -237,7 +237,7 @@
                         @endcan
 
 
-                        @can('Configuraciónes.Modulodeconfiguraciondemetas')  
+                          
                             <li>
                                 <a href="#"><i class="fa fa-globe"></i> Lenguajes<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
@@ -246,7 +246,18 @@
                                     </li>
                                 </ul>
                             </li>
-                        @endcan
+
+
+                            <li>
+                                <a href="#"><i class="glyphicon glyphicon-usd"></i> Reservaciones<span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                                    <li>
+                                        {!!link_to('admin/prices', '&nbsp;&nbsp;&nbsp;Precios',array('class'=>'glyphicon glyphicon-usd')) !!}
+                                    </li>
+                                </ul>
+                            </li>
+
+                 
                 </div>
                 <!-- /.sidebar-collapse -->
             </div>

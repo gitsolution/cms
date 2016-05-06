@@ -29,6 +29,7 @@ use Session;
 use DB;
 use Redirect;
 use Input;
+use App\pp_reservation;
 //use Illuminate\Support\Facades\Input;
 
 
@@ -45,20 +46,30 @@ class PaypalController extends Controller
 	}
  
 public function postPayment(Request $request)//Metodo para enviar a Paypal
-{   
+{       
 
+      $priceController = new  pp_pricesController();
+      $price=$priceController->getPriceActive();
+      if($price==0 || $price==null)/*Si no ha establecido un precio en el panel de administración*/
+         {return redirect('Inicio')
+            ->with('message', 'No disponible en estos momentos.');
+         }
+      $id_price=$priceController->getIdPriceActive();
+    
+      $name_client=$request['name'];
       $llegada=$request['llegada'];
       $salida=$request['salida'];
       $habitacion=$request['habitacion'];
       $adultos=$request['adultos'];
       $menores=$request['menores'];
       $promo=$request['promo'];
-
+     
+     
       $name='Reservación';
       $extract='Reservacion en Hotel posada paraíso';
-      $quantity='2';
-      $price='900';
-
+      $quantity='1';
+      
+     
       $costoDeEnvio=0;
 
         $payer = new Payer();
@@ -105,6 +116,18 @@ public function postPayment(Request $request)//Metodo para enviar a Paypal
             ->setPayer($payer)
             ->setRedirectUrls($redirect_urls)
             ->setTransactions(array($transaction));
+        
+      Session::put('nombre', $request['nombre']);
+      Session::put('llegada', $request['llegada']);//Respaldo mis datos antes de enviar a la pagina depaypal(para no perderlos)
+      Session::put('salida', $request['salida']);
+      Session::put('habitacion', $request['habitacion']);
+      Session::put('adultos', $request['adultos']);
+      Session::put('menores', $request['menores']);
+      Session::put('promo', $request['promo']);
+      Session::put('name', $name);
+      Session::put('quantity', $quantity);
+      Session::put('price', $price);
+      Session::put('id_price', $id_price);
 
         try {
             $payment->create($this->_api_context);
@@ -160,7 +183,7 @@ public function postPayment(Request $request)//Metodo para enviar a Paypal
 			return redirect('Inicio')//Si hubo un problema redirigo al usuario 
 				->with('message', 'Hubo un problema al intentar pagar con Paypal');
 		}
- 
+    
 		$payment = Payment::get($payment_id, $this->_api_context);
  
 		$execution = new PaymentExecution();
@@ -168,12 +191,11 @@ public function postPayment(Request $request)//Metodo para enviar a Paypal
  
 		$result = $payment->execute($execution, $this->_api_context);/*Al lanzar este metodo es cuando se realiza la transaccion completa*/
  
- 
 		if ($result->getState() == 'approved') {/*Si la compra se realizo*/
-			
-            //$this->saveOrder();
+			      
+            $this->saveOrder();
             //Aqui guardamos en la base de datos la compra realizada
- 
+           
 			return redirect('Inicio')
 				->with('message', 'Compra realizada de forma correcta');
 		}
@@ -183,33 +205,31 @@ public function postPayment(Request $request)//Metodo para enviar a Paypal
  
 	protected function saveOrder()
 	{
-		$subtotal = 0;
-		$cart = \Session::get('cart');
-		$shipping = 100;
+      pp_reservation::create([
+      'name'=>Session::get('nombre'),
+      'arrival'=>Session::get('llegada'),
+      'departure'=>Session::get('salida'),
+      'room'=>Session::get('habitacion'),
+      'grownups'=>Session::get('adultos'),
+      'minors'=>Session::get('menores'),
+      'promotions'=>Session::get('promo'),
+      'id_price'=>Session::get('id_price'),
+      ]);
+      
+
+     Session::forget('nombre'); 
+     Session::forget('llegada');
+     Session::forget('salida');
+     Session::forget('habitacion');
+     Session::forget('adultos');
+     Session::forget('menores');
+     Session::forget('promo');
+     Session::forget('id_price');
+    
+    return redirect('/Inicio');
+
  
-		foreach($cart as $producto){
-			$subtotal += $producto->quantity * $producto->price;
-		}
- 
-		$order = Order::create([
-			'subtotal' => $subtotal,
-			'shipping' => $shipping,
-			'user_id' => \Auth::user()->id
-		]);
- 
-		foreach($cart as $producto){
-			$this->saveOrderItem($producto, $order->id);
-		}
-	}
- 
-	protected function saveOrderItem($producto, $order_id)
-	{
-		OrderItem::create([
-			'price' => $producto->price,
-			'quantity' => $producto->quantity,
-			'product_id' => $producto->id,
-			'order_id' => $order_id
-		]);
+
 	}
 
 }

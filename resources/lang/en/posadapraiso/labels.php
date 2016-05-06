@@ -12,14 +12,14 @@ return [
     
 	/*labels form suscribite*/
 	
-    'nombre' => 'Name:',   
-    'apellidos' => 'Surnames:',   
-    'email' => 'Email:',   
-    'suscribete' => 'Subscribe',   
+    'nombre' => 'NAME:',   
+    'apellidos' => 'SURNAMES:',   
+    'email' => 'EMAIL:',   
+    'suscribete' => 'SUBSCRIBE',   
      
     /*form contacto*/ 
-     'direccion' =>'Address:',
-     'ciudad' =>'City:',
-     'mensaje' =>'Message:',
+     'direccion' =>'ADDRESS:',
+     'ciudad' =>'CITY:',
+     'mensaje' =>'MESSAGE:',
      'enviar' =>'Send',
 ];

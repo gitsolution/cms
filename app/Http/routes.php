@@ -74,7 +74,7 @@ Route::resource('Inicio','PosadaParaisoController');
 Route::get('Restaurante','PosadaParaisoController@restaurant');
 Route::get('Hotel','PosadaParaisoController@hotel');
 
-Route::get('galerias','PosadaParaisoController@listGalleries');
+//Route::get('galerias','PosadaParaisoController@listGalleries');
 
 
 Route::get('Historia',function(){
@@ -134,7 +134,6 @@ Route::get('payment', array(//Envia la información a paypal
     'as' => 'payment',
     'uses' => 'PaypalController@postPayment',
 ));
- 
 Route::get('payment/status', array(//Recibir la respuesta de paypal(a donde nos redirige cuando nos contesta)
     'as' => 'payment.status',
     'uses' => 'PaypalController@getPaymentStatus',
@@ -157,7 +156,10 @@ Route::get('/{lang}', function ($lang) {
        'lang' => 'en|es|fr'
 ]);
 
-
+//Rutas para las reservaciones
+Route::resource('admin/prices','pp_pricesController');
+Route::get('admin/prices/{id}/publish','pp_pricesController@publish');
+Route::get('admin/prices/{id}/destroy','pp_pricesController@destroy');
 
 //Rutas para los idiomas en Panel de administración
 Route::resource('admin/languages','languageController');

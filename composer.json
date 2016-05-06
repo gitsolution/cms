@@ -9,7 +9,8 @@
         "laravel/framework": "5.2.*",
         "laravelcollective/html": "5.2.*",
         "greggilbert/recaptcha": "dev-master",
-        "paypal/rest-api-sdk-php": "^1.7"
+        "paypal/rest-api-sdk-php": "^1.7",
+        "nesbot/carbon": "^1.21"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
