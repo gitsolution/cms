@@ -261,7 +261,7 @@
                             </li>
 
                              <li>
-                                <a href="#"><i class="glyphicon glyphicon-pencil"></i> Sucripciones<span class="fa arrow"></span></a>
+                                <a href="#"><i class="glyphicon glyphicon-pencil"></i> Suscripciones<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
                                     <li>
                                         {!!link_to('admin/suscription', '&nbsp;&nbsp;&nbsp;Suscriptores',array('class'=>'glyphicon glyphicon-user')) !!}
