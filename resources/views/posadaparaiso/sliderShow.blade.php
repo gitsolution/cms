@@ -1,6 +1,5 @@
-
 @if(count($media)==0)
-   <center><h2 class="text-encabezados-red">No se ha establecido Albúm para esta seccion.</h2></center>   
+   <center><h2 class="text-encabezados-red">No se ha establecido Álbum para esta sección.</h2></center>   
 @else
  <div id="carrusel-1" class="carousel slide" data-ride="carousel">      
     <!--Indicadores-->
@@ -23,9 +22,11 @@
             <div class="item ">
          @endif
               <center>
-               <img src='{{$imagen->pic}}' class="img-responsive " alt=""  />
-               <div class="carousel-caption hidden-xs">
-               </div>
+                  <div class="img-content">
+                  <img src='{{$imagen->pic}}'  alt='{{$imagen->pic}}' />
+                  </div>
+                  <div class="carousel-caption hidden-xs">
+                  </div>
               </center>
             </div>
        <?php $i++; ?>

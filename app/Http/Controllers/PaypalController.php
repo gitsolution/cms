@@ -30,6 +30,7 @@ use DB;
 use Redirect;
 use Input;
 use App\pp_reservation;
+use App\pp_reservation_details;
 //use Illuminate\Support\Facades\Input;
 
 
@@ -46,24 +47,35 @@ class PaypalController extends Controller
 	}
  
 public function postPayment(Request $request)//Metodo para enviar a Paypal
-{       
+{    
+    if($request['total']==0 || $request['total']==null )
+        return redirect('Inicio')//Si por alguna razon no hay un precio total para enviar a paypal 
+        ->with('message', 'Lo sentimos, Reservaciones no disponible en estos momentos');
 
-      $priceController = new  pp_pricesController();
-      $price=$priceController->getPriceActive();
-      if($price==0 || $price==null)/*Si no ha establecido un precio en el panel de administración*/
-         {return redirect('Inicio')
-            ->with('message', 'No disponible en estos momentos.');
-         }
-      $id_price=$priceController->getIdPriceActive();
+    $arrayItemToPay=unserialize($request['arrayItemToPay']);
+    //$arrayItemToPay['total']= $request['total'];
+    $num_hab=$arrayItemToPay["habitacion"];
+    //dd($arrayItemToPay["habitacion"]);
+    $arrayIdPricesHab=$request['precios'];
     
-      $name_client=$request['name'];
-      $llegada=$request['llegada'];
-      $salida=$request['salida'];
-      $habitacion=$request['habitacion'];
-      $adultos=$request['adultos'];
-      $menores=$request['menores'];
-      $promo=$request['promo'];
+    /*for($i=0;$i<$num_hab;$i++){
+        echo $arrayIdPricesHab[$i];
+    }*/
+
+     $arrayItemToPay;
+     $arrayIdPricesHab;
+
+
+      $price=$request['total'];
      
+      $name_client=$arrayItemToPay['nombre'];
+      $llegada=$arrayItemToPay['llegada'];
+      $salida=$arrayItemToPay['salida'];
+      $habitacion=$arrayItemToPay['habitacion'];
+      $adultos=$arrayItemToPay['adultos'];
+      $menores=$arrayItemToPay['menores'];
+      $promo=$arrayItemToPay['promo'];
+    
      
       $name='Reservación';
       $extract='Reservacion en Hotel posada paraíso';
@@ -117,17 +129,18 @@ public function postPayment(Request $request)//Metodo para enviar a Paypal
             ->setRedirectUrls($redirect_urls)
             ->setTransactions(array($transaction));
         
-      Session::put('nombre', $request['nombre']);
-      Session::put('llegada', $request['llegada']);//Respaldo mis datos antes de enviar a la pagina depaypal(para no perderlos)
-      Session::put('salida', $request['salida']);
-      Session::put('habitacion', $request['habitacion']);
-      Session::put('adultos', $request['adultos']);
-      Session::put('menores', $request['menores']);
-      Session::put('promo', $request['promo']);
+      Session::put('nombre', $arrayItemToPay['nombre']);
+      Session::put('llegada', $arrayItemToPay['llegada']);//Respaldo mis datos antes de enviar a la pagina depaypal(para no perderlos)
+      Session::put('salida', $arrayItemToPay['salida']);
+      Session::put('habitacion', $arrayItemToPay['habitacion']);
+      Session::put('adultos', $arrayItemToPay['adultos']);
+      Session::put('menores',$arrayItemToPay['menores']);
+      Session::put('promo', $arrayItemToPay['promo']);
       Session::put('name', $name);
       Session::put('quantity', $quantity);
       Session::put('price', $price);
-      Session::put('id_price', $id_price);
+      Session::put('arrayIdPricesHab', $arrayIdPricesHab);
+
 
         try {
             $payment->create($this->_api_context);
@@ -196,8 +209,8 @@ public function postPayment(Request $request)//Metodo para enviar a Paypal
             $this->saveOrder();
             //Aqui guardamos en la base de datos la compra realizada
            
-			return redirect('Inicio')
-				->with('message', 'Compra realizada de forma correcta');
+			return redirect('Inicio#Reservacion')
+				->with('message', 'Reservación realizada de forma correcta');
 		}
 		return redirect('Inicio')
 			->with('message', 'La compra fue cancelada');
@@ -213,9 +226,22 @@ public function postPayment(Request $request)//Metodo para enviar a Paypal
       'grownups'=>Session::get('adultos'),
       'minors'=>Session::get('menores'),
       'promotions'=>Session::get('promo'),
-      'id_price'=>Session::get('id_price'),
+      'amount'=>Session::get('price'),
+      //'id_price'=>Session::get('id_price'),
       ]);
-      
+       
+      $id_last_inserted = (DB::table('pp_reservation')->max('id'));   
+
+
+      $arrayPricesId=Session::get('arrayIdPricesHab');
+      for($i=0;$i<Session::get('habitacion');$i++){
+           pp_reservation_details::create([
+          'id_price'=>$arrayPricesId[$i],
+          'id_reservation'=>$id_last_inserted,
+          ]);
+      }
+     
+
 
      Session::forget('nombre'); 
      Session::forget('llegada');
@@ -224,11 +250,9 @@ public function postPayment(Request $request)//Metodo para enviar a Paypal
      Session::forget('adultos');
      Session::forget('menores');
      Session::forget('promo');
-     Session::forget('id_price');
+     Session::forget('arrayIdPricesHab');
     
-    return redirect('/Inicio');
-
- 
+     return redirect('/Inicio');
 
 	}
 

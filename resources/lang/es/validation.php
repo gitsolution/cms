@@ -79,6 +79,7 @@ return [
     'timezone'             => 'El :attribute debe ser una zona válida.',
     'unique'               => ':attribute ya ha sido registrado.',
     'url'                  => 'El formato :attribute es inválido.',
+    'recaptcha' => 'El atributo no es correcto.',
 
     /*
     |--------------------------------------------------------------------------

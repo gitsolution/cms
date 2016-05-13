@@ -139,8 +139,11 @@ Route::get('payment/status', array(//Recibir la respuesta de paypal(a donde nos 
     'uses' => 'PaypalController@getPaymentStatus',
 ));
 
+Route::post('payment','PaypalController@postPayment');//envio los datos al controlador payapal
 
-Route::get('callPaypalMethod','PaypalController@postPayment');
+Route::post('paymentMercadoPago','mercadopagoController@postPayment');//envio los datos al controlador mercadopago
+
+//Route::get('callPaypalMethod','PaypalController@postPayment');
 /*Ruta para los cambios idiomas*/
 Route::get('/{lang}', function ($lang) {
         session(['lang' => $lang]);
@@ -156,15 +159,25 @@ Route::get('/{lang}', function ($lang) {
        'lang' => 'en|es|fr'
 ]);
 
-//Rutas para las reservaciones
-Route::resource('admin/prices','pp_pricesController');
-Route::get('admin/prices/{id}/publish','pp_pricesController@publish');
-Route::get('admin/prices/{id}/destroy','pp_pricesController@destroy');
 
 //Rutas para los idiomas en Panel de administración
 Route::resource('admin/languages','languageController');
 Route::get('admin/languages/{id}/destroy','languageController@destroy');
 
+//Rutas para las reservaciones
+Route::resource('admin/prices','pp_pricesController');
+Route::get('admin/prices/{id}/publish','pp_pricesController@publish');
+Route::get('admin/prices/{id}/destroy','pp_pricesController@destroy');
+
+Route::get('pay','pp_reservationController@payReservation');
+Route::post('reservationDetails','pp_reservationController@reservationDetails');
+Route::resource('admin/reservation','pp_reservationController@index');
+
+//Rutas para las  suscripciones
+Route::resource('admin/suscription','pp_subscribe');
+Route::get('admin/suscription/{id}/destroy','pp_subscribe@destroy');
+
+Route::post('Email','PosadaParaisoController@sendEmail');
 
 
 /****************************************************/
@@ -515,7 +528,6 @@ Route::get('admin/itemFilesorder/{id}/{orderBy}/{no}','ItemFilesController@order
 Route::get('admin/itemFilespub/{id}/{pub}','ItemFilesController@publicate');
 /////  INDEX PAGE
 Route::get('admin/itemFilesind/{id}/{ind}','ItemFilesController@index_page');
-
 
 
 });

@@ -1,48 +1,67 @@
 @extends('posadaparaiso.index')
 @section('maincontent')
 
-<!--para el mensaje de paypal-->
-@if(\Session::has('message'))
-<div class="alert alert-primary style-alert-orange alert-dismissible text-center" role="alert">
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-  <h2><strong><i class="fa fa-info-circle"></i></strong> {{ \Session::get('message') }}</h2>
-</div>    
-@endif
 
 <div >
    @include('posadaparaiso.sliderShow')
-
 </div>
 
 
 
-<div class="ladrillos container-fluid " >
+<div class="ladrillos container-fluid " id="#Reservacion" >
+    
+    <!--para el mensaje de paypal-->
+    @if(\Session::has('message'))
+    <div class="alert alert-primary style-alert-orange alert-dismissible text-center" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h2><strong><i class="fa fa-info-circle"></i></strong> {{ \Session::get('message') }}</h2>
+    </div>    
+    @endif
     @include('posadaparaiso.frmreservaenlinea-horizontal')
 </div>
 
 <div class="bienbenido-al-paraiso">
   <div class="container-fluid">
-      <div class="container">
+      <br>
+      <div class="container "><!--<div class="container marco-transparente">-->
       <div class="row">
       <div class="col-md-1"></div>
-      <div class="col-md-10"><br>
+      <div class="col-md-10 " ><br>
           <h1 class="text-encabezados-red">{{trans('posadapraiso/pagina_index.bienvenidoalparaiso')}}</h1>
           <div class="row"><br>
 
                 <div class="col-md-4 " >    
-                   <img class="img-center img-responsive " src="img-posadaparaiso/tours.png " alt="">
-                   <div class="form-gris text-center"><h4>{{trans('posadapraiso/pagina_index.tours')}}</h4></div>
+                   <div class="img-with-text">
+                      <?php $album=$albumGaleryTours;  
+                      $imageOfAlbumPath="img-posadaparaiso/tours.png";
+                      $albumTitle=trans('posadapraiso/pagina_index.tours');
+                      ?>
+                      @include('posadaparaiso/modalGallery')
+                   </div>
+                 
                 </div> 
 
-                <div class="col-md-4">    
-                   <img class="img-center img-responsive " src="img-posadaparaiso/servicios.png" alt="">
-                   <div class="form-gris text-center"><h4>{{trans('posadapraiso/pagina_index.servicios')}}</h4></div>
+                <div class="col-md-4 " >  
+                   <div class="img-with-text">  
+                     <!--<img class="img-center img-responsive " src="img-posadaparaiso/servicios.png" alt="">-->
+                      <?php $album=$albumGaleryServices; 
+                      $imageOfAlbumPath="img-posadaparaiso/servicios.png";
+                      $albumTitle=trans('posadapraiso/pagina_index.servicios');
+                      ?>
+                      @include('posadaparaiso/modalGallery')
+                  </div>
+                 
                 </div>
-                <div class="col-md-4">    
-                    <img class="img-center img-responsive" src="img-posadaparaiso/habitaciones.png" alt="">
-                    <div class="form-gris text-center"><h4>{{trans('posadapraiso/pagina_index.habitaciones')}}</h4></div>
+                <div class="col-md-4 ">    
+                    <div class="img-with-text">
+                      <?php $album=$albumGaleryRooms; 
+                      $imageOfAlbumPath="img-posadaparaiso/habitaciones.png";
+                      $albumTitle=trans('posadapraiso/pagina_index.habitaciones');
+                      ?>
+                      @include('posadaparaiso/modalGallery')
+                    </div>
                 </div>
 
             <div class="clear"> </div>  
@@ -51,12 +70,13 @@
     </div>
       </div>
   </div>  
+  <br>
 </div>
 
 <div> </div>
 
-<div class="suscribete ">
-    @include('posadaparaiso.frmsuscribete') 
+<div class="suscribete " id="Suscripcion">
+    @include('posadaparaiso.frmsuscribete')
 </div>
 
 <div id="History" ></div><!--Anclas para los diferentes idiomas-->

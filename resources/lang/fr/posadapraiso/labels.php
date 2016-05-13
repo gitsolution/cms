@@ -3,7 +3,7 @@ return [
 
 	/*labels form-reservaenlinea*/
 	'llegada' => 'ARRIVÉE:',
-    'SORTIE' => 'DEPARTURE:',   
+    'salida' => 'DEPART:',   
     'hab' => 'CHAMBRE:',   
     'adultos' => 'ADULTES:',   
     'menores' => 'MINEURS:',   

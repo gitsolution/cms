@@ -32,46 +32,38 @@
 		  <thead class="center-text">
 			<th class="ColumColor">ID</th>
 			<th class="ColumColor">Titulo</th>	
+			<th class="ColumColor">Typo</th>	
 			<th class="ColumColor">Precio</th>
+			<th class="ColumColor">IVA</th>
 			<th class="ColumColor">Fecha de inicio</th>
 			<th class="ColumColor">Fecha de finalización</th>
 			<th class="ColumColor">Activo</th>
 			<!--<th class="ColumColor">Status</th>-->
 			<th class="ColumColor">Acciones</th>
 		  </thead>
-		  @if($activePrice!=null)
-      
-              <tr>
-				<td> {{$activePrice->id}}</td>
-				<td> {{$activePrice->title}}</td>
-				<td> {{$activePrice->price}}</td>											
-			    <td> {{$activePrice->date_start}}</td>
-			    <td> {{$activePrice->date_end}}</td>
-			    <td>
-                    <span class=" glyphicon glyphicon-ok" style="color:blue"></span>
- 			    </td>
-			    
-			    <td>
-					{!! link_to('admin/prices/'.$activePrice->id.'/destroy', '',array('class'=>'img-responsive btn btn-danger glyphicon glyphicon-trash')) !!}
-				</td> 
-			</tr>
-		  @else
-		      <span style="color:red">No se ha etablecido un precio actual para las reservaciones </span>
+		  @if($prices==null)
+		      <span style="color:red">No hay precios activos para las reservaciones </span>
 		  @endif
-
 		  @foreach($prices as $price)
 			<tr>
 				<td> {{$price->id}}</td>
 				<td> {{$price->title}}</td>
-				<td> {{$price->price}}</td>											
+				<td> {{$price->type_room}}</td>
+				<td> $ {{$price->price}}</td>
+				<td> @if($price->iva != 0)$ {{ $price->iva}} 
+					 @else {{'Sin IVA'}} 
+					 @endif
+				</td>											
 			    <td> {{$price->date_start}}</td>
 			    <td> {{$price->date_end}}</td>
 			    <td>
-                      @if($price->active_price==0) <!--si no esta publicado-->
-                         {!! link_to('admin/prices/'.$price->id.'/publish', '',array('class'=>'text-danger glyphicon glyphicon-ban-circle')) !!}
- 			          @else
- 			             <span  class="glyphicon glyphicon-ban-circle" ></span>
- 			          @endif
+			    	@if($price->date_start <= $fechaActaul && $price->date_end >= $fechaActaul &&$price->active_price==1)<!--Si cumple con las fechas para que el sistema lo tome en cuenta llegando esas fechas-->
+ 			                <span class=" glyphicon glyphicon-ok" style="color:blue"></span>
+ 			        @elseif($price->date_end >= $fechaActaul &&$price->active_price==0)<!--Si se puede activar por las fechas-->
+                            {!! link_to('admin/prices/'.$price->id.'/publish', '',array('class'=>'text-danger glyphicon glyphicon-ban-circle')) !!} 			           
+ 			        @else <!--Si no lo va a tomar en cuenta el sistema cuando llega las fecha o ya pasaron las fechas-->
+ 			            <span  class="glyphicon glyphicon-ban-circle" ></span>
+ 			        @endif
  			    </td>
 			    
 			    <td>

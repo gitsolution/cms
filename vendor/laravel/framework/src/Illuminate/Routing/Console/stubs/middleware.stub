@@ -1,7 +1,7 @@
 <?php
 
 namespace DummyNamespace;
-use Auth;
+
 use Closure;
 
 class DummyClass

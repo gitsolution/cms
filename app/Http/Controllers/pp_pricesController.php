@@ -18,7 +18,7 @@ class pp_pricesController extends Controller
          $this->middleware('auth');
          $this->fechaActaul=date('Y-m-d');
          
-         //$this->fechaActaul="2016-05-03";
+         //$this->fechaActaul="2016-05-01";
          /*$this->fechaAnterior="2016-04-10";
         $this->fechaAnterior=;
 
@@ -35,24 +35,40 @@ class pp_pricesController extends Controller
   {
          
          $flag='1'; 
-         $id_activePrice="";
-         $activePrice=null;
-         $activePrice=$this->getObjectPriceActive();/*Obtengo el precio activo*/
-
-         if($activePrice!="") 
-         	 $id_activePrice=$activePrice->id;
 
          $prices =  DB::table('pp_prices')/*Obtengo la lista de precios */
          ->where('active','=', $flag)//exepto las eliminadas
-         ->where('id','!=',$id_activePrice)//(exepto la activa)
-         ->orderBy('date_start','DESC')->paginate(20);
+         ->orderBy('id','DESC')->paginate(20);
 
-         return view('prices/index',['prices'=>$prices,'activePrice'=>$activePrice ]);
+         return view('prices/index',['prices'=>$prices,'fechaActaul'=>$this->fechaActaul]);
   }
+   
+  public function getPricesActive(){/*Obtiene los precios que estan activos*/
+      $flag='1'; 
 
+     $activePrice=null;
+          $activePrice=DB::table('pp_prices')
+         ->where('active','=', $flag)
+         ->where('date_start','<=',$this->fechaActaul)
+         ->where('date_end','>=',$this->fechaActaul)
+         ->where('active_price','=',1)
+         ->distinct('type_room')
+         //->orderBy('id','DESC')
+         ->get();
+         if($activePrice!=null) 
+           {
+            $activePrice; 
+           }
+          else {
+            $activePrice="";
+          }
+  
+     return $activePrice; 
+
+  }
   
   public function create(){
-    return view('prices/pricesform');
+    return view('prices/pricesform',['fechaActaul'=>$this->fechaActaul]);
   }
 
 
@@ -78,7 +94,9 @@ class pp_pricesController extends Controller
       if($request['date_start']>=$this->fechaActaul)
       { \App\pp_prices::create([
       'title'=>$request['title'],
+      'type_room'=>$request['type_room'],
       'price'=>$request['price'],
+      'iva'=>$request['iva'],
       'date_start'=>$request['date_start'],
       'date_end'=>$request['date_end'],
       'active'=>$active,
@@ -112,82 +130,19 @@ class pp_pricesController extends Controller
     return redirect('/admin/prices')->with('message','Precio Eliminado');
   }
    
-  public function getObjectPriceActive(){
-     $flag='1'; 
-
-     $activePrice=null;
-          $activePrice=DB::table('pp_prices')
-         ->where('active','=', $flag)
-         ->where('date_start','<=',$this->fechaActaul)
-         ->where('date_end','>=',$this->fechaActaul)
-         ->where('active_price','=',1)
-         ->orderBy('id','DESC')
-         ->first();
-         if($activePrice!=null) 
-           {
-            $activePrice; 
-           }
-          else {
-            $activePrice="";
-          }
-  
-     return $activePrice; 
-    }
-
-   public function getPriceActive(){
-     $prices=0;
-     $activePrice=$this->getObjectPriceActive();
-
-         if($activePrice!="") 
-            $price= $activePrice->price; 
-          else 
-            $price=0;
-          
-     return $price;
-     }
-    
-    public function getIdPriceActive(){
-     $id_activePrice=0;
-     $activePrice=$this->getObjectPriceActive();
-
-      if($activePrice!="") 
-        $id_activePrice= $activePrice->id;
-      else 
-          $id_activePrice=0;
-
-     return $id_activePrice; 
-    }
-
 
     public function publish($id){
 
        $price = \App\pp_prices::find($id);
       
+       if($price->date_start >= $this->fechaActaul){
+          $price->active_price=1;//Se cambia a publicado para que lo tome en cuenta el metodo getObjectPriceActive().
+          $price->save();   
+          Session::flash('message','Publicado correctamente, el sistema lo activará en las fechas indicadas.');
+       }
+       else
+          Session::flash('message','No se puede publicar por que la fecha de inicio ya ha pasado.');
 
-          if($price->active_price==0)//Si no esta publicado.
-            { 
-
-              if($this->aprovNewPriceActive($price->date_start,$price->date_end)==true)
-                  {
-                  $objPriceActive= $this->getObjectPriceActive();
-                  if($objPriceActive!=null); //si hay un precio activo
-                     {if($this->checkPriceHasChildInReservation($objPriceActive->id)==false)//si no han habido ventas
-                        {$price->active_price=1;//Se cambia a publicado para que lo tome en cuenta el metodo getObjectPriceActive().
-                        $price->save();
-                        Session::flash('message','Publicado correctamente.');
-                        }
-                      else
-                         Session::flash('message','No se puede cambiar el precio actual(Ya han habido ventas).'); 
-                     }
-                 }
-            }
-           
-            else//Si ya esta publicado
-            {
-               Session::flash('message','Ya esta publicado.'); 
-            }
-       
-            
        
        return redirect('/admin/prices');      
     }

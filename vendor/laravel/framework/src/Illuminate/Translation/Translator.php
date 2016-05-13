@@ -41,7 +41,7 @@ class Translator extends NamespacedItemResolver implements TranslatorInterface
 
     /**
      * The message selector.
-     * 
+     *
      * @var \Symfony\Component\Translation\MessageSelector
      */
     protected $selector;
@@ -303,11 +303,7 @@ class Translator extends NamespacedItemResolver implements TranslatorInterface
      */
     protected function parseLocale($locale)
     {
-        if (! is_null($locale)) {
-            return array_filter([$locale, $this->fallback]);
-        }
-
-        return array_filter([$this->locale, $this->fallback]);
+        return array_filter([$locale ?: $this->locale, $this->fallback]);
     }
 
     /**

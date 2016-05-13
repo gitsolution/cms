@@ -1,40 +1,75 @@
 
 /*Posada paraiso***********/
 
-.sliderContent{
+/*--------slider-------*/ 
+.sliderContent{/*las img deben tener minimo 500px de alto*/
     height:500px;
 	background:rgb(12,12,23);
-	
  }
  
- @media screen and (min-width: 780px) {/*Computadoras*/
-   .navbar-header {/*Para cuando no hay contenido en el menú*/
-     min-height:80px;
-   }
+ .sliderContent img{
+   height:570px; /*70 px de tolerancia alas imagens*/
+   width:100%;
 }
 
-@media screen and (max-width: 780px) {/*Tablets*/
-   .sliderContent{/*Para cambiar el tamaño de las imagenes del slider*/
-	/*  width:100%;height:500px; */
+/*Querys Para cambiar el tamaño de las imagenes del slider*/
+@media screen and (max-width: 1000px) {/*Tablets grandes*/
+   .sliderContent{
+	 height:360px;
+	 background:rgb(254,246,234);
+   }
+   .sliderContent img{
+   height:360px;
+   width:100%;
+   }
+}
+ 
+@media screen and (max-width: 780px) {/*Tablets pequeñas*/
+   .sliderContent{
 	 height:300px;
-	background:rgb(254,246,234);
+	 background:rgb(254,246,234);
+   }
+   .sliderContent img{
+   height:300px;
+   width:100%;
    }
 }
 
 @media only screen and (max-width: 600px) {/*Celulares*/
-   .sliderContent{/*Para cambiar el tamaño de las imagenes del slider*/
-	/*  width:100%;height:500px; */
+   .sliderContent{
 	background:rgb(254,246,234);
 	 height:150px;
+   }
+   
+   .sliderContent img{
+   height:160px;
+   width:100%;
+   }  
+}
+/*--------/slider---------*/
 
+ 
+@media screen and (min-width: 780px) {/*Computadoras*/
+   .navbar-header {/*Para cuando no hay contenido en el menú*/
+     min-height:80px;
    }
 }
+ 
+ 
 
 .style-alert-orange{
 background:rgb(220,90,18);
 color:white;
 margin:0px;
 }
+
+.alert-success{
+background:rgb(210,90,18);
+color:white;
+}
+
+
+
 
 /* para darle efcto de que se mueven hacia la derecha  */
 body li{
@@ -90,15 +125,20 @@ background:gray;
 .ladrillos{
 
   background-color: #d37f15;
-  background:url(../../img-posadaparaiso/paraisonaranja-10.png);
+  /*background:url(../../img-posadaparaiso/paraisonaranja-10.png);*/
   padding: 15px;
   box-shadow: 1px 1px 1px #888888;
   z-index: 10; 
   color:white;
   min-width:100%;
   
-  box-shadow: inset 0px 0px 50px rgb(12,1,2),
-                    0px 0px 30px rgb(12,1,2);   
+  box-shadow: inset 0px 0px 60px rgb(12,1,2);  
+  
+  background:url("../../img-posadaparaiso/ladrillos.png") no-repeat center fixed ;
+-webkit-background-size: cover;
+-moz-background-size: cover;
+-o-background-size: cover;
+background-size: cover;
 }
 
 .style-button{
@@ -120,9 +160,15 @@ text-align:center;
   padding: 15px;
   color:white;
 
-  
-  
+  /* box-shadow: inset 0px 0px 40px rgb(12,1,2);
+   */                 
 }
+
+.marco-transparente{
+-webkit-box-shadow: inset 0 1px rgba(255, 255, 255, 0.3), inset 0 0 1px 1px rgba(255, 255, 255, 0.1), 0 2px 10px rgba(0, 0, 0, 0.5);
+box-shadow: inset 0 1px rgba(255, 255, 255, 0.3), inset 0 0 1px 1px rgba(255, 255, 255, 0.1), 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
 /* .historia-hotel{
 color:black;
 box-shadow: 10px 10px 10px #888888;
@@ -133,11 +179,15 @@ box-shadow: 10px 10px 10px #888888;
 } */
 
 .historia-hotel {
-  background-image: url("../../img-posadaparaiso/hotel-opaco.png");
-  /* padding: 40px 0px 10px 0px; */
-  padding:5%;
-  color:black;
-  }
+
+background:url("../../img-posadaparaiso/hotel-opaco.png") no-repeat center center fixed;
+-webkit-background-size: cover;
+-moz-background-size: cover;
+-o-background-size: cover;
+background-size: cover;
+padding:5%;
+color:black;
+}
 
 	
 
@@ -169,8 +219,9 @@ text-shadow: 2px 2px 2px #aaa;
 .text-encabezados-red{
 font-weight: bold;
 color:rgb(154,51,22);
+color:rgb(178,34,34);
 font-size:2.3em;
-text-shadow: 3px 3px 3px #aaa;
+text-shadow:0px 2px 0px #aaa;
 }
 
 .promociones{
@@ -182,20 +233,45 @@ text-align: center;
 .contacto{
 padding:40px;
 color:black;
-background-image: url("../../img-posadaparaiso/pasillohotel-opaco.png");
+background:url("../../img-posadaparaiso/pasillohotel-opaco.png") no-repeat center ;
+-webkit-background-size: cover;
+-moz-background-size: cover;
+-o-background-size: cover;
+background-size: cover;
 }
 
 .form-naranja{
 color:white;
 background-color:rgb(231,96,18);
 padding:5px;
+border-radius:4px;
+}
+
+.img-with-text{
+color:white;
+padding:1px;
+border-radius:5px;
+margin-bottom:10px;
+opacity:.95;
+}
+
+.img-with-text:hover{
+color:white;
+opacity:1;
+
 }
 
 .form-gris{
 color:white;
-background-color:rgb(60,59,60);
+background:rgb(10,19,10);
 padding:5px;
+}
 
+.form-gris:hover{
+text-decoration:none;
+background-color:rgb(60,59,60);
+-webkit-box-shadow: inset 0 1px rgba(255, 255, 255, 0.3), inset 0 0 1px 1px rgba(255, 255, 255, 0.1), 0 2px 10px rgba(0, 0, 0, 0.5);
+box-shadow: inset 0 1px rgba(255, 255, 255, 0.3), inset 0 0 1px 1px rgba(255, 255, 255, 0.1), 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
 .ubicacion{
@@ -218,23 +294,27 @@ color:white;
 box-shadow: inset 0px 0px 50px rgb(12,1,2),
                   0px 0px 0px rgb(12,1,2);
 }
+
+
+.sectionFormPay{
+margin:30px auto;
+}
+.title-reservation{
+background:orange;
+}
+
+.detailReservation{
+font-size:1.15em;
+}
+
+.required-sign{
+color:red;
+}
 /*************/
 
-.logo{
-		padding: 10px;
-		width: 90px;
-		height: 90px;
-}
-
-.main_content{
-}
-
-.mainmenu{
-	margin-left: 50px;	 
-}
 
 .navbar{
-	background: #FAA685;
+	background: orange;
 	color: #000;
 }
 

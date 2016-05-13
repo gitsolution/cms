@@ -39,7 +39,7 @@
      
 	 echo "<li>";
 	 ?>
-                  {!!link_to($menM->uri,  $menM->title,array('class'=>'item-menu','id'=>'item'.$menM->uri,'target'=>$menM->target)) !!}
+                  {!!link_to($menM->uri,  $menM->title,array('class'=>'item-menu','id'=>'itemMenu'.$menM->uri,'target'=>$menM->target)) !!}
 
      <?php
     if($itemsMainMenu!=null)

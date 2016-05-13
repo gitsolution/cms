@@ -12,6 +12,7 @@ use Session;
 use Illuminate\Routing\Route;
 use DB;
 use App;
+use Mail;
 
 class PosadaParaisoController extends Controller
 {
@@ -46,7 +47,6 @@ class PosadaParaisoController extends Controller
         $band='1';  
         $publish='1';  
         $media=null;
-
         $media =  DB::table('med_albums')
             ->join('med_pictures', 'med_albums.id', '=', 'med_pictures.id_album')            
             ->select('med_albums.*', 'med_pictures.path as pic', 'med_pictures.id_album as idal')        
@@ -57,11 +57,25 @@ class PosadaParaisoController extends Controller
             ->where('med_albums.title','=',$album)        
             ->orderBy('med_albums.order_by','DESC')->get();
 
-        return view('posadaparaiso.home',['sectionHistory'=>$sectionHistory,'sectionContact'=>$sectionContact,'sectionLocation'=> $sectionLocation,'media'=>$media]);
+
+        $albumGaleryTours= $this->getAlbumGallery("Tours");//para la sección de los tours
+        $albumGaleryServices = $this->getAlbumGallery("Servicios");
+        $albumGaleryRooms= $this->getAlbumGallery("HabitacionesGaleria");
+
+        return view('posadaparaiso.home',[
+            'sectionHistory'=>$sectionHistory,
+            'sectionContact'=>$sectionContact,
+            'sectionLocation'=> $sectionLocation,
+            'media'=>$media,
+            'albumGaleryTours'=>$albumGaleryTours,
+            'albumGaleryServices'=>$albumGaleryServices,
+            'albumGaleryRooms'=>$albumGaleryRooms
+            ]);
     
     }
     public function restaurant(){
-         
+        
+
         $uri=trans('posadapraiso/secciones.restaurante');
         $sectionRestaurant = null;
         $sectionRestaurant =  DB::table('cms_sections')->where('id_language','=',$this->id_language)->where('uri','=', $uri)->where('publish','=',1)->where('active','=',1)->first();   
@@ -70,7 +84,7 @@ class PosadaParaisoController extends Controller
         $sectionRooms = null;
         $sectionRooms =  DB::table('cms_sections')->where('id_language','=',$this->id_language)->where('uri','=', $uri)->where('publish','=',1)->where('active','=',1)->first();   
         
-        $album="Restaurante";//(para el slider del Header)
+        $album="Restaurante slider";//(para el slider del Header)
         $flag='1';  
         $band='1';  
         $publish='1';  
@@ -86,6 +100,9 @@ class PosadaParaisoController extends Controller
             ->where('med_albums.title','=',$album)        
             ->orderBy('med_albums.order_by','DESC')->get();
 
+    
+        $albumGaleryHotel = $this->getAlbumGallery("hotel");
+        
         return view('posadaparaiso.restaurant',['sectionRestaurant'=>$sectionRestaurant,'sectionRooms'=>$sectionRooms,'media'=>$media]);
     
     }
@@ -96,12 +113,11 @@ class PosadaParaisoController extends Controller
         $sectionHotel =  DB::table('cms_sections')->where('id_language','=',$this->id_language)->where('uri','=', $uri)->where('publish','=',1)->where('active','=',1)->first();   
      
        //(para el slider del Header)
-        $album="hotel";//nombre del albúm que se le dio en el panel de administración 
+        $album="Hotel slider";//nombre del albúm que se le dio en el panel de administración 
         $flag='1';  
         $band='1';  
         $publish='1';  
         $media=null;
-
         $media =  DB::table('med_albums')
             ->join('med_pictures', 'med_albums.id', '=', 'med_pictures.id_album')            
             ->select('med_albums.*', 'med_pictures.path as pic', 'med_pictures.id_album as idal')        
@@ -112,24 +128,23 @@ class PosadaParaisoController extends Controller
             ->where('med_albums.title','=',$album)        
             ->orderBy('med_albums.order_by','DESC')->get();
 
-        $albumGaleryHotel=null;
-        $album="hotel";//para la galeria
-        $albumGaleryHotel =  DB::table('med_albums')
-            ->join('med_pictures', 'med_albums.id', '=', 'med_pictures.id_album')            
-            ->select('med_albums.*', 'med_pictures.path as pic', 'med_pictures.id_album as idal')        
-            ->where('med_albums.active','=', $flag)
-            ->where('med_albums.publish','=', $publish)
-            ->where('med_pictures.active','=', $flag)   
-            ->where('med_pictures.publish','=',$publish)
-            ->where('med_albums.title','=',$album)        
-            ->orderBy('med_albums.order_by','DESC')->simplePaginate(20);
-           
-         //   $albumGaleryHotel->setPath('Hotel/Gallery');
+
+        $albumGaleryHotel = $this->getAlbumGallery("HotelGaleria");//para la galeria
+        $albumGaleryRooms = $this->getAlbumGallery("HabitacionesGaleria");
+         
+        return view('posadaparaiso.hotel',['sectionHotel'=>$sectionHotel,'media'=>$media,'albumGaleryHotel'=>$albumGaleryHotel,'albumGaleryRooms'=>$albumGaleryRooms]);
+    }
 
 
-        $albumGaleryRooms=null;
-        $album="habitaciones";//para la galeria
-        $albumGaleryRooms =  DB::table('med_albums')
+    private function getAlbumGallery($album_name){
+        $flag='1';  
+        $band='1';  
+        $publish='1';  
+        $media=null;
+
+          $albumGalery=null;
+          $album=$album_name;//para la sección de los tours
+          $albumGalery =  DB::table('med_albums')
             ->join('med_pictures', 'med_albums.id', '=', 'med_pictures.id_album')            
             ->select('med_albums.*', 'med_pictures.path as pic', 'med_pictures.id_album as idal')        
             ->where('med_albums.active','=', $flag)
@@ -138,10 +153,60 @@ class PosadaParaisoController extends Controller
             ->where('med_pictures.publish','=',$publish)
             ->where('med_albums.title','=',$album)        
             ->orderBy('med_albums.order_by','DESC')->paginate(20);
-         
-        return view('posadaparaiso.hotel',['sectionHotel'=>$sectionHotel,'media'=>$media,'albumGaleryHotel'=>$albumGaleryHotel,'albumGaleryRooms'=>$albumGaleryRooms]);
+       
+       return   $albumGalery;
     }
+    
+    public function sendEmail(Request $request){
+       
+        $data=array(
+        'name'=> $request['name'],
+        'email'=>$request['email'],
+        'subject'=>"Mensaje desde hotelposadaparaiso.com.mx",
+        'message'=>$request['message'],
+        );
 
+        $fromEmail='eliubervelazquez.gmail.com';
+        $fromName='Cliente';
+
+        /*
+        Mail::send('mails.contacto_posadaparaiso',$data,function($message) use ($fromName,$fromEmail){
+         $message->to($fromEmail,$fromName);
+         $message->from($fromEmail,$fromName);
+         $message->subject('Nuevo Email de contacto');
+        });
+
+         echo 'Mensaje enviado con exito';
+         Session::message('Mensaje enviado con exito');
+
+        */
+       /* $data=$request['message'];
+        $destiny='eliubervelasquez@hotmail.com';
+
+
+
+        Mail::send('emails.template', $data, function ($message) use ($user){
+        $message->subject('Desde hotelposadaparaiso.com.mx');
+        $message->to($destiny);
+        });*/
+
+            /*$data['name']=$request['name'];
+            $data['email']=$request['email'];
+            $data['asunt']="Mensaje desde posadaparaiso.com";
+
+            $data['addres']=$request['addres'];
+            $data['city']=$request['city'];
+            $data['message']=$request['message'];
+
+            Mail::send('mails.contacto', ['data' => $data], function($mail)
+                use($data){
+                 $mail->subject('Comentario');
+                 $mail->to('eliubervelasquez@hotmail.com')->bcc('romanalbores@gmail.com');
+            });
+
+            return view('posadaparaiso.home');*/
+
+    }
 
 
 

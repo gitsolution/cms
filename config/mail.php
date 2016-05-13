@@ -54,7 +54,7 @@ return [
     |
     */
 
-    'from' => ['address' => 'moldeandomentes.ac@gmail.com', 'name' => 'moldeandomentes.com.mx'],
+    'from' => ['address' => 'posadaparaiso@gmail.com', 'name' => 'posadaparaiso.com.mx'],
 
     /*
     |--------------------------------------------------------------------------

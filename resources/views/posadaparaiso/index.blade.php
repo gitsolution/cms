@@ -21,7 +21,7 @@
         $('#slider').nivoSlider();
     });
     </script>
-
+    <!--<script src='https://www.google.com/recaptcha/api.js'></script>-->
 	</head>
 	<body>
     <header>
@@ -32,12 +32,12 @@
         <div class="container-fluid main-menu">
             <div class="container ">                
                 <!-- Brand and toggle get grouped for better mobile display -->          
-                <div class="navbar-header ">
+                <div class="navbar-header " >
                 
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <button style="color:orange;" type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
 
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
+                        <span class="sr-only" >Toggle navigation</span>
+                        <span class="icon-bar" style="color:blue;"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
@@ -47,6 +47,9 @@
                 </div>            
                 <div class="collapse navbar-collapse pull-right" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav " id="menu-main">                  
+                      <li><a href="/es"><img src="../img-posadaparaiso/es.jpg" class=""/></a></li>
+                      <li><a href="/en"><img src="../img-posadaparaiso/en.jpg"/></a></li>
+                      <li><a href="/fr"><img src="../img-posadaparaiso/fr.jpg"/></a></li>
                       @include('posadaparaiso.mainmenu')
                       </ul>
                 </div>
@@ -78,43 +81,108 @@
     })
 
     
-    /*Cambia el color del item seleccionado*/
+    /*Cambia el color del item del menu en la sección en la que el usuario se encuentra*/
      var pathname = window.location.pathname;
      var itema_ctive = pathname.split('/');
      itema_ctive=itema_ctive[itema_ctive.length-1];
-     //alert(itema_ctive);
-     //var item_seleccionado='Hotel';
-     item=$("#"+itema_ctive);
+     item=$("#itemMenu"+itema_ctive);
      item.addClass('itema-active');
      item.addClass('disabled');
      
 
 
-     /*Efecto de deslizamiento haci abajo*/
-      
-      var URLhash = window.location.hash;
-      if(URLhash!="")
-        URLhash=URLhash.substr(1);//quito el #
-      $("#menu-main li a").each(function (index)//recorreo todos lo li y asignamos un identificador unico a cada li
-       {
-              link_item=$(this).attr('id');
-              //alert('item'+URLhash);
-             if('item'+URLhash==link_item)
-             {
-             $("#itemContacto a").click(function(e){
-             e.preventDefault();
-             $("html, body #itemContacto").animate({
-                scrollTop: 0
-                }, 1000); 
-                alert('entr');
-             });
+     /*var URLhash = window.location.hash;
+     if(URLhash!="")
+     {   //URLhash=URLhash.substr(1);//quito el #
+        var destino=URLhash;
+        var posicion = $(destino).offset().top;
+          $("html, body").animate({
+            scrollTop: posicion
+           }, 2000); 
+     }*/
+
+    /*Animacion de deslizamiento hacia abajo para los enlaces en la misma pagina */
+    $("li a").each(function (index)//recorreo todos lo li 
+    {      
+      $(this).on("click", function(){
+           href=$(this).attr('href');
+                 if(href.split('#').length>1)//si el elemento del menu tiene #
+           {
+                 var posicion = $(href).offset().top;
+                 $("html, body").animate({
+                     scrollTop: posicion
+                    }, 2000); 
+                 }
+      });   
+     });
 
 
-             }
-              
-       });
 
-     
+
+
+
+
+
+     /*Para las reservaciones*/
+
+$(document).ready(function(){
+   
+
+
+$("#bttsubmit-mercadopago").click(function(){
+    $('#form-pago').attr("action", "paymentMercadoPago");
+});
+
+  $("select[ name='precios[]' ]").change(function(){
+   $i=0; total=0;
+   totalConIva=0;sumaDeIvas=0;iva=0;
+     $(".habitacionClass").each(function (index)
+         {
+             //alert($(this).attr("id")); 
+             idTable=$(this).attr("id");
+            // alert("Tabla "+$i+" ValDeselect:" +$("#"+idTable+" #select"+$i).val());
+             //inputSelect=$("#"+idTable+" #select"+$i);/*Obtengo el obj select*/
+
+             
+             
+            id_seleccionado=$("#"+idTable+' select[name="precios[]"').val();
+            //alert("input Selecionado id:"+id_seleccionado);
+            precio=$("#"+idTable+" #option"+id_seleccionado).attr("data-price");
+            iva=$("#"+idTable+" #option"+id_seleccionado).attr("data-iva");
+            //alert(precio);
+            
+            $("#price-selected"+$i).html(iva);
+            
+            if(precio!=null){
+                total=parseFloat(total)+parseFloat(precio);
+                if(iva!=null)
+                    {
+                     sumaDeIvas=sumaDeIvas+parseFloat(iva);
+                     totalConIva=total+sumaDeIvas;
+                    }
+            }
+            $("#total-reservation").html(total);
+            $("#suma-de-ivas").html(sumaDeIvas);
+            $("#total-reservation-con-iva").html(totalConIva);
+            
+            $("#total-input").val(totalConIva);
+            $i++;
+
+         }) 
+
+
+
+            /*id_habitacion=$1;
+            id_seleccionado=$('select[name=precios]').val();
+            //alert(id_seleccionado);
+            precio=$("#price"+id_seleccionado).attr("data-price");
+            //alert(precio);
+            $("#price-selected"+id_habitacion).html(precio);
+            $("#total-reservation").html(precio);*/
+        });
+ 
+});
+
 
 
     </script>

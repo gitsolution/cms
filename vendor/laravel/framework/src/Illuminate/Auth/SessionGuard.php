@@ -347,7 +347,7 @@ class SessionGuard implements StatefulGuard, SupportsBasicAuth
      * @return bool
      */
     public function attempt(array $credentials = [], $remember = false, $login = true)
-    { 
+    {
         $this->fireAttemptEvent($credentials, $remember, $login);
 
         $this->lastAttempted = $user = $this->provider->retrieveByCredentials($credentials);
@@ -734,7 +734,7 @@ class SessionGuard implements StatefulGuard, SupportsBasicAuth
      */
     public function getName()
     {
-        return 'login_'.$this->name.'_'.sha1(get_class($this));
+        return 'login_'.$this->name.'_'.sha1(static::class);
     }
 
     /**
@@ -744,7 +744,7 @@ class SessionGuard implements StatefulGuard, SupportsBasicAuth
      */
     public function getRecallerName()
     {
-        return 'remember_'.$this->name.'_'.sha1(get_class($this));
+        return 'remember_'.$this->name.'_'.sha1(static::class);
     }
 
     /**

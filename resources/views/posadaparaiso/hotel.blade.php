@@ -25,7 +25,7 @@
                   
                    <div  id="Galery"></div><!--Anclas para los idiomas-->
                    <div  id="Galerie"></div>
-                   <h2 class="text-encabezados-red text-center" id="Galeria" >Galeria</h2>
+                   <h2 class="text-encabezados-red text-center" id="Galeria" >{{trans('posadapraiso/secciones.haleria')}}</h2>
                      <div class="form-naranja text-center"><h4>Hotel</h4></div>  <br>
                     
                     <?php $i = 0; ?> 
@@ -57,7 +57,7 @@
 
                 <div class="col-md-10 text-justify pull-right" >
                      <br><br><br><br><br><br>
-                     <div class="form-naranja text-center"><h4>Habitaciones</h4></div> <br> 
+                     <div class="form-naranja text-center"><h4>{{trans('posadapraiso/secciones.habitaciones')}}</h4></div> <br> 
                     
 
                      <?php $i = 0; ?> 
@@ -83,6 +83,7 @@
                     @endif 
                 
                 {{$albumGaleryRooms->render()}}
+                <br><br><br><br><br><br>
                 </div> 
 
               </div>  
