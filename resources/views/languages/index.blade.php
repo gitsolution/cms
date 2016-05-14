@@ -18,11 +18,13 @@
 	<div class="col-md-2 text-right">	
  	  <!-- {!! link_to('admin/menus', 'Menús',array('class'=>'btn btn-info')) !!}-->
 	</div>
+	@can('Lenguajes.Crearlenguaje')
 	<div class="col-md-2">
  	{!!Form::open()!!}
        {!! link_to('admin/languages/create', 'Registrar lenguaje',array('class'=>'btn btn-success')) !!}
     {!!Form::close()!!}
 	</div>
+	@endcan
 </div>
 <div class="row text-center">
 	<!--$languages->render()-->
@@ -47,9 +49,12 @@
 			    <td> {{$language->short_code}}</td>
 			    
 			    <td>
-
+			    	@can('Lenguajes.Editarlenguaje')
 					{!! link_to('admin/languages/'.$language->id.'/edit', ' ',array('class'=>'img-responsive btn btn-primary glyphicon glyphicon-pencil')) !!}
+					@endcan
+					@can('Lenguajes.Eliminarlenguaje')
 					{!! link_to('admin/languages/'.$language->id.'/destroy', '',array('class'=>'img-responsive btn btn-danger glyphicon glyphicon-trash')) !!}
+					@endcan
 				</td> 
 			</tr>
 		  @endforeach

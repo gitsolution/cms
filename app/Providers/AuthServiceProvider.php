@@ -2319,5 +2319,440 @@ class AuthServiceProvider extends ServiceProvider
             else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
             return $b;    
         });
+
+        /****************Reglas para lenguajes**********************/
+        $gate->define('Lenguajes.Modulodelenguaje',function($User)
+        {            
+          $permisoC="";
+          $roles=DB::table('usr_login_roles')
+            ->select('id_role')
+            ->whereid_login($User->id)
+            ->whereactive(1)->get();
+            foreach ($roles as $r) {
+                         $join=DB::table('user_module_rol')
+                        ->select('access_granted')
+                        ->whereid_role($r->id_role)
+                        ->whereactive(1)->get();
+                        if($join!=null){
+                            foreach ($join as $j) {
+                                $permisoC .=$j->access_granted;
+                            }
+                        }
+                    }
+                   
+            $permisoEspeciales=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user(3)
+            ->whereactive(1)->get();
+            
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p); 
+            $ca='admin.Lenguajes.Modulodelenguajes:true';
+            $resultado = strpos($p, $ca); 
+            
+            if($resultado==null){$b=False;}
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            
+            return $b;
+        });
+        
+        $gate->define('Lenguajes.Crearlenguaje',function($User)
+        {            
+             $permisoC="";
+          $roles=DB::table('usr_login_roles')
+            ->select('id_role')
+            ->whereid_login($User->id)
+            ->whereactive(1)->get();
+            foreach ($roles as $r) {
+                         $join=DB::table('user_module_rol')
+                        ->select('access_granted')
+                        ->whereid_role($r->id_role)
+                        ->whereactive(1)->get();
+                        if($join!=null){
+                            foreach ($join as $j) {
+                                $permisoC .=$j->access_granted;
+                            }
+                        }
+                    }
+
+            $permisoEspeciales=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user(3)
+            ->whereactive(1)->get();
+            
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Lenguaje.Crear:true';
+            $resultado = strpos($p, $ca); 
+            if($resultado==null){$b=False;}
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            return $b;    
+        });
+
+        $gate->define('Lenguajes.Editarlenguaje',function($User)
+        {            
+             $permisoC="";
+          $roles=DB::table('usr_login_roles')
+            ->select('id_role')
+            ->whereid_login($User->id)
+            ->whereactive(1)->get();
+            foreach ($roles as $r) {
+                         $join=DB::table('user_module_rol')
+                        ->select('access_granted')
+                        ->whereid_role($r->id_role)
+                        ->whereactive(1)->get();
+                        if($join!=null){
+                            foreach ($join as $j) {
+                                $permisoC .=$j->access_granted;
+                            }
+                        }
+                    }
+
+            $permisoEspeciales=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user(3)
+            ->whereactive(1)->get();
+            
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Lenguaje.Editar:true';
+            $resultado = strpos($p, $ca); 
+            if($resultado==null){$b=False;}
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            return $b;    
+        });
+
+        $gate->define('Lenguajes.Eliminarlenguaje',function($User)
+        {            
+             $permisoC="";
+          $roles=DB::table('usr_login_roles')
+            ->select('id_role')
+            ->whereid_login($User->id)
+            ->whereactive(1)->get();
+            foreach ($roles as $r) {
+                         $join=DB::table('user_module_rol')
+                        ->select('access_granted')
+                        ->whereid_role($r->id_role)
+                        ->whereactive(1)->get();
+                        if($join!=null){
+                            foreach ($join as $j) {
+                                $permisoC .=$j->access_granted;
+                            }
+                        }
+                    }
+
+            $permisoEspeciales=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user(3)
+            ->whereactive(1)->get();
+            
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Lenguaje.Eliminar:true';
+            $resultado = strpos($p, $ca); 
+            if($resultado==null){$b=False;}
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            return $b;    
+        });
+
+        /****************Reglas para reservaciones**********************/
+        $gate->define('Reservaciones.ModulodeReservaciones',function($User)
+        {            
+          $permisoC="";
+          $roles=DB::table('usr_login_roles')
+            ->select('id_role')
+            ->whereid_login($User->id)
+            ->whereactive(1)->get();
+            foreach ($roles as $r) {
+                         $join=DB::table('user_module_rol')
+                        ->select('access_granted')
+                        ->whereid_role($r->id_role)
+                        ->whereactive(1)->get();
+                        if($join!=null){
+                            foreach ($join as $j) {
+                                $permisoC .=$j->access_granted;
+                            }
+                        }
+                    }
+                   
+            $permisoEspeciales=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user(3)
+            ->whereactive(1)->get();
+            
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p); 
+            $ca='admin.Reservaciones.Modulodereservaciones:true';
+            $resultado = strpos($p, $ca); 
+            echo $p;
+            if($resultado==null){$b=False;}
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            
+            return $b;
+        });
+        
+        $gate->define('Reservaciones.modulodePrecios',function($User)
+        {            
+             $permisoC="";
+          $roles=DB::table('usr_login_roles')
+            ->select('id_role')
+            ->whereid_login($User->id)
+            ->whereactive(1)->get();
+            foreach ($roles as $r) {
+                         $join=DB::table('user_module_rol')
+                        ->select('access_granted')
+                        ->whereid_role($r->id_role)
+                        ->whereactive(1)->get();
+                        if($join!=null){
+                            foreach ($join as $j) {
+                                $permisoC .=$j->access_granted;
+                            }
+                        }
+                    }
+
+            $permisoEspeciales=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user(3)
+            ->whereactive(1)->get();
+            
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Precios.Submodulodeprecios:true';
+            $resultado = strpos($p, $ca); 
+            if($resultado==null){$b=False;}
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            return $b;    
+        });
+
+        $gate->define('Reservaciones.PreciosCrear',function($User)
+        {            
+             $permisoC="";
+          $roles=DB::table('usr_login_roles')
+            ->select('id_role')
+            ->whereid_login($User->id)
+            ->whereactive(1)->get();
+            foreach ($roles as $r) {
+                         $join=DB::table('user_module_rol')
+                        ->select('access_granted')
+                        ->whereid_role($r->id_role)
+                        ->whereactive(1)->get();
+                        if($join!=null){
+                            foreach ($join as $j) {
+                                $permisoC .=$j->access_granted;
+                            }
+                        }
+                    }
+
+            $permisoEspeciales=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user(3)
+            ->whereactive(1)->get();
+            
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Precios.Crear:true';
+            $resultado = strpos($p, $ca); 
+            if($resultado==null){$b=False;}
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            return $b;    
+        });
+
+        $gate->define('Reservaciones.PreciosEliminar',function($User)
+        {            
+          $permisoC="";
+          $roles=DB::table('usr_login_roles')
+            ->select('id_role')
+            ->whereid_login($User->id)
+            ->whereactive(1)->get();
+            foreach ($roles as $r) {
+                         $join=DB::table('user_module_rol')
+                        ->select('access_granted')
+                        ->whereid_role($r->id_role)
+                        ->whereactive(1)->get();
+                        if($join!=null){
+                            foreach ($join as $j) {
+                                $permisoC .=$j->access_granted;
+                            }
+                        }
+                    }
+
+            $permisoEspeciales=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user(3)
+            ->whereactive(1)->get();
+            
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Precios.Eliminar:true';
+            $resultado = strpos($p, $ca); 
+            if($resultado==null){$b=False;}
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            return $b;    
+        });
+
+        $gate->define('Reservaciones.PreciosActivar',function($User)
+        {            
+          $permisoC="";
+          $roles=DB::table('usr_login_roles')
+            ->select('id_role')
+            ->whereid_login($User->id)
+            ->whereactive(1)->get();
+            foreach ($roles as $r) {
+                         $join=DB::table('user_module_rol')
+                        ->select('access_granted')
+                        ->whereid_role($r->id_role)
+                        ->whereactive(1)->get();
+                        if($join!=null){
+                            foreach ($join as $j) {
+                                $permisoC .=$j->access_granted;
+                            }
+                        }
+                    }
+
+            $permisoEspeciales=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user(3)
+            ->whereactive(1)->get();
+            
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Precios.Activar:true';
+            $resultado = strpos($p, $ca); 
+            if($resultado==null){$b=False;}
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            return $b;    
+        });
+        /*
+        $gate->define('Lenguajes.Editarlenguaje',function($User)
+        {            
+             $permisoC="";
+          $roles=DB::table('usr_login_roles')
+            ->select('id_role')
+            ->whereid_login($User->id)
+            ->whereactive(1)->get();
+            foreach ($roles as $r) {
+                         $join=DB::table('user_module_rol')
+                        ->select('access_granted')
+                        ->whereid_role($r->id_role)
+                        ->whereactive(1)->get();
+                        if($join!=null){
+                            foreach ($join as $j) {
+                                $permisoC .=$j->access_granted;
+                            }
+                        }
+                    }
+
+            $permisoEspeciales=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user(3)
+            ->whereactive(1)->get();
+            
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Lenguaje.Editar:true';
+            $resultado = strpos($p, $ca); 
+            if($resultado==null){$b=False;}
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            return $b;    
+        });
+
+        $gate->define('Lenguajes.Eliminarlenguaje',function($User)
+        {            
+             $permisoC="";
+          $roles=DB::table('usr_login_roles')
+            ->select('id_role')
+            ->whereid_login($User->id)
+            ->whereactive(1)->get();
+            foreach ($roles as $r) {
+                         $join=DB::table('user_module_rol')
+                        ->select('access_granted')
+                        ->whereid_role($r->id_role)
+                        ->whereactive(1)->get();
+                        if($join!=null){
+                            foreach ($join as $j) {
+                                $permisoC .=$j->access_granted;
+                            }
+                        }
+                    }
+
+            $permisoEspeciales=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user(3)
+            ->whereactive(1)->get();
+            
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Lenguaje.Eliminar:true';
+            $resultado = strpos($p, $ca); 
+            if($resultado==null){$b=False;}
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            return $b;    
+        });
+        /*
+        $gate->define('Configuraciónes.Editar',function($User)
+        {            
+          $permisoC="";
+          $roles=DB::table('usr_login_roles')
+            ->select('id_role')
+            ->whereid_login($User->id)
+            ->whereactive(1)->get();
+            foreach ($roles as $r) {
+                         $join=DB::table('user_module_rol')
+                        ->select('access_granted')
+                        ->whereid_role($r->id_role)
+                        ->whereactive(1)->get();
+                        if($join!=null){
+                            foreach ($join as $j) {
+                                $permisoC .=$j->access_granted;
+                            }
+                        }
+                    }
+
+            $permisoEspeciales=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user(3)
+            ->whereactive(1)->get();
+            
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Configuraciónes.Editar:true';
+            $resultado = strpos($p, $ca);
+            if($resultado==null){$b=False;}
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            return $b;    
+        });
+
+        $gate->define('Configuraciónes.Eliminar',function($User)
+        {            
+            $permisoC="";
+          $roles=DB::table('usr_login_roles')
+            ->select('id_role')
+            ->whereid_login($User->id)
+            ->whereactive(1)->get();
+            foreach ($roles as $r) {
+                         $join=DB::table('user_module_rol')
+                        ->select('access_granted')
+                        ->whereid_role($r->id_role)
+                        ->whereactive(1)->get();
+                        if($join!=null){
+                            foreach ($join as $j) {
+                                $permisoC .=$j->access_granted;
+                            }
+                        }
+                    }
+
+            $permisoEspeciales=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user(3)
+            ->whereactive(1)->get();
+            
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Configuraciónes.Eliminar:true';
+            $resultado = strpos($p, $ca);
+            if($resultado==null){$b=False;}
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            return $b;    
+        });*/
     }
 }
