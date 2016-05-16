@@ -2511,7 +2511,7 @@ class AuthServiceProvider extends ServiceProvider
             $p=str_replace (' ', "", $p); 
             $ca='admin.Reservaciones.Modulodereservaciones:true';
             $resultado = strpos($p, $ca);
-            echo  $p;
+            //echo  $p;
             if($resultado==null){$b=False;}
             else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
             

@@ -9,14 +9,21 @@ use App\Http\Controllers\Controller;
 use App;
 use DB;
 use App\Http\Controllers\PaypalController;
-
 use Route;
+use Auth;
+use Gate;
+use Redirect;
 
 class pp_reservationController extends Controller
 {      
     
   public function index()
   {
+      if(Gate::denies('Reservaciones.ReservacionesPagadas'))
+      {
+        Auth::logout();
+        return Redirect('login');
+      }
    
          $reservations = DB::table('pp_reservation')->paginate(20);             
       
@@ -24,7 +31,12 @@ class pp_reservationController extends Controller
   }
   
   public function store(Request $request){
-     
+   if(Gate::denies('Reservaciones.ReservacionesPagadas'))
+    {
+      Auth::logout();
+      return Redirect('login');
+    }
+
     $arrayItemToPay=unserialize($request['arrayItemToPay']);
     $arrayItemToPay['total']= $request['total'];
     $num_hab=$arrayItemToPay["habitacion"];
@@ -56,7 +68,11 @@ class pp_reservationController extends Controller
  
     }
     public function reservationDetails(Request $request){
-   
+    if(Gate::denies('Reservaciones.ReservacionesPagadas'))
+    {
+      Auth::logout();
+      return Redirect('login');
+    }
    
     $arrayItemToPay = array(
       'nombre'=>$request['nombre'],

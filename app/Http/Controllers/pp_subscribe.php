@@ -8,6 +8,9 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Session;
 use DB;
+use Redirect;
+use Auth;
+use Gate;
 
 class pp_subscribe extends Controller
 {
@@ -19,6 +22,11 @@ public function __construct()
     
   public function index()
    {
+      if(Gate::denies('Suscripciones.ModulodeSuscripciones'))
+      {
+        Auth::logout();
+        return Redirect('login');
+      }
         
          $flag='1'; 
          $suscription =  DB::table('pp_subscribe')->where('active','=', $flag)->orderBy('id','ASC')->paginate(20);
@@ -30,6 +38,11 @@ public function __construct()
   }*/
 
   public function store(Request $request){
+    if(Gate::denies('Suscripciones.ModulodeSuscripciones'))
+    {
+        Auth::logout();
+        return Redirect('login');
+    }
        $active='1'; 
        \App\pp_subscribe::create([
       'name'=>$request['name'],
@@ -46,11 +59,34 @@ public function __construct()
   }
 
   public function edit($id){
+    if(Gate::denies('Suscripciones.ModulodeSuscripciones'))
+    {
+        Auth::logout();
+        return Redirect('login');
+    }
+
+    if(Gate::denies('Suscripciones.SuscriptoresEditar'))
+    {
+      Auth::logout();
+      return Redirect('login');
+    }
       $suscription = \App\pp_subscribe::find($id);
       return view('posadaparaiso/suscription/suscriptionform')->with('suscription',$suscription);
       }
 
   public function update($id,Request $request){
+    if(Gate::denies('Suscripciones.ModulodeSuscripciones'))
+    {
+      Auth::logout();
+      return Redirect('login');
+    }
+
+    if(Gate::denies('Suscripciones.SuscriptoresEditar'))
+    {
+      Auth::logout();
+      return Redirect('login');
+    }
+
     $suscription = \App\pp_subscribe::find($id);
     $suscription->fill($request->all());   
     $suscription->save();   
@@ -58,6 +94,17 @@ public function __construct()
   }
 
   public function destroy($id){
+    if(Gate::denies('Suscripciones.ModulodeSuscripciones'))
+    {
+      Auth::logout();
+      return Redirect('login');
+    }
+
+    if(Gate::denies('Suscripciones.SuscriptoresEliminar'))
+    {
+      Auth::logout();
+      return Redirect('login');
+    }
     $suscription = \App\pp_subscribe::find($id);
     $suscription->active=0;
     $suscription->save(); 
