@@ -13,6 +13,24 @@ class specialpermissioncontroller extends Controller
 {
 	public function store(Request $request)
 	{  
+        if(Gate::denies('Usuarios.ModulodeUsuarios'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Usuarios.SubmodulodeUsuarios'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Usuarios.Asignarpermisosespeciales'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
         if($request['idr']!=null && $request['idm']!=null&& $request['b']==0)
         { 
             $json=$request['jsn'];
@@ -70,6 +88,24 @@ class specialpermissioncontroller extends Controller
 
     public function index($id)
     {
+        if(Gate::denies('Usuarios.ModulodeUsuarios'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Usuarios.SubmodulodeUsuarios'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Usuarios.Asignarpermisosespeciales'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
          $nombre=DB::table('usr_profiles')->where('id',$id)->first();
          $nombreCompleto=$nombre->name." ".$nombre->lastname;
          $id=$nombre->id;
@@ -83,6 +119,24 @@ class specialpermissioncontroller extends Controller
 
     public function edit($idu,$idr,$idm)
     {
+        if(Gate::denies('Usuarios.ModulodeUsuarios'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Usuarios.SubmodulodeUsuarios'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Usuarios.Asignarpermisosespeciales'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+        
         $v=DB::table('user_module_rol')->whereid_role($idr)->whereid_sysmodules($idm)->first();
         if($v!=null){ $idmr=$v->id;}else{ $idmr=0;}
 

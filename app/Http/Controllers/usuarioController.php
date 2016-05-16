@@ -13,6 +13,7 @@ use App\usr_profile;
 use App\Http\Controllers\Controller;
 use Mail;
 use Auth;
+use Gate;
 
 class usuarioController extends Controller
 {
@@ -23,8 +24,20 @@ class usuarioController extends Controller
 
     public function index()
 	{	
+        if(Gate::denies('Usuarios.ModulodeUsuarios'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Usuarios.SubmodulodeUsuarios'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+        
+
         $flag="1";
-		
        
         $users = DB::table('usr_profiles')
             ->leftJoin('users', 'usr_profiles.id', '=', 'users.id')   
@@ -42,11 +55,47 @@ class usuarioController extends Controller
 
     public function create()
     {
+        if(Gate::denies('Usuarios.ModulodeUsuarios'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Usuarios.SubmodulodeUsuarios'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Usuarios.Crear'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
     	return view('usuario.create');
     }
 
     public function edit($id)
     {
+        if(Gate::denies('Usuarios.ModulodeUsuarios'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Usuarios.SubmodulodeUsuarios'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Usuarios.Editar'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
         $user = DB::table('usr_profiles')
             ->Join('users', 'usr_profiles.id', '=', 'users.id')         
             ->select('users.*', 'usr_profiles.name as name','usr_profiles.lastname as lastName')    
@@ -58,6 +107,24 @@ class usuarioController extends Controller
     /***guardar usuario***/
     public function store(userRequest $request)
     {     
+        if(Gate::denies('Usuarios.ModulodeUsuarios'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Usuarios.SubmodulodeUsuarios'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Usuarios.Crear'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+        
         $activado='0';
         if($request ['ChekActivacion']== "on")
         {
@@ -90,6 +157,18 @@ class usuarioController extends Controller
 
     public function register(Request $request)
     {
+        if(Gate::denies('Usuarios.ModulodeUsuarios'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Usuarios.SubmodulodeUsuarios'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
         User::create([
             'name'=>$request['name'],
             'lastName'=>$request['lastName'],
@@ -102,6 +181,24 @@ class usuarioController extends Controller
     }
 
     public function update($id,Request $request){
+        if(Gate::denies('Usuarios.ModulodeUsuarios'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Usuarios.SubmodulodeUsuarios'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Usuarios.Editar'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
         $activado='0';
         if($request ['ChekActivacion']== "on")
         {
@@ -125,6 +222,18 @@ class usuarioController extends Controller
 
     public function delete($id)
     {
+        if(Gate::denies('Usuarios.ModulodeUsuarios'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Usuarios.SubmodulodeUsuarios'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
         $query=User::destroy($id);
 
         return view('usuario.index');
