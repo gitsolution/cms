@@ -143,8 +143,7 @@ class AuthServiceProvider extends ServiceProvider
             $p=str_replace (' ', "", $p);
             $ca='admin.Menú.Crear:true';
             $resultado = strpos($p, $ca);
-           
-
+          
             if($resultado==null){$b=False;}
             else{$b=True;}if($User->email=="admin@admin"){$b=true;}            
             
