@@ -13,6 +13,7 @@ use DB;
 use View;
 use Session;
 use Redirect;
+use Gate;
 
 class DocumentController extends Controller
 {
@@ -23,6 +24,17 @@ class DocumentController extends Controller
     
   	 public function index()
    		{
+        if(Gate::denies('Publicaciones.ModulodePublicaciones'))
+        {
+         Auth::logout();
+         return Redirect('login');
+        }
+
+        if(Gate::denies('Documentos.SubmodulodeDocumentos'))
+        {
+         Auth::logout();
+         return Redirect('login');
+        }
     	   	$flag='1';  
              $Document = DB::table('cms_documents')
             ->join('cms_categories', 'cms_categories.id', '=', 'cms_documents.id_category')
@@ -33,6 +45,23 @@ class DocumentController extends Controller
    		}
 	 public function documentynew()
 	 {      
+    if(Gate::denies('Publicaciones.ModulodePublicaciones'))
+    {
+      Auth::logout();
+      return Redirect('login');
+    }
+
+    if(Gate::denies('Documentos.SubmodulodeDocumentos'))
+    {
+      Auth::logout();
+      return Redirect('login');
+    }
+
+    if(Gate::denies('Documentos.Crear'))
+    {
+      Auth::logout();
+      return Redirect('login');
+    }
       $flag = 1;
 
       $Sections = DB::table('cms_sections')->get();   
@@ -47,7 +76,24 @@ class DocumentController extends Controller
     }
 
      public function store(Request $request)
-    	{
+     {
+        if(Gate::denies('Publicaciones.ModulodePublicaciones'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Documentos.SubmodulodeDocumentos'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Documentos.Crear'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
           $flag=1;
        		$ChekPubli='0';
         	if($request ['ChekPublicar']== 'on')
@@ -130,7 +176,25 @@ class DocumentController extends Controller
 
      public function edit($id)
    		{
-       	
+       	if(Gate::denies('Publicaciones.ModulodePublicaciones'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Documentos.SubmodulodeDocumentos'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Documentos.Editar'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+
          $flag = 1;
 
         $Document = \App\cms_document::find($id);
@@ -146,7 +210,23 @@ class DocumentController extends Controller
      
      public function update($id, Request $request)
      	{
-           
+          if(Gate::denies('Publicaciones.ModulodePublicaciones'))
+          {
+            Auth::logout();
+            return Redirect('login');
+          } 
+
+          if(Gate::denies('Documentos.SubmodulodeDocumentos'))
+          {
+            Auth::logout();
+            return Redirect('login');
+          }
+
+          if(Gate::denies('Documentos.Editar'))
+          {
+            Auth::logout();
+            return Redirect('login');
+          }
             $isUpImg=false;
             $Document = \App\cms_document::find($id);
             $path=null;
@@ -193,6 +273,23 @@ class DocumentController extends Controller
      	}
      public function delete($id)
 	    {
+        if(Gate::denies('Publicaciones.ModulodePublicaciones'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Documentos.SubmodulodeDocumentos'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Documentos.Eliminar'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
           	$Document = \App\cms_document::find($id);
           	$Document->active=0;
           	$Document->save();
@@ -202,6 +299,24 @@ class DocumentController extends Controller
 
     public function deletePicture($id)
       {
+        if(Gate::denies('Publicaciones.ModulodePublicaciones'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Documentos.SubmodulodeDocumentos'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Documentos.Eliminar'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
         $flag=1;
          $Document = \App\cms_document::find($id);
         $Category = \App\cms_category::find($Document->id_category);
@@ -222,6 +337,23 @@ class DocumentController extends Controller
 
   	 public function privado($id,$priv)
   		{
+        if(Gate::denies('Publicaciones.ModulodePublicaciones'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Documentos.SubmodulodeDocumentos'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Documentos.acceso'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
     		$flag=1;
     
     		if($priv=='True'){ $priv = 1;}else{ $priv = 0; }
@@ -230,7 +362,25 @@ class DocumentController extends Controller
     		return redirect('/admin/document')->with('message','store');
   		}
   	 public function publicate($id,$pub)
-  	 	{
+  	 {
+        if(Gate::denies('Publicaciones.ModulodePublicaciones'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Documentos.SubmodulodeDocumentos'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Documentos.Publicar'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+        
     		$flag=1;
     		if($pub=='True'){ $pub = 1;}else{ $pub = 0; }
     		$Document = DB::table('cms_documents')->where('active','=', $flag)->where('id', '=',$id)->update(['publish'=>$pub]);    
@@ -239,6 +389,23 @@ class DocumentController extends Controller
   		}
   	 public function order($id, $orderBy, $no)
     	{
+        if(Gate::denies('Publicaciones.ModulodePublicaciones'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Documentos.SubmodulodeDocumentos'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Documentos.ordenar'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
         	// Actualizamos el registro con id
          	$flag=1;
           	$this->setOrderItem($flag,$orderBy, $no);
@@ -251,7 +418,18 @@ class DocumentController extends Controller
 
 
      public function getCategories($id_section, Request $request)
-      {
+     {
+        if(Gate::denies('Publicaciones.ModulodePublicaciones'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Documentos.SubmodulodeDocumentos'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
         $Categories=null;
         if($request->ajax()){
           $flag=1;
@@ -262,7 +440,18 @@ class DocumentController extends Controller
 
 
      public function getEditCategories($no, $id_section, Request $request)
-      {
+     {
+        if(Gate::denies('Publicaciones.ModulodePublicaciones'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Documentos.SubmodulodeDocumentos'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
         $Categories=null;
         if($request->ajax()){
           $flag=1;
@@ -272,7 +461,18 @@ class DocumentController extends Controller
       }
 
   	public function setOrderItem($flag,$orderBy, $no)
-  		{
+  	{
+      if(Gate::denies('Publicaciones.ModulodePublicaciones'))
+      {
+        Auth::logout();
+        return Redirect('login');
+      }
+
+      if(Gate::denies('Documentos.SubmodulodeDocumentos'))
+      {
+        Auth::logout();
+        return Redirect('login');
+      }
     		$noAux=$no;
     		$Document = DB::table('cms_documents')->where('active','=', $flag)->where('order_by', '=',$no)->get();    
     		if($orderBy=='Up')
