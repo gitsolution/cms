@@ -30,10 +30,6 @@ class DocumentController extends Controller
             ->where('cms_documents.active','=', $flag)
             ->orderBy('order_by','DESC')->paginate(20);    
         	return view('documents/index',compact('Document'));
-
-        
-
-
    		}
 	 public function documentynew()
 	 {      

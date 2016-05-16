@@ -257,12 +257,16 @@
                                         {!!link_to('admin/prices', '&nbsp;&nbsp;&nbsp;Precios',array('class'=>'glyphicon glyphicon-usd')) !!}
                                     </li>
                                     @endcan
+                                    @can('Reservaciones.ReservacionesPagadas')
                                     <li>
                                         {!!link_to('admin/reservation', '&nbsp;&nbsp;&nbsp;Reservaciones pagadas',array('class'=>'glyphicon glyphicon-home')) !!}
                                     </li>
+                                    @endcan
                                 </ul>
                             </li>
                         @endcan
+
+                        @can('Suscripciones.ModulodeSuscripciones')
                              <li>
                                 <a href="#"><i class="glyphicon glyphicon-pencil"></i> Suscripciones<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
@@ -271,6 +275,7 @@
                                     </li>
                                 </ul>
                             </li>
+                        @endcan
 
             
 

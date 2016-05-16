@@ -130,7 +130,7 @@ class CmsAccesses extends Migration
 
                 cms_access::create([
                 'id_sysmodule'=>'14',
-                'title'=>'{"admin.roles.Submodulo de Roles":false,"admin.roles.Crear":false,"admin.roles.Editar":false,"admin.roles.Eliminar":false}',
+                'title'=>'{"admin.roles.Submodulo de Roles":false,"admin.roles.Crear":false,"admin.roles.Editar":false,"admin.roles.Eliminar":false,"admin.roles.Activar":false}',
                     'active'=>'1',
                     'register_by'=>'1',
                     'modify_by'=>'1',
