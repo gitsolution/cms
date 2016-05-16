@@ -20,6 +20,24 @@ class ItemFilesController extends Controller
     }
     
 	public function index($id_directory){
+		if(Gate::denies('archivos'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('Directorio.SubmodulodeDirectorio'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('directorio-archivo'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
 
 		$flag='1';	
 		$directories=\App\Directory::find($id_directory); 	
@@ -32,6 +50,24 @@ class ItemFilesController extends Controller
 	}
 
 	public function itemnew($id_directory){
+		if(Gate::denies('archivos'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('Directorio.SubmodulodeDirectorio'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('directorio-archivo'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
 		$flag='1';	 
 	    $directories=\App\Directory::find($id_directory);	    
 		$itemFiles= null;
@@ -40,6 +76,24 @@ class ItemFilesController extends Controller
 
 
 	public function create($id_directory){	
+		if(Gate::denies('archivos'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('Directorio.SubmodulodeDirectorio'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('directorio-archivo'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
 		$flag='1';	
 		$directories = DB::table('sys_directories')->where('active','=', $flag)->orderBy('order_by','DESC')->get();
 		$itemFiles = null;		
@@ -48,6 +102,24 @@ class ItemFilesController extends Controller
 
 
 	public function store(Request $request){
+		if(Gate::denies('archivos'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('Directorio.SubmodulodeDirectorio'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('directorio-archivo'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
 		$publish= 0;
 		$index_page=0;
 		$extension="";
@@ -107,6 +179,24 @@ class ItemFilesController extends Controller
 
 
 	public function showItems($id_directory){
+		if(Gate::denies('archivos'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('Directorio.SubmodulodeDirectorio'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('directorio-archivo'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
 		$directories= \App\Directory::find($id_directory);
 		$flag='1';	
 		$itemFiles =  DB::table('sys_files')->where('active','=', $flag)->where('id_album','=',$id_album)->orderBy('order_by','DESC')->paginate(20);
@@ -114,6 +204,24 @@ class ItemFilesController extends Controller
 	}
 
 	public function show($id){
+		if(Gate::denies('archivos'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('Directorio.SubmodulodeDirectorio'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('directorio-archivo'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
 		$flag='1';	
 		$itemFiles =  DB::table('sys_files')->where('active','=', $flag)->orderBy('order_by','DESC')->paginate(20);
 		return view('itemfiles/index',compact('itemFiles'));
@@ -122,6 +230,24 @@ class ItemFilesController extends Controller
 
 
 	public function edit($id){
+		if(Gate::denies('archivos'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('Directorio.SubmodulodeDirectorio'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('directorio-archivo'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
 		$flag='1';	
 		$itemFiles =  \App\ItemFile::find($id); 	
 
@@ -131,6 +257,24 @@ class ItemFilesController extends Controller
     	}
 
 	public function update($id,Request $request){
+		if(Gate::denies('archivos'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('Directorio.SubmodulodeDirectorio'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('directorio-archivo'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
          $publish= 0;
 		if($request['publish']=='on')
 		{
@@ -170,6 +314,24 @@ class ItemFilesController extends Controller
 	}
 
 	public function delete($id){
+		if(Gate::denies('archivos'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('Directorio.SubmodulodeDirectorio'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('directorio-archivo'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
         $itemFiles = \App\ItemFile::find($id);
 		$itemFiles->active=0;
 		$itemFiles->save();
@@ -181,6 +343,24 @@ class ItemFilesController extends Controller
 
     public function deleteFile($id)
       {
+      	if(Gate::denies('archivos'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('Directorio.SubmodulodeDirectorio'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('directorio-archivo'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
           $itemFiles= \App\ItemFile::find($id);
           $directories = \App\Directory::find($itemFiles->id_directory);
           $itemFiles->path="";
@@ -193,6 +373,24 @@ class ItemFilesController extends Controller
 
 
 	public function order($id, $orderBy, $no){
+		if(Gate::denies('archivos'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('Directorio.SubmodulodeDirectorio'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('directorio-archivo'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
 		// Actualizamos el registro con id
 		$flag=1;
 		$this->setOrderItem($flag,$orderBy, $no);
@@ -215,6 +413,24 @@ class ItemFilesController extends Controller
 
 	public function setOrderItem($flag,$orderBy,$no)
 	{
+		if(Gate::denies('archivos'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('Directorio.SubmodulodeDirectorio'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('directorio-archivo'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
 		$noAux=$no;
 		$itemFiles = DB::table('sys_files')->where('active','=', $flag)->where('order_by', '=',$no)->get();		
 		if($orderBy=='Up'){	
@@ -227,6 +443,24 @@ class ItemFilesController extends Controller
 	}
 
 	public function publicate($id,$pub){
+		if(Gate::denies('archivos'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('Directorio.SubmodulodeDirectorio'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('directorio-archivo'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
 		$flag=1;
 		if($pub=='True'){ $pub = 1;}else{ $pub = 0; }
 		$itemFiles = DB::table('sys_files')->where('active','=', $flag)->where('id', '=',$id)->update(['publish'=>$pub]);			       
@@ -237,6 +471,24 @@ class ItemFilesController extends Controller
 	}
 
 	public function index_page($id,$ind){
+		if(Gate::denies('archivos'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('Directorio.SubmodulodeDirectorio'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('directorio-archivo'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+	    
        	$flag=1; 
 			if($ind=='True'){ $ind = 1;}else{ $ind = 0; }
 		$itemFiles = DB::table('sys_files')->where('active','=', $flag)->where('id', '=',$id)->update(['index_page'=>$ind]);			       
