@@ -63,6 +63,22 @@ class specialpermissioncontroller extends Controller
             if($v!=null)
             {
                 $query=DB::table('special_permissions')->whereid_user($idusuarioactual)->whereid_usermolrol($idusuariomodulorol)->update(array('access' => $json));
+
+                Session::flash('message','Permisos agregado correctamente'); 
+
+                $flag="1";
+               
+                $users = DB::table('usr_profiles')
+                    ->leftJoin('users', 'usr_profiles.id', '=', 'users.id')   
+                    ->leftJoin('usr_login_roles', 'usr_login_roles.id_login', '=', 'users.id') 
+                    ->leftJoin('usr_roles', 'usr_login_roles.id_login', '=', 'usr_roles.id')        
+                    ->select('usr_profiles.*', 'usr_roles.title as roles','users.email as email')    
+                     ->groupBy('users.id')        
+                    ->orderBy('usr_profiles.name','DESC')->paginate(20);
+
+
+                return view('usuario.index',compact('users'));
+
             }
             if($idusuarioactual==0 || $idusuariomodulorol==0)
             {
