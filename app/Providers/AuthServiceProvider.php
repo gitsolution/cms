@@ -49,32 +49,75 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         /****************Reglas para admin**********************/
-        $gate->define('nuevos-comentarios',function($User)
+        $gate->define('permiso-estatus',function($User)
         {   
-            $b=True;
-            return $b;
-        });
+          $b=False;
+          $permisoC="";
+          $roles=DB::table('usr_login_roles')
+            ->select('id_role')
+            ->whereid_login($User->id)
+            ->whereactive(1)->get();
+            foreach ($roles as $r) {
+                         $join=DB::table('user_module_rol')
+                        ->select('access_granted')
+                        ->whereid_role($r->id_role)
+                        ->whereactive(1)->get();
+                        if($join!=null){
+                            foreach ($join as $j) {
+                                $permisoC .=$j->access_granted;
+                            }
+                        }
+                    }
 
-        $gate->define('nuevos-usuario',function($User)
-        {            
-            /*$permisos='admin.nuevo';
-            $json = DB::table('cms_categories')     
-            ->select('cms_categories.title', 'cms_categories.hits')    
-            ->where('cms_categories.active', '=', 1)->get();*/
-
-            $b=True;
-            return $b;
-        });
-
-        $gate->define('total-albums',function($User)
-        {            
-            $b=True;
+            $permisoEspeciales=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user(3)
+            ->whereactive(1)->get();
+            
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Inicio.Estatus:true';
+            $resultado = strpos($p, $ca);
+           
+            if($resultado==null){$b=False;}
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;}            
+            
             return $b;
         });
 
         $gate->define('graficas',function($User)
         {            
-            $b=True;
+          $b=False;
+          $permisoC="";
+          $roles=DB::table('usr_login_roles')
+            ->select('id_role')
+            ->whereid_login($User->id)
+            ->whereactive(1)->get();
+            foreach ($roles as $r) {
+                         $join=DB::table('user_module_rol')
+                        ->select('access_granted')
+                        ->whereid_role($r->id_role)
+                        ->whereactive(1)->get();
+                        if($join!=null){
+                            foreach ($join as $j) {
+                                $permisoC .=$j->access_granted;
+                            }
+                        }
+                    }
+
+            $permisoEspeciales=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user(3)
+            ->whereactive(1)->get();
+            
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Inicio.Graficas:true';
+            $resultado = strpos($p, $ca);
+           
+            if($resultado==null){$b=False;}
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;}            
+            
             return $b;
         });
 

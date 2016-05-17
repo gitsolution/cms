@@ -223,6 +223,14 @@ class CmsAccesses extends Migration
                     'register_by'=>'1',
                     'modify_by'=>'1',
                 ]);
+
+                cms_access::create([
+                'id_sysmodule'=>'26',
+                'title'=>'{"admin.inicio.Estatus":false,"admin.inicio.Graficas":false}',
+                    'active'=>'1',
+                    'register_by'=>'1',
+                    'modify_by'=>'1',
+                ]);
         
     }
 

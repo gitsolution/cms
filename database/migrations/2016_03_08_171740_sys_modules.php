@@ -253,6 +253,16 @@ class SysModules extends Migration
             'register_by'=>'1',
             'modify_by'=>'1',
         ]);
+
+        sys_module::create([
+            'id_parent'=>'0',
+            'title'=>'Inicio',
+            'description'=>'Configuraciónes',
+            'active'=>'1',
+            'register_by'=>'1',
+            'modify_by'=>'1',
+        ]);
+
     }
     /**
      * Reverse the migrations.

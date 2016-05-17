@@ -16,7 +16,8 @@
 
             <div class="row">
 
-            @can('nuevos-comentarios')
+            @can('permiso-estatus')
+            <br>
                 <div class="col-lg-4 col-md-6">
                     <div class="panel panel-primary">                   
                         <div class="panel-heading">
@@ -46,7 +47,7 @@
                 </div>
             @endcan
 
-            @can('nuevos-usuario')
+            @can('permiso-estatus')
                 <div class="col-lg-4 col-md-6">
                     <div class="panel panel-green">
                         <div class="panel-heading">
@@ -75,7 +76,7 @@
                 </div>
             @endcan
 
-            @can('total-albums')
+            @can('permiso-estatus')
                 <div class="col-lg-4 col-md-6">
                     <div class="panel panel-yellow">
                         <div class="panel-heading">
