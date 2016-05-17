@@ -1,59 +1,72 @@
 @extends('layouts.app')
 @section('content')
 
-	<div class="panel-heading">
-	        <br>
-	        <h2 class="panel-title">
-	        <i class="fa fa-pencil fa-lg">Permiso especial a: <?php echo $nombreCompleto?></i>
-	            </h2> 
-	  </div><br>
-	   
+<?php
+
+$banderaModulo=0;
 
 
-	  	<div class="table-responsive">
-<table class="table table-hover">
-          <thead class="center-text" >
-            <th class="ColumColor text-left" >
-            Rol
-            </th> 
-            <th  class="ColumColor text-left" >
-            Modulo
-            </th>
-            <th  class="ColumColor text-left" >
-            Seleccionar
-            </th>
-           
-          </thead>
-			@foreach($rolesmodules as $rm)		      
-			<tbody>
-				@foreach($roles as $r)
-					@if($rm->id_role==$r->id)
-						<td>{{$r->title}}</td>
-						@break
-					@endif
-				@endforeach
+if(isset($modulos)) 
+{
+    $banderaModulo=1;
+}
 
-				@foreach($modules as $m)
-					@if($rm->id_sysmodules==$m->id)
-						<td>{{$m->title}}</td>
-						@break
-					@endif
-				@endforeach
+else
+{
+    $modulos=null;
+}
+
+
+ ?>
+
+
+    <div class="col-md-12"><h3 class="head">Permisos especialess</h3>
+    </div>                
+                <br><br><br>              					   
                
-				<td>
-				{!! link_to('admin/specialSelect/'.$id.'/'.$rm->id_role.'/'.$rm->id_sysmodules, 'Seleccionar',array('class'=>'btn btn-default')) !!}  
-				</td>
-			</tbody>
-		@endForeach
+                  {!!Form::open(['route'=>'admin.specialpermission.store','method','POST'])!!}                   
+                    <div class="col-md-12">
+                     {!! Form::hidden('idusuarioactual',$id) !!}
+                        {!! Form::label('id', 'Selecciona el rol') !!}
+                        {!! Form::select('id',$roles, null,['class'=>'form-control select2']) !!}
 
-	</table></div>
+                    <br><br>
+                     <?php $c=0; ?>
+                    @if($banderaModulo==1 && $modulos!=null)
+                        @foreach($modulos as $modulo)
+                         <?php $c++; 
+                         if($c%7==0)
+                          {echo "<br><br><br>";}
+                          ?>                         
+                        <div class="btn-group">
+                          <button type="submit" class="btn btn-default" name="boton"  value="<?php echo $modulo->id ?>">
+                            <?php echo $modulo->title ?>
+                          </button>
 
+                          <button type = "button" class = "btn btn-primary dropdown-toggle" data-toggle = "dropdown">
+                              <span class = "caret"></span>                             
+                          </button>
 
+                            <ul class = "dropdown-menu" role = "menu">
+                               
+                           @foreach($submodulos as $m)
+                               @if($modulo->id==$m->id_parent)  <li>
+                                    <button type="submit" class="btn btn-default" style="width: 100%; border:none;" name="boton" value="<?php echo $m->id ?>"><?php echo $m->title ?></button>  </li>  
+                                @endif
+                            @endForeach
+                           
+                             </ul>                             
+                        </div>
+                            @endForeach                        
+                    @else
+                        <div class="col-md-12"><h3 class="head">No hay módulos disponibles</h3>
+                        </div>
+                    @endif
+                    
+</div>
+                 {!!Form::close()!!}
+                        
+    </div>               
 
-
-
-
-
-
-	
 @stop
+

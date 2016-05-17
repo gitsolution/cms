@@ -1,14 +1,14 @@
 <?php
   if(isset($path))
   {
-    
+    $path=$path;
   }
 
   else
   {
     $path="";
   }
-
+  
 ?>
 
 @extends('layouts.app')
@@ -16,16 +16,14 @@
   <div class="panel-heading">
         <br>
         <h2 class="panel-title">
-        <i class="fa fa-pencil fa-lg"><?php echo "Rol: ".$nombreRol?></i>&nbsp;&nbsp;&nbsp;&nbsp;
-        <i class="fa fa-cube fa-lg"> <?php echo "Modulo: ".$nombreModulo?></i>
+        <i class="fa fa-pencil fa-lg"><?php echo "Rol: ".$nombreRol;?></i>&nbsp;&nbsp;&nbsp;&nbsp;
+        <i class="fa fa-cube fa-lg"> <?php echo "Modulo: ".$nombreModulo;?></i>
             </h2> 
   </div>          
                 <!---CheckBox-->
-                {!!Form::open(['route'=>'admin.specialpermission.store','method','POST'])!!}                
-                {!! Form::hidden('idRole', $idRole) !!}
-                {!! Form::hidden('idModule', $idModulo) !!}
-                {!! Form::hidden('idusuarioactual',$idusuarioactual) !!}
-                <input type="hidden" name="jsn" id="jsn"><br>
+                {!!Form::open(['route'=>'admin.specialpermission.store','method','POST'])!!}     
+                <input type="hidden" name="jsn" id="jsn">{!! Form::hidden('idr', $idr) !!}
+                {!! Form::hidden('idu', $idu) !!}{!! Form::hidden('idm', $idm) !!}{!! Form::hidden('b', $b) !!}
  
                 <!--<input type="checkbox" name="all" id="all" value="all" onclick="checkAll()"/>-->
                 <div class="row">
@@ -41,7 +39,6 @@
                 <div class="permissionGroup">
                   <div class="col-md-12">
 
-                  <input type="hidden" name="_token" value="{{ csrf_token() }}" id="token">
 
 
                   <div class="col-md-12">
@@ -49,8 +46,7 @@
 
                   <div class="checkboxes">
                     @if($json!=null)
-                        @if($b==1)
-                         @foreach ($json as $item=>$valor)
+                          @foreach ($json as $item=>$valor)
                             <?php
                               $array=explode('.', $item);
                               $nombre=array_pop($array);
@@ -61,23 +57,10 @@
                               ?>
                                <div class="checkbox">  
                                 <label>                     
-                                      <input type="checkbox" name="role[]" value="<?php echo $nombre; ?>" onclick="check()" <?php echo $ch; ?>/><?php echo $nombre; ?>
+                                      <input type="checkbox" name="role[]" value="<?php echo $item; ?>" onclick="check()" <?php echo $ch; ?>/><?php echo $nombre; ?>
                                 </label> 
                               </div> 
                           @endforeach
-
-                       
-
-                        @else
-                          @foreach ($json as $item)
-                              <div class="checkbox">  
-                                <label>                     
-                                      <input type="checkbox" name="role[]" value="<?php echo $item->title; ?>  " onclick="check()" unchecked/><?php echo $item->title; ?>
-                                </label> 
-                              </div> 
-                             
-                          @endforeach
-                           @endif
                       @else
                         <label>No hay permisos para este Módulo</label>
                     @endif
@@ -98,7 +81,7 @@
                 </div>
                  {!!Form::close()!!}
 
- <?php $d=$_SERVER['HTTP_HOST'];?>
+
 <script>  
    function checkAll()
    {
@@ -130,17 +113,15 @@
 
       var boxes=document.getElementsByTagName('input');
       
-      var path="";
       var path="<?php  echo $path;?>";
-      var json="";
-      var json="{";
 
+      var json="{";
+      
       for(i=7;i<boxes.length-1;i++)
       {
         var value = boxes[i].value;
         var active=boxes[i].checked;
-        
-        json = json +'"'+path+"."+value+'"'+ ":" + active + ",";
+        json = json +'"'+path+"."+value +'"'+ ":" + active + ",";
       }
 
       json=json.slice(0,-1);

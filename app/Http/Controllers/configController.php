@@ -46,7 +46,7 @@ class configController extends Controller
     }
 
     public function store(Request $request)
-    {      
+    {   
         if(Gate::denies('Usuarios.ModulodeUsuarios'))
         {
           Auth::logout();
