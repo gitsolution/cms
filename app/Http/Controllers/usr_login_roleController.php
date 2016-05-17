@@ -205,26 +205,28 @@ class usr_login_roleController extends Controller
 
     public function delete($id)
     {
-        if(Gate::denies('Usuarios.ModulodeUsuarios'))
+       if(Gate::denies('Usuarios.ModulodeUsuarios'))
         {
           Auth::logout();
           return Redirect('login');
         }
 
-        if(Gate::denies('Usuarios.SubmodulodeUsuarios'))
+        if(Gate::denies('Roles.SubmodulodeRoles'))
         {
           Auth::logout();
           return Redirect('login');
         }
 
-        if(Gate::denies('Usuarios.Asignarroles'))
+        if(Gate::denies('Roles.Eliminar'))
         {
           Auth::logout();
           return Redirect('login');
         }
+
+       
 
         $query=usr_role::destroy($id);
-        Session::flash('message','Role Eliminado Correctamente');  
+        Session::flash('message','Rol Eliminado Correctamente');  
         return Redirect::to("admin/roles"); 
         return view('layouts.app');
     }

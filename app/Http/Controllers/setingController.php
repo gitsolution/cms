@@ -7,6 +7,8 @@ use DB;
 use Auth;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Gate;
+use Redirect;
 
 class setingController extends Controller
 {
@@ -17,6 +19,13 @@ class setingController extends Controller
     
   public function index()
    {       
+      if(Gate::denies('Configuraciónes.Modulodeconfiguraciondemetas'))
+      {
+        Auth::logout();
+        return Redirect('login');
+      }
+
+
     $flag='1';
  
     $Sections = DB::table('cms_senttingspages')
@@ -31,7 +40,18 @@ class setingController extends Controller
 
   public function seting()
     {
-        
+      if(Gate::denies('Configuraciónes.Modulodeconfiguraciondemetas'))
+      {
+        Auth::logout();
+        return Redirect('login');
+      }
+
+      if(Gate::denies('Configuraciónes.Crearmetas'))
+      {
+        Auth::logout();
+        return Redirect('login');
+      }
+
         $Sections=null;
         return view('setings.sectionform',['Sections'=>$Sections]);
     }
@@ -39,7 +59,18 @@ class setingController extends Controller
     
   public  function store(Request $request)
     {   
-      
+      if(Gate::denies('Configuraciónes.Modulodeconfiguraciondemetas'))
+      {
+        Auth::logout();
+        return Redirect('login');
+      }
+
+      if(Gate::denies('Configuraciónes.Crearmetas'))
+      {
+        Auth::logout();
+        return Redirect('login');
+      }
+
 		  \App\cms_senttingspage::create([
           'clave'=>$request['clave'],
           'value' => $request['value'],
@@ -55,7 +86,18 @@ class setingController extends Controller
 
   public function edit($id)
       {
-          
+          if(Gate::denies('Configuraciónes.Modulodeconfiguraciondemetas'))
+          {
+            Auth::logout();
+            return Redirect('login');
+          }
+
+          if(Gate::denies('Configuraciónes.Editar'))
+          {
+            Auth::logout();
+            return Redirect('login');
+          }
+
           $Seting = \App\cms_senttingspage::find($id);
 
           return view('setings.sectionform', compact('Seting'));
@@ -64,6 +106,17 @@ class setingController extends Controller
 
   public function update($id, Request $request)
       {
+        if(Gate::denies('Configuraciónes.Modulodeconfiguraciondemetas'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Configuraciónes.Editar'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
             $Section = \App\cms_senttingspage::find($id);                      
             $Section->fill($request->all());
             $Section->modify_by=Auth::User()->id;
@@ -72,8 +125,23 @@ class setingController extends Controller
             Session::flash('message','Seccion Actualizada Correctamente');    
             return redirect('admin/seting');       
       }
+
       public function delete($id)
       {
+        if(Gate::denies('Configuraciónes.Modulodeconfiguraciondemetas'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Configuraciónes.Eliminar'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+
+
           $Section = \App\cms_senttingspage::find($id);
           $Section->active=0;
           $Section->save();

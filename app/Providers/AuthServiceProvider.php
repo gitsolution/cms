@@ -2299,11 +2299,11 @@ class AuthServiceProvider extends ServiceProvider
             ->select('access')
             ->whereid_user(3)
             ->whereactive(1)->get();
-            
+          
             $p=str_replace ('"', " ", $permisoC);
             $p=str_replace (' ', "", $p);
-            $ca='admin.Módulos.Asignarpermisos:true';
-            $resultado = strpos($p, $ca);
+            $ca='admin.Módulos.Verpermisos:true';
+            $resultado = strpos($p, $ca); 
             if($resultado==null){$b=False;}
             else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
             return $b;

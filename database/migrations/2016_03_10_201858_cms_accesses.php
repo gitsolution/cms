@@ -138,7 +138,7 @@ class CmsAccesses extends Migration
 
                 cms_access::create([
                 'id_sysmodule'=>'15',
-                'title'=>'{"admin.modulos.Asignar permisos":false}',
+                'title'=>'{"admin.modulos.Ver permisos":false}',
                     'active'=>'1',
                     'register_by'=>'1',
                     'modify_by'=>'1',
