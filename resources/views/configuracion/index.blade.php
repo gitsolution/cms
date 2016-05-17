@@ -30,8 +30,13 @@ else
                         {!! Form::select('id',$roles, null,['class'=>'form-control select2']) !!}
 
                     <br><br>
+                     <?php $c=0; ?>
                     @if($banderaModulo==1 && $modulos!=null)
                         @foreach($modulos as $modulo)
+                         <?php $c++; 
+                         if($c%7==0)
+                          {echo "<br><br><br>";}
+                          ?>                         
                         <div class="btn-group">
                           <button type="submit" class="btn btn-default" name="boton"  value="<?php echo $modulo->id ?>">
                             <?php echo $modulo->title ?>
@@ -49,7 +54,7 @@ else
                                 @endif
                             @endForeach
                            
-                             </ul>  
+                             </ul>                             
                         </div>
                             @endForeach                        
                     @else
