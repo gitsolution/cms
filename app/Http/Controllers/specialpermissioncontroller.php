@@ -21,7 +21,6 @@ class specialpermissioncontroller extends Controller
 {
 	public function store(Request $request)
 	{  
-    /*
         if(Gate::denies('Usuarios.ModulodeUsuarios'))
         {
           Auth::logout();
@@ -38,7 +37,7 @@ class specialpermissioncontroller extends Controller
         {
           Auth::logout();
           return Redirect('login');
-        }*/
+        }
 
          //$request['idusuarioactual'];
           //rol  $request['id'];
