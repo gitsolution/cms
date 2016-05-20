@@ -1,12 +1,9 @@
 
 <div class="container ">
    <div class="container-fluid">
-      <div class="row">
-            <dic class="col-md-4"></div>
-            <div class="col-md-6">
-              <div class="row">
-                <div class="col-md-8 text-justify "  >
-               
+      
+    <div class="row">
+       <div class="col-md-6">           
                 
 
                     
@@ -38,7 +35,7 @@
  
 echo "<div class='row'>"; 
 foreach ($itemsFooter as $key => $menF) {
-   echo "<div class='col-md-3'>";
+   echo "<div class='col-sm-3' >";
    ?>
                   {!!link_to($menF->uri, $menF->title,array('style'=>'color:white','target'=>$menF->target)) !!}
      <?php
@@ -47,41 +44,28 @@ foreach ($itemsFooter as $key => $menF) {
  echo "</div>";
     ?>
 
-
-
-
-
-                </div>
-
-              </div>  
-             
-              <div class="row "><br>
-                    <div class="col-md-8">
-                      SAN CRISTOBAL DE LAS CASAS
-                   </div>
-              </div>
-            </div>
-
-
-            <div class="col-md-6 "> 
-               <div class="row">
-                   <div class="col-md-2 " >
-                      <div class="redesSocoales" >
-                         
-                        <ul class="list-inline">
-                            <li>
-                                <a href="#" class="btn-social"><i class=""><img src="../img-moldeando/facebook.png" class="img-responsive"  width="72"></i></a>
-                            </li>
-                        </ul>
-
-
-                      </div>
-                   </div>
-               </div>
-            </div>
         
+         <div class="row "><br>
+                    <div class="col-md-8">
+                     <b> SAN CRISTOBAL DE LAS CASAS</b>
+                     
+                   </div>
+          </div>
 
-      </div>
+        </div>
+
+        <div class="col-md-6">
+            <center> <br> 
+            <ul class="list-inline">
+                <li>
+                       <a href="#" class="btn-social"><i class=""><img src="../img-moldeando/facebook.png" class="img-responsive"  width="72"></i></a>
+                </li>
+             </ul>
+            </center>
+        </div>   
+
+     </div>
+
    </div>
 </div>
 

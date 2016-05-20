@@ -14,6 +14,15 @@ use Route;
 
 class pp_reservationController extends Controller
 {      
+  public function __construct(Request $request){
+       if(session('lang')!=null)
+          App::setLocale(session('lang'));/*Asigno el idioma a laravel para este controlador*/
+        else
+          App::setLocale('es');
+       $language=App::getLocale();/*Obtengo el idioma definido en laravel*/
+       $this->id_language=DB::table('cms_language')->where('code','=', $language)->max('id'); 
+
+  }
     
   public function index()
   {
@@ -79,9 +88,16 @@ class pp_reservationController extends Controller
     return view('posadaparaiso.payReservation',['arrayItemToPay'=>$arrayItemToPay,'dataPrices'=>$dataPrices]); 
     } 
 
-    public function SendpayReservationToPaypal(Request $request){
-           
+    public function getReservationDetails($id){
+      $id_reservation=$id;
+          $detailsReservation = DB::table('pp_reservation')
+            ->join('pp_details_reservation', 'pp_details_reservation.id_reservation', '=', 'pp_reservation.id')
+            ->join('pp_prices', 'pp_details_reservation.id_price', '=', 'pp_prices.id')            
+            ->where('pp_details_reservation.id_reservation','=',$id_reservation)
+            //->select('cms_categories.*', 'cms_sections.title as section')                                                   
+            ->orderBy('pp_reservation.arrival','DESC')->paginate(20);  
          
+         return view('posadaparaiso/reservations/details',['detailsReservation'=>$detailsReservation]);
     }
 
 }

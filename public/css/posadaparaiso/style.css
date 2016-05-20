@@ -310,6 +310,13 @@ font-size:1.15em;
 .required-sign{
 color:red;
 }
+
+.flag{
+border-radius:100%;
+}
+.flag:hover{
+transition:10px;
+}
 /*************/
 
 

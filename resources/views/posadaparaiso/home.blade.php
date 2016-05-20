@@ -8,7 +8,7 @@
 
 
 
-<div class="ladrillos container-fluid " id="#Reservacion" >
+<div class="ladrillos container-fluid " id="Reservacion" >
     
     <!--para el mensaje de paypal-->
     @if(\Session::has('message'))

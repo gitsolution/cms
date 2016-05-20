@@ -1,4 +1,10 @@
 <?php
+header("Access-Control-Allow-Origin: *");
+header('Access-Control-Allow-Credentials: true');
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+header("Access-Control-Allow-Headers:  'Content-Type, Accept, Authorization, X-Requested-With'");
+header('Access-Control-Allow-Headers: Origin, Content-Type, *');
+
 /*
 |--------------------------------------------------------------------------
 | Routes File
@@ -128,6 +134,7 @@ Route::get('Galerie',function(){
 
 /*Rutas para las reservaciones */
 Route::resource('Reservation','pp_reservationController');
+Route::get('admin/reservations/{id}/details','pp_reservationController@getReservationDetails');
 
 /*Rutas para paypal*/
 Route::get('payment', array(//Envia la información a paypal
@@ -141,7 +148,14 @@ Route::get('payment/status', array(//Recibir la respuesta de paypal(a donde nos 
 
 Route::post('payment','PaypalController@postPayment');//envio los datos al controlador payapal
 
+
 Route::post('paymentMercadoPago','mercadopagoController@postPayment');//envio los datos al controlador mercadopago
+Route::post('notification','mercadopagoController@NotificationPayment');
+Route::get('mp_succes','mercadopagoController@paymentSucces');
+Route::get('mp_filed','mercadopagoController@paymentFailed');
+Route::get('mp_pending','mercadopagoController@paymentFailed');
+
+
 
 //Route::get('callPaypalMethod','PaypalController@postPayment');
 /*Ruta para los cambios idiomas*/

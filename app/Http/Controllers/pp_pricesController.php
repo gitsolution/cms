@@ -18,7 +18,7 @@ class pp_pricesController extends Controller
          $this->middleware('auth');
          $this->fechaActaul=date('Y-m-d');
          
-         //$this->fechaActaul="2016-05-01";
+         $this->fechaActaul="2016-05-10";
          /*$this->fechaAnterior="2016-04-10";
         $this->fechaAnterior=;
 
@@ -135,13 +135,13 @@ class pp_pricesController extends Controller
 
        $price = \App\pp_prices::find($id);
       
-       if($price->date_start >= $this->fechaActaul){
+       if($price->date_end >= $this->fechaActaul){
           $price->active_price=1;//Se cambia a publicado para que lo tome en cuenta el metodo getObjectPriceActive().
           $price->save();   
           Session::flash('message','Publicado correctamente, el sistema lo activará en las fechas indicadas.');
        }
        else
-          Session::flash('message','No se puede publicar por que la fecha de inicio ya ha pasado.');
+          Session::flash('message','No se puede publicar por que la fecha de Finalizacion ya ha pasado.');
 
        
        return redirect('/admin/prices');      

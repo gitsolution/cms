@@ -38,6 +38,7 @@
 			<th class="ColumColor">Promociones</th>
 			<!--<th class="ColumColor">Status</th>-->
 			<th class="ColumColor">Monto</th>
+			<th class="ColumColor">Detalles</th>
 		  </thead>
           
 		  @foreach($reservations as $reservation)
@@ -51,6 +52,7 @@
 			    <td> {{$reservation->minors}}</td>
 			    <td> {{$reservation->promotions}}</td> 
 			    <td> $ {{$reservation->amount}}</td> 
+			    <td>{!! link_to('admin/reservations/'.$reservation->id.'/details', ' ',array('class'=>'img-responsive btn btn-primary glyphicon glyphicon-eye-open')) !!}</td>
 			</tr>
 		  @endforeach
 		</table>

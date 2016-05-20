@@ -47,7 +47,7 @@
                 </div>            
                 <div class="collapse navbar-collapse pull-right" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav " id="menu-main">                  
-                      <li><a href="/es"><img src="../img-posadaparaiso/es.jpg" class=""/></a></li>
+                      <li class="flag"><a href="/es"><img src="../img-posadaparaiso/es.jpg" class=" img-flag"/></a></li>
                       <li><a href="/en"><img src="../img-posadaparaiso/en.jpg"/></a></li>
                       <li><a href="/fr"><img src="../img-posadaparaiso/fr.jpg"/></a></li>
                       @include('posadaparaiso.mainmenu')

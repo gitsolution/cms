@@ -13,7 +13,7 @@
 
 <div class="container detailReservation">
   <div class="row"><br>
-     <div class="col-md-12 text-center"><h2>Detalles de su Reservación</h2></div> 
+     <div class="col-md-12 text-center"><h2>{{trans('posadapraiso/pagina_reservacion.detalles')}}</h2></div> 
   </div>
 <div class="row sectionFormPay">
 <?php    
@@ -36,10 +36,10 @@
      
       @for ($i = 0; $i < $numRooms; $i++)
                     <table class="table table-bordered table-hover habitacionClass" id="numHabTable{{$i}}">
-                      <th class="text-center" style="background:rgb(225,213,170);"><b>Habitación {{$i+1}} </b></th>
+                      <th class="text-center" style="background:rgb(225,213,170);"><b>{{trans('posadapraiso/pagina_reservacion.habitacion')}} {{$i+1}} </b></th>
                      <tr>
                          <td  id="numHab{{$i}}">
-                         Tipo :
+                         {{trans('posadapraiso/pagina_reservacion.tipo')}}:
                           <SELECT id="select{{$i}}"  NAME="precios[]" class="form-control" required >
                                <OPTION  data-price="0" VALUE="" selected> </OPTION> 
                                @if($dataPrices !=null)
@@ -67,33 +67,33 @@
     <div class="col-md-7">
        <ul class="list-group">        
                <li class="list-group-item">
-                    <b> A nombre de: </b> 
+                    <b> {{trans('posadapraiso/pagina_reservacion.nombre')}}:</b> 
                     {{$nombre}}  
                </li>
                <li class="list-group-item">
-                    <b> Numero de habitaciones: </b> 
+                    <b>{{trans('posadapraiso/pagina_reservacion.numerodehabitaciones')}}: </b> 
                      {{$habitacion}} 
                </li>
                <li class="list-group-item" >
-                     <b>LLegada : </b>
+                     <b>{{trans('posadapraiso/pagina_reservacion.llegada')}}: </b>
                      {{$llegada}}   
                </li>
                <li class="list-group-item" >
-                     <b>Salida : </b>
+                     <b>{{trans('posadapraiso/pagina_reservacion.salida')}}</b>
                      {{$salida}}   
                </li>
                <li class="list-group-item" >
-                     <b>Adultos : </b>
+                     <b>{{trans('posadapraiso/pagina_reservacion.adultos')}} : </b>
                      {{$adultos}}   
                </li>
                  <li class="list-group-item" >
-                     <b>Menores : </b>
+                     <b>{{trans('posadapraiso/pagina_reservacion.menores')}}: </b>
                      {{$menores}}   
                </li>
 
  
                 <li class="list-group-item text-center" >
-                     <b>SubTotal : </b>$
+                     <b>{{trans('posadapraiso/pagina_reservacion.subtotal')}} : </b>$
                      <span id="total-reservation"class="">0</span>   
                      <input id="total-input" type="hidden" name="total" /> 
                 </li>
@@ -103,7 +103,7 @@
                                <input id="suma-de-ivas-input" type="hidden" name="suma-de-ivas" /> 
                  </li>
                  <li class="list-group-item text-center" >
-                              <h4><b>Total:$ </b>
+                              <h4><b>{{trans('posadapraiso/pagina_reservacion.total')}}:$ </b>
                                <span id="total-reservation-con-iva"class="">0</span>   
                                <input id="total-reservation-con-iva-input" type="hidden" name="total-reservation-con-iva" />
                              </h4> 
@@ -111,13 +111,26 @@
        </ul>
     
     
-       <div class="form-group">
-        Pagar Con
-         <center> 
-                  {!!Form::submit('PayPal',['class'=>'btn btn-primary'])!!}
-                  {!!Form::submit('Mercado de pago',['class'=>'btn btn-primary','id'=>'bttsubmit-mercadopago'])!!}
-         </center>
-       </div>
+       <center>
+              <div class="row">
+             
+                 <div class="col-md-2"></div>
+                 <div class="col-md-4">
+                    <div class="form-group">
+                    <input type="image" src="https://www.paypalobjects.com/es_XC/MX/i/btn/btn_paynowCC_LG.gif" name="submit" alt="PayPal, la forma más segura y rápida de pagar en línea.">
+                    <img alt="" border="0" src="https://www.paypalobjects.com/es_XC/i/scr/pixel.gif" width="1" height="1">
+                     <!-- {!!Form::submit('PayPal',['class'=>'btn btn-primary'])!!}  -->
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      {!!Form::submit('Mercado de pago',['class'=>'btn btn-primary','id'=>'bttsubmit-mercadopago'])!!} 
+                     </div>    
+                  </div>
+                  <div class="col-md-2"></div><br><br><br>
+           
+             </div>
+       </center>
 
     </div>
  

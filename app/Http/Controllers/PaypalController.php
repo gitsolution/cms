@@ -31,6 +31,7 @@ use Redirect;
 use Input;
 use App\pp_reservation;
 use App\pp_reservation_details;
+use App;
 //use Illuminate\Support\Facades\Input;
 
 
@@ -40,6 +41,15 @@ class PaypalController extends Controller
  
 	public function __construct()
 	{
+     //para los idiomas
+     if(session('lang')!=null)
+          App::setLocale(session('lang'));/*Asigno el idioma a laravel para este controlador*/
+        else
+          App::setLocale('es');
+       $language=App::getLocale();/*Obtengo el idioma definido en laravel*/
+       $this->id_language=DB::table('cms_language')->where('code','=', $language)->max('id'); 
+
+
 		// setup PayPal api context
 		$paypal_conf = \Config::get('paypal');//utiliza los datos del archivo de configuración
 		$this->_api_context = new ApiContext(new OAuthTokenCredential($paypal_conf['client_id'], $paypal_conf['secret']));
@@ -50,7 +60,7 @@ public function postPayment(Request $request)//Metodo para enviar a Paypal
 {    
     if($request['total']==0 || $request['total']==null )
         return redirect('Inicio')//Si por alguna razon no hay un precio total para enviar a paypal 
-        ->with('message', 'Lo sentimos, Reservaciones no disponible en estos momentos');
+        ->with('message', trans('posadapraiso/alertas.reservacionesnodisponibles') );
 
     $arrayItemToPay=unserialize($request['arrayItemToPay']);
     //$arrayItemToPay['total']= $request['total'];
@@ -194,7 +204,7 @@ public function postPayment(Request $request)//Metodo para enviar a Paypal
  
 		if (empty($payerId) || empty($token)) {
 			return redirect('Inicio')//Si hubo un problema redirigo al usuario 
-				->with('message', 'Hubo un problema al intentar pagar con Paypal');
+				->with('message',trans('posadapraiso/alertas.problemaalpagarconpaypal'));
 		}
     
 		$payment = Payment::get($payment_id, $this->_api_context);
@@ -206,14 +216,14 @@ public function postPayment(Request $request)//Metodo para enviar a Paypal
  
 		if ($result->getState() == 'approved') {/*Si la compra se realizo*/
 			      
-            $this->saveOrder();
-            //Aqui guardamos en la base de datos la compra realizada
+            $this->saveOrder();//Aqui guardamos en la base de datos la compra realizada
+            
            
 			return redirect('Inicio#Reservacion')
-				->with('message', 'Reservación realizada de forma correcta');
+				->with('message', trans('posadapraiso/alertas.reservacioncorrecta'));
 		}
 		return redirect('Inicio')
-			->with('message', 'La compra fue cancelada');
+			->with('message',  trans('posadapraiso/alertas.comprafuecancelada'));
 	}
  
 	protected function saveOrder()

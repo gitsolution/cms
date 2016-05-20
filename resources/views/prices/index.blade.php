@@ -57,13 +57,22 @@
 			    <td> {{$price->date_start}}</td>
 			    <td> {{$price->date_end}}</td>
 			    <td>
-			    	@if($price->date_start <= $fechaActaul && $price->date_end >= $fechaActaul &&$price->active_price==1)<!--Si cumple con las fechas para que el sistema lo tome en cuenta llegando esas fechas-->
+                    @if($price->active_price==1)
+                        @if($price->date_start <= $fechaActaul && $price->date_end >= $fechaActaul)<!--Si cumple con las fechas para que el sistema lo tome en cuenta llegando esas fechas-->
  			                <span class=" glyphicon glyphicon-ok" style="color:blue"></span>
- 			        @elseif($price->date_end >= $fechaActaul &&$price->active_price==0)<!--Si se puede activar por las fechas-->
-                            {!! link_to('admin/prices/'.$price->id.'/publish', '',array('class'=>'text-danger glyphicon glyphicon-ban-circle')) !!} 			           
- 			        @else <!--Si no lo va a tomar en cuenta el sistema cuando llega las fecha o ya pasaron las fechas-->
- 			            <span  class="glyphicon glyphicon-ban-circle" ></span>
- 			        @endif
+ 			            @elseif($price->date_end < $fechaActaul)
+ 			                <span  class="glyphicon glyphicon-ban-circle" title="Periodo Terminado"></span> 
+ 			            @else
+ 			                <span  class="glyphicon glyphicon-ban-circle" style="color:blue" title="Esperando la fecha para Activarse" ></span> 
+                        @endif
+                    @else<!--Si no esta publicado-->
+                        @if($price->date_end >= $fechaActaul)<!--Si la fecha de finalización no ha llegado(Todavia se puede activar)-->
+                            {!! link_to('admin/prices/'.$price->id.'/publish', '',array('class'=>'text-danger glyphicon glyphicon-ban-circle')) !!}
+                        @else
+                            <span  class="glyphicon glyphicon-ban-circle" title="Periodo Terminado"></span> 
+                        @endif
+                    @endif
+
  			    </td>
 			    
 			    <td>
