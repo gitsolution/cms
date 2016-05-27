@@ -130,7 +130,7 @@ class CmsAccesses extends Migration
 
                 cms_access::create([
                 'id_sysmodule'=>'14',
-                'title'=>'{"admin.roles.Submodulo de Roles":false,"admin.roles.Crear":false,"admin.roles.Editar":false,"admin.roles.Eliminar":false}',
+                'title'=>'{"admin.roles.Submodulo de Roles":false,"admin.roles.Crear":false,"admin.roles.Editar":false,"admin.roles.Eliminar":false,"admin.roles.Activar":false}',
                     'active'=>'1',
                     'register_by'=>'1',
                     'modify_by'=>'1',
@@ -138,7 +138,7 @@ class CmsAccesses extends Migration
 
                 cms_access::create([
                 'id_sysmodule'=>'15',
-                'title'=>'{"admin.modulos.Asignar permisos":false}',
+                'title'=>'{"admin.modulos.Ver permisos":false}',
                     'active'=>'1',
                     'register_by'=>'1',
                     'modify_by'=>'1',
@@ -163,6 +163,70 @@ class CmsAccesses extends Migration
                 cms_access::create([
                 'id_sysmodule'=>'18',
                 'title'=>'{"admin.configuraciones.Crear metas":false,"admin.configuraciones.Editar":false,"admin.configuraciones.Eliminar":false}',
+                    'active'=>'1',
+                    'register_by'=>'1',
+                    'modify_by'=>'1',
+                ]);
+
+                cms_access::create([
+                'id_sysmodule'=>'19',
+                'title'=>'{"admin.menus.Modulo de lenguajes":false}',
+                    'active'=>'1',
+                    'register_by'=>'1',
+                    'modify_by'=>'1',
+                ]);
+
+                cms_access::create([
+                'id_sysmodule'=>'20',
+                'title'=>'{"admin.lenguajes.Crear":false,"admin.lenguajes.Editar":false,"admin.lenguajes.Eliminar":false}',
+                    'active'=>'1',
+                    'register_by'=>'1',
+                    'modify_by'=>'1',
+                ]);
+
+                cms_access::create([
+                'id_sysmodule'=>'21',
+                'title'=>'{"admin.menus.Modulo de reservaciones":false}',
+                    'active'=>'1',
+                    'register_by'=>'1',
+                    'modify_by'=>'1',
+                ]);
+
+                cms_access::create([
+                'id_sysmodule'=>'22',
+                'title'=>'{"admin.precios.Submodulo de precios":false,"admin.precios.Crear":false,"admin.precios.Eliminar":false,"admin.precios.Activar":false}',
+                    'active'=>'1',
+                    'register_by'=>'1',
+                    'modify_by'=>'1',
+                ]);
+
+                cms_access::create([
+                'id_sysmodule'=>'23',
+                'title'=>'{"admin.reservaciones.Submodulo de reservaciones":false,"admin.reservaciones.Ver detalles":false}',
+                    'active'=>'1',
+                    'register_by'=>'1',
+                    'modify_by'=>'1',
+                ]);
+
+                 cms_access::create([
+                'id_sysmodule'=>'24',
+                'title'=>'{"admin.menus.Modulo de suscripciones":false}',
+                    'active'=>'1',
+                    'register_by'=>'1',
+                    'modify_by'=>'1',
+                ]);
+
+                cms_access::create([
+                'id_sysmodule'=>'25',
+                'title'=>'{"admin.suscripciones.Editar":false,"admin.suscripciones.Eliminar":false}',
+                    'active'=>'1',
+                    'register_by'=>'1',
+                    'modify_by'=>'1',
+                ]);
+
+                cms_access::create([
+                'id_sysmodule'=>'26',
+                'title'=>'{"admin.inicio.Estatus":false,"admin.inicio.Graficas":false}',
                     'active'=>'1',
                     'register_by'=>'1',
                     'modify_by'=>'1',

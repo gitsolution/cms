@@ -237,7 +237,7 @@
                         @endcan
 
 
-                          
+                        @can('Lenguajes.Modulodelenguaje') 
                             <li>
                                 <a href="#"><i class="fa fa-globe"></i> Lenguajes<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
@@ -246,28 +246,36 @@
                                     </li>
                                 </ul>
                             </li>
+                        @endcan
 
-
+                        @can('Reservaciones.ModulodeReservaciones')
                             <li>
                                 <a href="#"><i class="glyphicon glyphicon-usd"></i> Reservaciones<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
+                                    @can('Reservaciones.modulodePrecios')
                                     <li>
                                         {!!link_to('admin/prices', '&nbsp;&nbsp;&nbsp;Precios',array('class'=>'glyphicon glyphicon-usd')) !!}
                                     </li>
+                                    @endcan
+                                    @can('Reservaciones.ReservacionesPagadas')
                                     <li>
                                         {!!link_to('admin/reservation', '&nbsp;&nbsp;&nbsp;Reservaciones pagadas',array('class'=>'glyphicon glyphicon-home')) !!}
                                     </li>
+                                    @endcan
                                 </ul>
                             </li>
+                        @endcan
 
+                        @can('Suscripciones.ModulodeSuscripciones')
                              <li>
-                                <a href="#"><i class="glyphicon glyphicon-pencil"></i> Sucripciones<span class="fa arrow"></span></a>
+                                <a href="#"><i class="glyphicon glyphicon-pencil"></i> Suscripciones<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
                                     <li>
                                         {!!link_to('admin/suscription', '&nbsp;&nbsp;&nbsp;Suscriptores',array('class'=>'glyphicon glyphicon-user')) !!}
                                     </li>
                                 </ul>
                             </li>
+                        @endcan
 
             
 

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 @section('content')
 
 
@@ -38,7 +38,9 @@
 			<th class="ColumColor">Promociones</th>
 			<!--<th class="ColumColor">Status</th>-->
 			<th class="ColumColor">Monto</th>
+			@can('Reservaciones.Reservacionesverdetalles')
 			<th class="ColumColor">Detalles</th>
+			@endcan
 		  </thead>
           
 		  @foreach($reservations as $reservation)
@@ -52,7 +54,9 @@
 			    <td> {{$reservation->minors}}</td>
 			    <td> {{$reservation->promotions}}</td> 
 			    <td> $ {{$reservation->amount}}</td> 
+			    @can('Reservaciones.Reservacionesverdetalles')
 			    <td>{!! link_to('admin/reservations/'.$reservation->id.'/details', ' ',array('class'=>'img-responsive btn btn-primary glyphicon glyphicon-eye-open')) !!}</td>
+			    @endcan
 			</tr>
 		  @endforeach
 		</table>

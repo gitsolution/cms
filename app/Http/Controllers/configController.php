@@ -13,6 +13,8 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Route;
 use Session;
+use Gate;
+use Redirect;
 
 class configController extends Controller
 {
@@ -23,6 +25,19 @@ class configController extends Controller
     
     public function index()
     {
+        if(Gate::denies('Usuarios.ModulodeUsuarios'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Configuración.Asignarpermisosamodulos'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+
         $roles = DB::table('usr_roles')->where('active',1)->lists('title', 'id');
         $modulos=DB::table('sys_modules')->whereid_parent(0)->whereactive(1)->get();
         $submodulos=DB::table('sys_modules')->whereactive(1)->where('id_parent','>',0)->get();
@@ -31,7 +46,18 @@ class configController extends Controller
     }
 
     public function store(Request $request)
-    {      
+    {   
+        if(Gate::denies('Usuarios.ModulodeUsuarios'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Configuración.Asignarpermisosamodulos'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
 
         if($request['idRole']!=null)
         { 
@@ -118,6 +144,17 @@ class configController extends Controller
 
     public function create(Request $request)
     {
+        if(Gate::denies('Usuarios.ModulodeUsuarios'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Configuración.Asignarpermisosamodulos'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
         
     	echo "menu index: ".$request['menuIndex'];
     	return "";

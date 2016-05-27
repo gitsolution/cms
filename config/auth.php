@@ -101,4 +101,6 @@ return [
         ],
     ],
 
+   'no_csrf' => array('reservationService', 'no/csrf/path/2'),
+
 ];

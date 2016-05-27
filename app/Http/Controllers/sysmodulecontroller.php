@@ -10,6 +10,7 @@ use Auth;
 use View;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Gate;
 
 class sysmodulecontroller extends Controller
 {
@@ -19,7 +20,20 @@ class sysmodulecontroller extends Controller
     }
     
     public function index()
-	{	$flag=1;
+	{	
+        if(Gate::denies('Usuarios.ModulodeUsuarios'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Módulos.Asignarpermisos'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        $flag=1;
 		$cms = sys_module::All();
         $cms =  DB::table('sys_modules')->whereactive($flag)->where('id_parent','=',0)->orderBy('id','DESC')->paginate(20);
 		return view('sysmodules.index',compact('cms'));	
@@ -27,6 +41,18 @@ class sysmodulecontroller extends Controller
 
 	public function store(Request $request)
     {    	    	
+        if(Gate::denies('Usuarios.ModulodeUsuarios'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Módulos.Asignarpermisos'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
     	$activado='0';
         if($request ['ChekActivacion']== "on")
         {
@@ -50,17 +76,53 @@ class sysmodulecontroller extends Controller
 
     public function create()
     {
+        if(Gate::denies('Usuarios.ModulodeUsuarios'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Módulos.Asignarpermisos'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
     	return view('sysmodules.cmsForm');
     }
 
     public function edit($id)
     {
+        if(Gate::denies('Usuarios.ModulodeUsuarios'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Módulos.Asignarpermisos'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
         $cms=sys_module::find($id);
         return view('sysmodules.cmsform',['cms'=>$cms]);
     }
 
     public function editpermision($id)
     {
+        if(Gate::denies('Usuarios.ModulodeUsuarios'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Módulos.Asignarpermisos'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
         $nModule=DB::table('sys_modules')->where('id',$id)->first();
         $nameModule=$nModule->title;
         /*$permiso=DB::table('cms_accesses')->whereid_sysmodule($id)->first();
@@ -71,6 +133,18 @@ class sysmodulecontroller extends Controller
     }
 
     public function update($id,Request $request){
+        if(Gate::denies('Usuarios.ModulodeUsuarios'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Módulos.Asignarpermisos'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
         $activado='0';
         if($request ['ChekActivacion']== "on")
         {
@@ -89,6 +163,18 @@ class sysmodulecontroller extends Controller
 
     public function activar($id,$active)
     {
+        if(Gate::denies('Usuarios.ModulodeUsuarios'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Módulos.Asignarpermisos'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+        
         $priv=1;    
         if($active=='True')
         { 

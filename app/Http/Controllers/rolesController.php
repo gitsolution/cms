@@ -10,6 +10,7 @@ use Auth;
 use App\usr_role;
 use App\Http\Requests\rolesRequest;
 use App\Http\Controllers\Controller;
+use Gate;
 
 class rolesController extends Controller
 {
@@ -20,12 +21,42 @@ class rolesController extends Controller
 
     public function index()
 	{	
+        if(Gate::denies('Usuarios.ModulodeUsuarios'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Roles.SubmodulodeRoles'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+        
 		$roles = usr_role::All();
 		return view('roles.index',compact('roles'));		
 	}
 
 	public function store(rolesRequest $request)
     {    	  
+        if(Gate::denies('Usuarios.ModulodeUsuarios'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Roles.SubmodulodeRoles'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Roles.Crear'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
     	$activado='0';
         if($request ['ChekActivacion']== "on")
         {
@@ -46,17 +77,73 @@ class rolesController extends Controller
 
     public function create()
     {
+        if(Gate::denies('Usuarios.ModulodeUsuarios'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Roles.SubmodulodeRoles'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Roles.Crear'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+
     	return view('roles.rolesform');
     }
 
     public function edit($id)
     {
+        if(Gate::denies('Usuarios.ModulodeUsuarios'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Roles.SubmodulodeRoles'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+
+        if(Gate::denies('Roles.Editar'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
         $roles=usr_role::find($id);
         return view('roles.rolesform',compact('roles'));
     }
 
     public function update($id,Request $request)
     {
+        if(Gate::denies('Usuarios.ModulodeUsuarios'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Roles.SubmodulodeRoles'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Roles.Editar'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
          $activado='0';
         if($request ['ChekActivacion']== "on")
         {
@@ -75,6 +162,24 @@ class rolesController extends Controller
 
     public function activar($id,$active)
     {
+        if(Gate::denies('Usuarios.ModulodeUsuarios'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Roles.SubmodulodeRoles'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+        
+        if(Gate::denies('Roles.Activar'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+        
         $priv=1;    
         if($active=='True')
         { 

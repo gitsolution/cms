@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Session;
 use DB;
+use Auth;
+use Redirect;
+use Gate;
 
 class MenuController extends Controller
 {
@@ -16,22 +19,61 @@ class MenuController extends Controller
     }
     
 	public function index(){
+		if(Gate::denies('menus.Modulodemenu'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
 		$flag='1';	
 		$menus =  DB::table('men_menus')->where('active','=', $flag)->orderBy('order_by','DESC')->paginate(20);
 		return view('menu/index',compact('menus'));
 	}
 
 	public function menunew(){
+		if(Gate::denies('menus.Modulodemenu'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('menu.Crear'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
 		return view('menu/menuform');
 	}
 
 
 	public function create(){
+		if(Gate::denies('menus.Modulodemenu'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('menu.Crear'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
 		return view('menuform');
 	}
 
 
 	public function store(Request $request){
+		if(Gate::denies('menus.Modulodemenu'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('menu.Crear'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
 		$publish= 0;
 		$index_page=0;
 		if($request['publish']='on')
@@ -60,16 +102,40 @@ class MenuController extends Controller
 
 
 	public function show($id){
-
 		return "SHOW ".$id;
 	}
 
 	public function edit($id){
+		if(Gate::denies('menus.Modulodemenu'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('menu.editar'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
 			$menu = \App\Menu::find($id);
 			return view('menu/menuform')->with('menu',$menu);
     	}
 
+
+
 	public function update($id,Request $request){
+		if(Gate::denies('menus.Modulodemenu'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('menu.editar'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
         $menu = \App\Menu::find($id);
 		$menu->fill($request->all());		
 		$menu->save();
@@ -78,6 +144,18 @@ class MenuController extends Controller
 	}
 
 	public function delete($id){
+		if(Gate::denies('menus.Modulodemenu'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('menu.eliminar'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
         $menu = \App\Menu::find($id);
 		$menu->active=0;
 		$menu->save();
@@ -87,6 +165,18 @@ class MenuController extends Controller
 
 
 	public function order($id, $orderBy, $no){
+		if(Gate::denies('menus.Modulodemenu'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('menu.ordenar'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
 		// Actualizamos el registro con id
 		$flag=1;
 		$this->setOrderItem($flag,$orderBy, $no);	
@@ -100,6 +190,17 @@ class MenuController extends Controller
 
 	public function setOrderItem($flag,$orderBy, $no)
 	{
+		if(Gate::denies('menus.Modulodemenu'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('menu.ordenar'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
 		$noAux=$no;
 		$menu = DB::table('men_menus')->where('active','=', $flag)->where('order_by', '=',$no)->get();		
 		if($orderBy=='Up'){	
@@ -112,6 +213,11 @@ class MenuController extends Controller
 	}
 
 	public function publicate($id,$pub){
+		if(Gate::denies('menus.Modulodemenu'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
 		$flag=1;
 		if($pub=='True'){ $pub = 1;}else{ $pub = 0; }
 		$menu = DB::table('men_menus')->where('active','=', $flag)->where('id', '=',$id)->update(['publish'=>$pub]);			       
@@ -120,10 +226,12 @@ class MenuController extends Controller
 	}
 
   
-
-
-
 	public function index_page($id,$ind){
+		if(Gate::denies('menus.Modulodemenu'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
        	$flag=1; 
 			if($ind=='True'){ $ind = 1;}else{ $ind = 0; }
 		$menu = DB::table('men_menus')->where('active','=', $flag)->where('id', '=',$id)->update(['index_page'=>$ind]);			       

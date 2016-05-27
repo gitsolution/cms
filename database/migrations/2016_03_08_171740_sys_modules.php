@@ -190,6 +190,79 @@ class SysModules extends Migration
             'register_by'=>'1',
             'modify_by'=>'1',
         ]);
+
+        sys_module::create([
+            'id_parent'=>'0',
+            'title'=>'Lenguajes',
+            'description'=>'Lenguajes',
+            'active'=>'1',
+            'register_by'=>'1',
+            'modify_by'=>'1',
+        ]);
+
+        sys_module::create([
+            'id_parent'=>'19',
+            'title'=>'Lenguaje',
+            'description'=>'Lenguaje',
+            'active'=>'1',
+            'register_by'=>'1',
+            'modify_by'=>'1',
+        ]);
+
+        sys_module::create([
+            'id_parent'=>'0',
+            'title'=>'Reservaciones',
+            'description'=>'Reservaciones',
+            'active'=>'1',
+            'register_by'=>'1',
+            'modify_by'=>'1',
+        ]);
+
+        sys_module::create([
+            'id_parent'=>'21',
+            'title'=>'Precios',
+            'description'=>'Precios',
+            'active'=>'1',
+            'register_by'=>'1',
+            'modify_by'=>'1',
+        ]);
+
+        sys_module::create([
+            'id_parent'=>'21',
+            'title'=>'Reservaciones pagadas',
+            'description'=>'Reservaciones pagadas',
+            'active'=>'1',
+            'register_by'=>'1',
+            'modify_by'=>'1',
+        ]);
+
+        sys_module::create([
+            'id_parent'=>'0',
+            'title'=>'Suscripciones',
+            'description'=>'Suscripciones',
+            'active'=>'1',
+            'register_by'=>'1',
+            'modify_by'=>'1',
+        ]);
+
+        sys_module::create([
+            'id_parent'=>'24',
+            'title'=>'Suscriptores',
+            'description'=>'Suscriptores',
+            'active'=>'1',
+            'register_by'=>'1',
+            'modify_by'=>'1',
+        ]);
+
+        sys_module::create([
+            'id_parent'=>'0',
+            'title'=>'Inicio',
+            'description'=>'Inicio',
+            'active'=>'1',
+            'register_by'=>'1',
+            'modify_by'=>'1',
+        ]);
+
     }
     /**
      * Reverse the migrations.

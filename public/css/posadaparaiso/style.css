@@ -1,10 +1,14 @@
-
 /*Posada paraiso***********/
 
+.relleno{
+height:50px;
+background:red;
+}
 /*--------slider-------*/ 
 .sliderContent{/*las img deben tener minimo 500px de alto*/
     height:500px;
 	background:rgb(12,12,23);
+	
  }
  
  .sliderContent img{
@@ -323,6 +327,8 @@ transition:10px;
 .navbar{
 	background: orange;
 	color: #000;
+	opacity:.95;
+	
 }
 
 .footer-box{/* 

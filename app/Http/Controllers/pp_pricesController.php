@@ -9,6 +9,8 @@ use App\Http\Controllers\Controller;
 use DB;
 use Session;
 use Carbon\Carbon;
+use Auth;
+use Gate;
 
 class pp_pricesController extends Controller
 {
@@ -18,7 +20,7 @@ class pp_pricesController extends Controller
          $this->middleware('auth');
          $this->fechaActaul=date('Y-m-d');
          
-         $this->fechaActaul="2016-05-10";
+         //$this->fechaActaul="2016-05-10";
          /*$this->fechaAnterior="2016-04-10";
         $this->fechaAnterior=;
 
@@ -33,7 +35,17 @@ class pp_pricesController extends Controller
     
   public function index()
   {
-         
+         if(Gate::denies('Reservaciones.ModulodeReservaciones'))
+    {
+      Auth::logout();
+      return Redirect('login');
+    }
+
+    if(Gate::denies('Reservaciones.modulodePrecios'))
+    {
+      Auth::logout();
+      return Redirect('login');
+    }
          $flag='1'; 
 
          $prices =  DB::table('pp_prices')/*Obtengo la lista de precios */
@@ -44,6 +56,7 @@ class pp_pricesController extends Controller
   }
    
   public function getPricesActive(){/*Obtiene los precios que estan activos*/
+    
       $flag='1'; 
 
      $activePrice=null;
@@ -68,11 +81,40 @@ class pp_pricesController extends Controller
   }
   
   public function create(){
+    if(Gate::denies('Reservaciones.ModulodeReservaciones'))
+    {
+      Auth::logout();
+      return Redirect('login');
+    }
+
+    if(Gate::denies('Reservaciones.modulodePrecios'))
+    {
+      Auth::logout();
+      return Redirect('login');
+    }
     return view('prices/pricesform',['fechaActaul'=>$this->fechaActaul]);
   }
 
 
   public function store(Request $request){
+    if(Gate::denies('Reservaciones.ModulodeReservaciones'))
+    {
+      Auth::logout();
+      return Redirect('login');
+    }
+         
+    if(Gate::denies('Reservaciones.modulodePrecios'))
+    {
+      Auth::logout();
+      return Redirect('login');
+    }
+
+    if(Gate::denies('Reservaciones.PreciosCrear'))
+    {
+      Auth::logout();
+      return Redirect('login');
+    }
+
         $active='1';
         $ChekPubli='0';
         if($request ['ChekPublicar']== 'on')
@@ -112,11 +154,35 @@ class pp_pricesController extends Controller
   }
 
   public function edit($id){
+     if(Gate::denies('Reservaciones.ModulodeReservaciones'))
+    {
+      Auth::logout();
+      return Redirect('login');
+    }
+
+    if(Gate::denies('Reservaciones.modulodePrecios'))
+    {
+      Auth::logout();
+      return Redirect('login');
+    }
+
       $language = \App\cms_prices::find($id);
       return view('prices/pricesform')->with('price',$price);
       }
 
   public function update($id,Request $request){
+    if(Gate::denies('Reservaciones.ModulodeReservaciones'))
+    {
+      Auth::logout();
+      return Redirect('login');
+    }
+
+    if(Gate::denies('Reservaciones.modulodePrecios'))
+    {
+      Auth::logout();
+      return Redirect('login');
+    }
+
     $menu = \App\pp_prices::find($id);
     $menu->fill($request->all());   
     $menu->save();   
@@ -124,6 +190,24 @@ class pp_pricesController extends Controller
   }
 
   public function destroy($id){
+    if(Gate::denies('Reservaciones.ModulodeReservaciones'))
+    {
+      Auth::logout();
+      return Redirect('login');
+    }
+    
+    if(Gate::denies('Reservaciones.modulodePrecios'))
+    {
+      Auth::logout();
+      return Redirect('login');
+    }
+
+    if(Gate::denies('Reservaciones.PreciosEliminar'))
+    {
+      Auth::logout();
+      return Redirect('login');
+    }
+
     $language = \App\pp_prices::find($id);
     $language->active=0;
     $language->save(); 
@@ -132,6 +216,23 @@ class pp_pricesController extends Controller
    
 
     public function publish($id){
+      if(Gate::denies('Reservaciones.ModulodeReservaciones'))
+      {
+        Auth::logout();
+        return Redirect('login');
+      }
+         
+      if(Gate::denies('Reservaciones.modulodePrecios'))
+      {
+        Auth::logout();
+        return Redirect('login');
+      }
+
+      if(Gate::denies('Reservaciones.PreciosActivar'))
+      {
+        Auth::logout();
+        return Redirect('login');
+      }
 
        $price = \App\pp_prices::find($id);
       
@@ -148,6 +249,19 @@ class pp_pricesController extends Controller
     }
 
     public function checkPriceHasChildInReservation($id_price){//solo para actualizar
+
+      if(Gate::denies('Reservaciones.ModulodeReservaciones'))
+      {
+        Auth::logout();
+        return Redirect('login');
+      }
+      
+      if(Gate::denies('Reservaciones.modulodePrecios'))
+      {
+        Auth::logout();
+        return Redirect('login');
+      }
+
        $num_rows=DB::table('pp_reservation')->where('id_price','=',$id_price)->count();
        if($num_rows>0)
          return  true;
@@ -156,7 +270,18 @@ class pp_pricesController extends Controller
     }
 
     public function aprovNewPriceActive($dateStart,$dateEnd){
-         
+      if(Gate::denies('Reservaciones.ModulodeReservaciones'))
+      {
+        Auth::logout();
+        return Redirect('login');
+      }
+      
+      if(Gate::denies('Reservaciones.modulodePrecios'))
+      {
+        Auth::logout();
+        return Redirect('login');
+      }
+
          //valida que todavia no haya llegado la fecha de finalizcion
         if($dateEnd >= $this->fechaActaul)
            {

@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use DB;
 use Session;
 use Redirect;
+use Gate; 
 
 
 class categoryController extends Controller
@@ -23,7 +24,17 @@ class categoryController extends Controller
     
   	 public function index()
    		{
-       
+        if(Gate::denies('Publicaciones.ModulodePublicaciones'))
+        {
+         Auth::logout();
+         return Redirect('login');
+        }
+
+        if(Gate::denies('Categorias.SubmodulodeCategorias'))
+        {
+         Auth::logout();
+         return Redirect('login');
+        }
     	   	$flag='1';  
               $Catego = DB::table('cms_categories')
             ->join('cms_sections', 'cms_categories.id_section', '=', 'cms_sections.id')            
@@ -36,11 +47,48 @@ class categoryController extends Controller
    		}
 	 public function categorynew()
 	 	{
+      if(Gate::denies('Publicaciones.ModulodePublicaciones'))
+        {
+         Auth::logout();
+         return Redirect('login');
+        }
+
+        if(Gate::denies('Categorias.SubmodulodeCategorias'))
+        {
+         Auth::logout();
+         return Redirect('login');
+        }
+
+        if(Gate::denies('Categorias.Crear'))
+        {
+         Auth::logout();
+         return Redirect('login');
+        }
+
+
     		return view('categories/categoryform');
-  		}
+  	}
 
      public function store(Request $request)
-    	{
+     {
+        if(Gate::denies('Publicaciones.ModulodePublicaciones'))
+        {
+         Auth::logout();
+         return Redirect('login');
+        }
+
+        if(Gate::denies('Categorias.SubmodulodeCategorias'))
+        {
+         Auth::logout();
+         return Redirect('login');
+        }
+
+        if(Gate::denies('Categorias.Crear'))
+        {
+         Auth::logout();
+         return Redirect('login');
+        }
+
     		$ChekPubli='0';
         	if($request ['ChekPublicar']== 'on')
         	{
@@ -121,12 +169,47 @@ class categoryController extends Controller
 
      public function edit($id)
    		{
+        if(Gate::denies('Publicaciones.ModulodePublicaciones'))
+        {
+         Auth::logout();
+         return Redirect('login');
+        }
+
+        if(Gate::denies('Categorias.SubmodulodeCategorias'))
+        {
+         Auth::logout();
+         return Redirect('login');
+        }
+
+        if(Gate::denies('Categorias.Editar'))
+        {
+         Auth::logout();
+         return Redirect('login');
+        }
+
        		$Catego = \App\cms_category::find($id);
        		return view('categories/categoryform')->with('Catego',$Catego);
      	}
      
      public function update($id, Request $request)
      	{
+        if(Gate::denies('Publicaciones.ModulodePublicaciones'))
+        {
+         Auth::logout();
+         return Redirect('login');
+        }
+
+        if(Gate::denies('Categorias.SubmodulodeCategorias'))
+        {
+         Auth::logout();
+         return Redirect('login');
+        }
+
+        if(Gate::denies('Categorias.Editar'))
+        {
+         Auth::logout();
+         return Redirect('login');
+        }
             $isUpImg=false;
             $Catego = \App\cms_category::find($id);
             $path=null;
@@ -175,6 +258,25 @@ class categoryController extends Controller
 
      public function delete($id)
 	    {
+        if(Gate::denies('Publicaciones.ModulodePublicaciones'))
+        {
+         Auth::logout();
+         return Redirect('login');
+        }
+
+        if(Gate::denies('Categorias.SubmodulodeCategorias'))
+        {
+         Auth::logout();
+         return Redirect('login');
+        }
+
+        if(Gate::denies('Categorias.Eliminar'))
+        {
+         Auth::logout();
+         return Redirect('login');
+        }
+
+
           	$Catego = \App\cms_category::find($id);
           	$Catego->active=0;
           	$Catego->save();
@@ -185,6 +287,23 @@ class categoryController extends Controller
 
       public function deletePicture($id)
       {
+        if(Gate::denies('Publicaciones.ModulodePublicaciones'))
+        {
+         Auth::logout();
+         return Redirect('login');
+        }
+
+        if(Gate::denies('Categorias.SubmodulodeCategorias'))
+        {
+         Auth::logout();
+         return Redirect('login');
+        }
+
+        if(Gate::denies('Categorias.Eliminar'))
+        {
+         Auth::logout();
+         return Redirect('login');
+        }
           $Section = \App\cms_section::All();
           $Catego = \App\cms_category::find($id);
           $Catego->main_picture="";
@@ -198,6 +317,23 @@ class categoryController extends Controller
 
   	 public function privado($id,$priv)
   		{
+        if(Gate::denies('Publicaciones.ModulodePublicaciones'))
+        {
+         Auth::logout();
+         return Redirect('login');
+        }
+
+        if(Gate::denies('Categorias.SubmodulodeCategorias'))
+        {
+         Auth::logout();
+         return Redirect('login');
+        }
+
+        if(Gate::denies('Categorias.acceso'))
+        {
+         Auth::logout();
+         return Redirect('login');
+        }
     		$flag=1;
     
     		if($priv=='True'){ $priv = 1;}else{ $priv = 0; }
@@ -207,6 +343,23 @@ class categoryController extends Controller
   		}
 
   	 public function publicate($id,$pub){
+      if(Gate::denies('Publicaciones.ModulodePublicaciones'))
+        {
+         Auth::logout();
+         return Redirect('login');
+        }
+
+        if(Gate::denies('Categorias.SubmodulodeCategorias'))
+        {
+         Auth::logout();
+         return Redirect('login');
+        }
+
+        if(Gate::denies('Categorias.acceso'))
+        {
+         Auth::logout('Categorias.Publicar');
+         return Redirect('login');
+        }
             $flag=1;
             if($pub=='True'){ $pub = 1;}else{ $pub = 0; }
             $Catego = DB::table('cms_categories')->where('active','=', $flag)->where('id', '=',$id)->update(['publish'=>$pub]);    
@@ -217,6 +370,23 @@ class categoryController extends Controller
 
  	 public function order($id, $orderBy, $no)
     	{
+        if(Gate::denies('Publicaciones.ModulodePublicaciones'))
+        {
+         Auth::logout();
+         return Redirect('login');
+        }
+
+        if(Gate::denies('Categorias.SubmodulodeCategorias'))
+        {
+         Auth::logout();
+         return Redirect('login');
+        }
+
+        if(Gate::denies('Categorias.ordenar'))
+        {
+         Auth::logout();
+         return Redirect('login');
+        }
         	// Actualizamos el registro con id
          	$flag=1;
           	$this->setOrderItem($flag,$orderBy, $no);
@@ -229,6 +399,24 @@ class categoryController extends Controller
 
   	public function setOrderItem($flag,$orderBy, $no)
   		{
+        if(Gate::denies('Publicaciones.ModulodePublicaciones'))
+        {
+         Auth::logout();
+         return Redirect('login');
+        }
+
+        if(Gate::denies('Categorias.SubmodulodeCategorias'))
+        {
+         Auth::logout();
+         return Redirect('login');
+        }
+
+        if(Gate::denies('Categorias.ordenar'))
+        {
+         Auth::logout();
+         return Redirect('login');
+        }
+
     		$noAux=$no;
     		$Catego = DB::table('cms_categories')->where('active','=', $flag)->where('order_by', '=',$no)->get();    
     		if($orderBy=='Up')
@@ -246,6 +434,17 @@ class categoryController extends Controller
 
 
         public function getData($id){
+          if(Gate::denies('Publicaciones.ModulodePublicaciones'))
+          {
+           Auth::logout();
+           return Redirect('login');
+          }
+
+          if(Gate::denies('Categorias.SubmodulodeCategorias'))
+          {
+           Auth::logout();
+           return Redirect('login');
+          }
           $ListCategoties = DB::table('cms_categories')
             ->select('cms_categories.id', 'cms_categories.title as category')
             ->where('cms_categories.active','=', $flag)            

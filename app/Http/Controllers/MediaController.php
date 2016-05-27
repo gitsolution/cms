@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Session;
 use DB;
+use Gate;
+use Redirect;
 
 class MediaController extends Controller
 {
@@ -20,22 +22,88 @@ class MediaController extends Controller
     }
     
 	public function index(){
+		if(Gate::denies('archivos'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('Albums.SubmodulodeAlbums'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
 		$flag='1';	
 		$medias =  DB::table('med_albums')->where('active','=', $flag)->orderBy('order_by','DESC')->paginate(20);
 		return view('media/index',compact('medias'));
 	}
 
 	public function medianew(){
+		if(Gate::denies('archivos'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('Albums.SubmodulodeAlbums'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('Albums.Creargaleria'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
 		return view('media/mediaform');
 	}
 
 
 	public function create(){
+		if(Gate::denies('archivos'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('Albums.SubmodulodeAlbums'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('Albums.Creargaleria'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
 		return view('mediaform');
 	}
 
 
 	public function store(Request $request){
+		if(Gate::denies('archivos'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('Albums.SubmodulodeAlbums'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('Albums.Creargaleria'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
 		$publish= 0;
 		$index_page=0;
 		if($request['publish']='on')
@@ -106,17 +174,62 @@ class MediaController extends Controller
       }
 
 	public function show($id){
+		if(Gate::denies('archivos'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
 
+	    if(Gate::denies('Albums.SubmodulodeAlbums'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
 		return "SHOW ".$id;
 	}
 
 	public function edit($id){
+			if(Gate::denies('archivos'))
+		    {
+		      Auth::logout();
+		      return Redirect('login');
+		    }
+
+		    if(Gate::denies('Albums.SubmodulodeAlbums'))
+		    {
+		      Auth::logout();
+		      return Redirect('login');
+		    }
+
+		    if(Gate::denies('Albums.Editar'))
+		    {
+		      Auth::logout();
+		      return Redirect('login');
+		    }
 			$media = \App\Media::find($id);
 			return view('media/mediaform')->with('media',$media);
     	}
 
 	public function update($id,Request $request){
-		       $index_page='0';
+		if(Gate::denies('archivos'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('Albums.SubmodulodeAlbums'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('Albums.Editar'))
+		{
+		    Auth::logout();
+		    return Redirect('login');
+		}
+
+		$index_page='0';
         if($request ['index_page']== 'on')
         {
           $index_page='1';
@@ -143,6 +256,23 @@ class MediaController extends Controller
 	}
 
 	public function delete($id){
+		if(Gate::denies('archivos'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('Albums.SubmodulodeAlbums'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('Albums.Eliminar'))
+		{
+		    Auth::logout();
+		    return Redirect('login');
+		}
         $media = \App\Media::find($id);
 		$media->active=0;
 		$media->save();
@@ -152,6 +282,23 @@ class MediaController extends Controller
 
 
 	public function order($id, $orderBy, $no){
+		if(Gate::denies('archivos'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('Albums.SubmodulodeAlbums'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('Albums.ordenar'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
 		// Actualizamos el registro con id
 		$flag=1;
 		$this->setOrderItem($flag,$orderBy, $no);
@@ -166,6 +313,24 @@ class MediaController extends Controller
 
 	public function setOrderItem($flag,$orderBy, $no)
 	{
+		if(Gate::denies('archivos'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('Albums.SubmodulodeAlbums'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('Albums.ordenar'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
 		$noAux=$no;
 		$media = DB::table('med_albums')->where('active','=', $flag)->where('order_by', '=',$no)->get();		
 		if($orderBy=='Up'){	
@@ -179,6 +344,24 @@ class MediaController extends Controller
 	}
 
 	public function publicate($id,$pub){
+		if(Gate::denies('archivos'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('Albums.SubmodulodeAlbums'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('Albums.Publicar'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
 		$flag=1;
 		if($pub=='True'){ $pub = 1;}else{ $pub = 0; }
 		$media = DB::table('med_albums')->where('active','=', $flag)->where('id', '=',$id)->update(['publish'=>$pub]);			       
@@ -186,11 +369,26 @@ class MediaController extends Controller
 		return redirect('/admin/media')->with('message','store');
 	}
 
-  
-
-
 
 	public function index_page($id,$ind){
+		if(Gate::denies('archivos'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('Albums.SubmodulodeAlbums'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
+	    if(Gate::denies('Albums.Colocaralinicio'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
        	$flag=1; 
 			if($ind=='True'){ $ind = 1;}else{ $ind = 0; }
 		$media = DB::table('med_albums')->where('active','=', $flag)->where('id', '=',$id)->update(['index_page'=>$ind]);			       

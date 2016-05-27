@@ -13,6 +13,7 @@ use DB;
 use View;
 use Session;
 use Redirect;
+use Gate;
 
 class ItemMenuController extends Controller
 {
@@ -22,6 +23,12 @@ class ItemMenuController extends Controller
     }
     
 	public function index($id_menu, $id_parent){
+		if(Gate::denies('menu.elementos'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
 		$flag = '1';	
 		$level='0';
 		if($id_parent>0){
@@ -41,6 +48,12 @@ class ItemMenuController extends Controller
 
 
 public function optionmenu($option, $id_menu, $id_parent){
+	if(Gate::denies('menu.elementos'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
 		$flag='1';
 		$level='0';	
 		$menu=\App\Menu::find($id_menu); 	
@@ -144,6 +157,11 @@ public function optionmenu($option, $id_menu, $id_parent){
 
 
 	public function submenu($id_menu, $id_item){
+		if(Gate::denies('menu.elementos'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
 
 		$flag='1';	
 		$menu=\App\Menu::find($id_menu);				 	
@@ -172,6 +190,12 @@ public function optionmenu($option, $id_menu, $id_parent){
 
 
 	public function itemnew($id_menu){
+		if(Gate::denies('menu.elementos'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
 		$flag='1';	 
 		$menu=\App\Menu::find($id_menu);
 		$itemMenu= null;
@@ -179,6 +203,12 @@ public function optionmenu($option, $id_menu, $id_parent){
 	}
 
 	public function optionnew($id_menu, $typemenu){
+		if(Gate::denies('menu.elementos'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
 		$flag='1';	 
 		$menu=\App\Menu::find($id_menu);
 		$itemMenu= null;
@@ -188,6 +218,12 @@ public function optionmenu($option, $id_menu, $id_parent){
 	 
 
 	public function typemenu($id_menu, $id_parent, $typemenu){
+		if(Gate::denies('menu.elementos'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
 		$flag=1;
 		$menu = \App\Menu::find($id_menu); 	
 		$menu=\App\ItemMenu::find($id_menu); 
@@ -223,6 +259,12 @@ public function optionmenu($option, $id_menu, $id_parent){
 	}
 
 	public function create($id_menu){	
+		if(Gate::denies('menu.elementos'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
 		$flag='1';	
 		$menu = DB::table('med_albums')->where('active','=', $flag)->orderBy('order_by','DESC')->get();
 		$itemMenu = null;		
@@ -231,6 +273,12 @@ public function optionmenu($option, $id_menu, $id_parent){
 
 
 	public function store(Request $request){
+		if(Gate::denies('menu.elementos'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
 		$publish = 0;
 		$private = 0;
 		$id_parent=0;
@@ -388,6 +436,12 @@ public function optionmenu($option, $id_menu, $id_parent){
 
 
 	public function showItems($id_menu){
+		if(Gate::denies('menu.elementos'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
 		$menu = \App\Menu::find($id_menu);
 		$flag='1';	
 		$items =  DB::table('men_items')->where('active','=', $flag)->where('id_menu','=',$id_menu)->orderBy('order_by','DESC')->paginate(20);
@@ -395,6 +449,12 @@ public function optionmenu($option, $id_menu, $id_parent){
 	}
 
 	public function show($id){
+		if(Gate::denies('menu.elementos'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
 		$flag='1';	
 		$items =  DB::table('med_pictures')->where('active','=', $flag)->orderBy('order_by','DESC')->paginate(20);
 		return view('itemmenu/index',compact('items'));
@@ -403,6 +463,12 @@ public function optionmenu($option, $id_menu, $id_parent){
 
 
 	public function edit($id){
+		if(Gate::denies('menu.elementos'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
 		$flag='1';	
 		$item =  \App\ItemMenu::find($id); 		
 		$menu = \App\Menu::find($item->id_menu); 		
@@ -411,6 +477,12 @@ public function optionmenu($option, $id_menu, $id_parent){
     	}
 
 	public function update($id,Request $request){
+		if(Gate::denies('menu.elementos'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
          $isUpImg=false;
   		 $item = \App\ItemMenu::find($id);		 
          $menu = \App\Menu::find($item->id_menu);
@@ -446,6 +518,12 @@ public function optionmenu($option, $id_menu, $id_parent){
 	}
 
 	public function delete($id){
+		if(Gate::denies('menu.elementos'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
         $item = \App\ItemMenu::find($id);
 		$item->active=0;
 		$item->save();
@@ -456,6 +534,11 @@ public function optionmenu($option, $id_menu, $id_parent){
 
     public function deleteItem($id)
       {
+      	if(Gate::denies('menu.elementos'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
 
           $item = \App\ItemMenu::find($id);
           $menu = \App\menu::find($item->id_menu);		
@@ -467,6 +550,12 @@ public function optionmenu($option, $id_menu, $id_parent){
       }
 
 	public function order($id, $orderBy, $no){
+		if(Gate::denies('menu.elementos'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
 		// Actualizamos el registro con id
 		$flag=1;
 		$this->setOrderItem($flag,$orderBy, $no);
@@ -482,6 +571,12 @@ public function optionmenu($option, $id_menu, $id_parent){
 
 	public function setOrderItem($flag,$orderBy,$no)
 	{
+		if(Gate::denies('menu.elementos'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
 		$noAux=$no;
 		$item = DB::table('men_items')->where('active','=', $flag)->where('order_by', '=',$no)->get();		
 		if($orderBy=='Up'){	
@@ -494,6 +589,12 @@ public function optionmenu($option, $id_menu, $id_parent){
 	}
 
 	public function publicate($id,$pub){
+		if(Gate::denies('menu.elementos'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
 		$flag=1;
 		if($pub=='True'){ $pub = 1;}else{ $pub = 0; }
 		$item = DB::table('men_items')->where('active','=', $flag)->where('id', '=',$id)->update(['publish'=>$pub]);	
@@ -505,6 +606,12 @@ public function optionmenu($option, $id_menu, $id_parent){
  
       public function getEditCategories($no, $id_section, Request $request)
       {
+      	if(Gate::denies('menu.elementos'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
         $Categories=null;
       if($request->ajax()){
           $flag=1;
@@ -515,6 +622,12 @@ public function optionmenu($option, $id_menu, $id_parent){
 
     public function getEditDocuments($id_category, Request $request)
     {
+    	if(Gate::denies('menu.elementos'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+
         $Documents=null;
         if($request->ajax()){
           $flag=1;
@@ -525,6 +638,12 @@ public function optionmenu($option, $id_menu, $id_parent){
 
 
 	public function index_page($id,$ind){
+		if(Gate::denies('menu.elementos'))
+	    {
+	      Auth::logout();
+	      return Redirect('login');
+	    }
+	    
        	$flag=1; 
 			if($ind=='True'){ $ind = 1;}else{ $ind = 0; }
 		$item = DB::table('men_items')->where('active','=', $flag)->where('id', '=',$id)->update(['index_page'=>$ind]);			       

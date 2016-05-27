@@ -11,6 +11,10 @@ use DB;
 use App\Http\Controllers\PaypalController;
 
 use Route;
+use Auth;
+use Gate;
+use Redirect;
+
 
 class pp_reservationController extends Controller
 {      
@@ -26,7 +30,6 @@ class pp_reservationController extends Controller
     
   public function index()
   {
-   
          $reservations = DB::table('pp_reservation')->paginate(20);             
       
          return view('posadaparaiso/reservations/index',['reservations'=>$reservations]);
@@ -40,10 +43,6 @@ class pp_reservationController extends Controller
 
 
     $arrayIdPricesHab=$request['precios'];
-    /*for($i=0;$i<$num_hab;$i++){
-        $arrayIdPricesHab[$i];
-    }
-    dd($array);*/
 
     $arrayItemToPay;
     $arrayIdPricesHab;
@@ -65,7 +64,7 @@ class pp_reservationController extends Controller
  
     }
     public function reservationDetails(Request $request){
-   
+    
    
     $arrayItemToPay = array(
       'nombre'=>$request['nombre'],
@@ -89,6 +88,18 @@ class pp_reservationController extends Controller
     } 
 
     public function getReservationDetails($id){
+      if(Gate::denies('Reservaciones.ReservacionesPagadas'))
+      {
+        Auth::logout();
+        return Redirect('login');
+      }
+
+      if(Gate::denies('Reservaciones.Reservacionesverdetalles'))
+      {
+        Auth::logout();
+        return Redirect('login');
+      }
+
       $id_reservation=$id;
           $detailsReservation = DB::table('pp_reservation')
             ->join('pp_details_reservation', 'pp_details_reservation.id_reservation', '=', 'pp_reservation.id')
@@ -100,4 +111,17 @@ class pp_reservationController extends Controller
          return view('posadaparaiso/reservations/details',['detailsReservation'=>$detailsReservation]);
     }
 
+
+    public function serviceReservation(Request $request){
+     //return response()->json($request,200);
+     
+     $tokenServer="23asdfghjt5432345678tre";
+       if($request['token']==$tokenServer){
+           $Data = DB::table('pp_reservation')->get();  
+          return response()->json($Data,200);
+       }
+     else
+        return response()->json("Erroor",400);
+     
+    }
 }

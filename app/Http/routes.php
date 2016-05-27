@@ -187,11 +187,14 @@ Route::get('pay','pp_reservationController@payReservation');
 Route::post('reservationDetails','pp_reservationController@reservationDetails');
 Route::resource('admin/reservation','pp_reservationController@index');
 
+Route::post('reservationService','pp_reservationController@serviceReservation');//servicio
+
 //Rutas para las  suscripciones
 Route::resource('admin/suscription','pp_subscribe');
 Route::get('admin/suscription/{id}/destroy','pp_subscribe@destroy');
 
 Route::post('Email','PosadaParaisoController@sendEmail');
+
 
 
 /****************************************************/

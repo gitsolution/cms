@@ -14,6 +14,7 @@ use View;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Auth;
+use Gate;
 
 class usr_login_roleController extends Controller
 {
@@ -29,6 +30,24 @@ class usr_login_roleController extends Controller
     
      public function store(Request $request)
      {        
+        if(Gate::denies('Usuarios.ModulodeUsuarios'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Usuarios.SubmodulodeUsuarios'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Usuarios.Asignarroles'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
         $n = count($request['role']); 
         $usrLoginRoles = DB::table('usr_login_roles')->where('id_login',$request['idUsuario'])->orderBy('id_login','Asc')->get();
         $b=0; $sRol=0;
@@ -81,17 +100,71 @@ class usr_login_roleController extends Controller
 
     public function create()
     {
+        if(Gate::denies('Usuarios.ModulodeUsuarios'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Usuarios.SubmodulodeUsuarios'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Usuarios.Asignarroles'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
         return view('usuario.create');
     }
 
     public function edit($id)
     {
+        if(Gate::denies('Usuarios.ModulodeUsuarios'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Usuarios.SubmodulodeUsuarios'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Usuarios.Asignarroles'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
         $roles=usr_role::find($id);
         return view('roles.rolesform')->with('roles',$roles);
     }
 
     public function update($id,Request $request)
     {
+        if(Gate::denies('Usuarios.ModulodeUsuarios'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Usuarios.SubmodulodeUsuarios'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Usuarios.Asignarroles'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
         $dato = $request['vRoles'];
         $num=count($dato);
         $roles=DB::table('usr_roles')->select('id')->get();
@@ -130,10 +203,30 @@ class usr_login_roleController extends Controller
 
     }
 
-     public function delete($id)
+    public function delete($id)
     {
+       if(Gate::denies('Usuarios.ModulodeUsuarios'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Roles.SubmodulodeRoles'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Roles.Eliminar'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+       
+
         $query=usr_role::destroy($id);
-        Session::flash('message','Role Eliminado Correctamente');  
+        Session::flash('message','Rol Eliminado Correctamente');  
         return Redirect::to("admin/roles"); 
         return view('layouts.app');
     }
@@ -141,6 +234,24 @@ class usr_login_roleController extends Controller
 
     public function updateRol($id)
     {
+        if(Gate::denies('Usuarios.ModulodeUsuarios'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Usuarios.SubmodulodeUsuarios'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Usuarios.Asignarroles'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+        
         $nombre=DB::table('usr_profiles')->where('id',$id)->select('name', 'lastName')->first();
         $nombreCompleto=$nombre->name." ".$nombre->lastName;
         $roles=DB::table('usr_roles')->where('active',1)->select('id', 'title')->get();

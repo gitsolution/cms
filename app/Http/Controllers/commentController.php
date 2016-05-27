@@ -20,10 +20,16 @@ class commentController extends Controller
     
   public function index()
    {
+    if(Gate::denies('Publicaciones.ModulodePublicaciones'))
+    {
+      Auth::logout();
+      return Redirect('login');
+    }
+
     if(Gate::denies('Comentarios.SubmodulodeComentarios'))
     {
       Auth::logout();
-      return redirect('/Inicio');
+      return Redirect('login');
     }
 
     $flag='1';  
@@ -38,6 +44,17 @@ class commentController extends Controller
    }
 
       public function store(Request $request){
+      if(Gate::denies('Publicaciones.ModulodePublicaciones'))
+      {
+        Auth::logout();
+        return Redirect('login');
+      }
+
+      if(Gate::denies('Comentarios.SubmodulodeComentarios'))
+      {
+        Auth::logout();
+        return Redirect('login');
+      }
           $uri=$request->uri;         
     	  \App\cms_comment::create([
           
@@ -54,12 +71,24 @@ class commentController extends Controller
     }
 
   public function publicate($id,$pub){
-    if(Gate::denies('Comentarios.SubmodulodeComentarios'))
-      {Auth::logout();return redirect('/Inicio');
-      }
-    if(Gate::denies('Comentarios.Publicar'))
-    { Auth::logout();return redirect('/Inicio');
+    if(Gate::denies('Publicaciones.ModulodePublicaciones'))
+    {
+      Auth::logout();
+      return Redirect('login');
     }
+
+    if(Gate::denies('Comentarios.SubmodulodeComentarios'))
+    {
+      Auth::logout();
+      return Redirect('login');
+    }
+
+    if(Gate::denies('Comentarios.Publicar'))
+    {
+      Auth::logout();
+      return Redirect('login');
+    }
+
     $flag=1;
     if($pub=='True'){ $pub = 1;}else{ $pub = 0; }
     $Coments = DB::table('cms_comments')->where('active','=', $flag)->where('id', '=',$id)->update(['publish'=>$pub]);             
@@ -69,15 +98,22 @@ class commentController extends Controller
 
   public function delete($id)
       {
+        if(Gate::denies('Publicaciones.ModulodePublicaciones'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
         if(Gate::denies('Comentarios.SubmodulodeComentarios'))
         {
           Auth::logout();
-          return redirect('/Inicio');
+          return Redirect('login');
         }
+
         if(Gate::denies('Comentarios.Eliminar'))
         {
           Auth::logout();
-          return redirect('/Inicio');
+          return Redirect('login');
         }
 
           $Coments = \App\cms_comment::find($id);
@@ -88,6 +124,17 @@ class commentController extends Controller
       }
 
       public function respuesta($id, $uri){
+        if(Gate::denies('Publicaciones.ModulodePublicaciones'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Comentarios.SubmodulodeComentarios'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
         $ids=$id;
         $uris=$uri;
         $band=1;

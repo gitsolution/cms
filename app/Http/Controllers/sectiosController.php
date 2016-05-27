@@ -14,6 +14,7 @@ use Redirect;
 use Auth;
 use Gate;
 use App;
+
 class sectiosController extends Controller
 {
   public function __construct()
@@ -23,13 +24,19 @@ class sectiosController extends Controller
     
   public function index()
    {
-        if(Gate::denies('Secciones.SubmodulodeSecciones'))
-        {   
-           abort(401);
+        if(Gate::denies('Publicaciones.ModulodePublicaciones'))
+        {
+          Auth::logout();
+          return Redirect('login');
         }
 
-        else
+        if(Gate::denies('Secciones.SubmodulodeSecciones'))
         {
+          Auth::logout();
+          return Redirect('login');
+        }
+      
+
           $flag='1';  
        
           $Sections = DB::table('cms_sections')
@@ -38,13 +45,29 @@ class sectiosController extends Controller
                   ->where('cms_sections.active','=', $flag)            
                   ->orderBy('order_by','DESC')->paginate(20);
                   return view('sections/index',compact('Sections'));
-          }
 
    }
 
 
   public function section()
     {
+        if(Gate::denies('Publicaciones.ModulodePublicaciones'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Secciones.SubmodulodeSecciones'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Secciones.Crear'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
         $types = \App\cms_type::All();
         $Sections=null;
         return view('sections.sectionform',['Sections'=>$Sections,'types'=>$types]);
@@ -52,7 +75,25 @@ class sectiosController extends Controller
 
     
   public  function store(Request $request)
-    {   
+  {   
+      if(Gate::denies('Publicaciones.ModulodePublicaciones'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Secciones.SubmodulodeSecciones'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Secciones.Crear'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+      
         $ChekPubli='0';
         if($request ['ChekPublicar']== 'on')
         {
@@ -108,6 +149,18 @@ class sectiosController extends Controller
       }
 
        function validateFriendlyUri($uri, $table){
+        if(Gate::denies('Publicaciones.ModulodePublicaciones'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Secciones.SubmodulodeSecciones'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
        $flag=1;
        $id=0;      
        $id = (DB::table($table)->where('active','=', $flag)->where('uri','=', $uri)->max('id'));   
@@ -132,6 +185,23 @@ class sectiosController extends Controller
 
   public function edit($id)
       {
+        if(Gate::denies('Publicaciones.ModulodePublicaciones'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Secciones.SubmodulodeSecciones'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Secciones.editar'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
           $types = \App\cms_type::All();
           $Section = \App\cms_section::find($id);
           return view('sections.sectionform',['Section'=>$Section, 'types'=>$types]);
@@ -139,7 +209,24 @@ class sectiosController extends Controller
 
 
   public function update($id, Request $request)
-      {
+  {
+        if(Gate::denies('Publicaciones.ModulodePublicaciones'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Secciones.SubmodulodeSecciones'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Secciones.editar'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
         $ChekPubli='0';
         if($request ['ChekPublicar']== 'on')
         {
@@ -192,7 +279,23 @@ class sectiosController extends Controller
 
       public function deletePicture($id)
       {
+        if(Gate::denies('Publicaciones.ModulodePublicaciones'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
 
+        if(Gate::denies('Secciones.SubmodulodeSecciones'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Secciones.eliminar'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
           $types = \App\cms_type::All();
           $Section = \App\cms_section::find($id);
           $Section->main_picture="";
@@ -205,6 +308,23 @@ class sectiosController extends Controller
 
   public function delete($id)
       {
+        if(Gate::denies('Publicaciones.ModulodePublicaciones'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Secciones.SubmodulodeSecciones'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Secciones.eliminar'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
           $Section = \App\cms_section::find($id);
           $Section->active=0;
           $Section->save();
@@ -214,6 +334,23 @@ class sectiosController extends Controller
 
   public function order($id, $orderBy, $no)
       {
+        if(Gate::denies('Publicaciones.ModulodePublicaciones'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Secciones.SubmodulodeSecciones'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Secciones.ordenar'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
           // Actualizamos el registro con id
           $flag=1;
           $this->setOrderItem($flag,$orderBy, $no);
@@ -227,6 +364,25 @@ class sectiosController extends Controller
 
   public function setOrderItem($flag,$orderBy, $no)
   {
+    if(Gate::denies('Publicaciones.ModulodePublicaciones'))
+    {
+        Auth::logout();
+        return Redirect('login');
+    }
+
+    if(Gate::denies('Secciones.SubmodulodeSecciones'))
+    {
+        Auth::logout();
+        return Redirect('login');
+    }
+
+    if(Gate::denies('Secciones.ordenar'))
+    {
+        Auth::logout();
+        return Redirect('login');
+    }
+
+
     $noAux=$no;
     $Section = DB::table('cms_sections')->where('active','=', $flag)->where('order_by', '=',$no)->get();    
     if($orderBy=='Up'){ 
@@ -240,6 +396,23 @@ class sectiosController extends Controller
 
 
   public function privado($id,$priv){
+    if(Gate::denies('Publicaciones.ModulodePublicaciones'))
+    {
+        Auth::logout();
+        return Redirect('login');
+    }
+
+    if(Gate::denies('Secciones.SubmodulodeSecciones'))
+    {
+        Auth::logout();
+        return Redirect('login');
+    }
+
+    if(Gate::denies('Secciones.acceso'))
+    {
+        Auth::logout();
+        return Redirect('login');
+    }
     $flag=1;
     
     if($priv=='True'){ $priv = 1;}else{ $priv = 0; }
@@ -249,6 +422,23 @@ class sectiosController extends Controller
   }
 
   public function publicate($id,$pub){
+    if(Gate::denies('Publicaciones.ModulodePublicaciones'))
+    {
+      Auth::logout();
+      return Redirect('login');
+    }
+
+    if(Gate::denies('Secciones.SubmodulodeSecciones'))
+    {
+        Auth::logout();
+        return Redirect('login');
+    }
+
+    if(Gate::denies('Secciones.publicar'))
+    {
+        Auth::logout();
+        return Redirect('login');
+    }
     $flag=1;
     if($pub=='True'){ $pub = 1;}else{ $pub = 0; }
     $Section = DB::table('cms_sections')->where('active','=', $flag)->where('id', '=',$id)->update(['publish'=>$pub]);             
@@ -258,6 +448,17 @@ class sectiosController extends Controller
 
 
     public function getData($id){
+      if(Gate::denies('Publicaciones.ModulodePublicaciones'))
+      {
+        Auth::logout();
+        return Redirect('login');
+      }
+
+      if(Gate::denies('Secciones.SubmodulodeSecciones'))
+      {
+          Auth::logout();
+          return Redirect('login');
+      }
           $Sections = DB::table('cms_sections')
             ->select('cms_sections.id', 'cms_sections.title as section')
             ->where('cms_sections.active','=', $flag)            

@@ -93,15 +93,15 @@ else{
 </div>
 </div>
 </div>
+ 
 
-<div class="row">
 <div clas="col-md-12">
 <div class="form-group" >
 	 {!!Form::submit('Guardar',['class'=>'btn btn-primary'])!!}
 	 {!! link_to('admin/prices', 'Cancelar',array('class'=>'btn btn-danger')) !!}
 </div>
 </div>
-</div>
+
 {!!Form::close()!!}
 
 </div>

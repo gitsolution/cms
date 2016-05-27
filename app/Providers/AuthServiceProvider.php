@@ -49,32 +49,111 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         /****************Reglas para admin**********************/
-        $gate->define('nuevos-comentarios',function($User)
+        $gate->define('permiso-estatus',function($User)
         {   
-            $b=True;
-            return $b;
-        });
+          $b=False;
+          $permisoC="";
+          $roles=DB::table('usr_login_roles')
+            ->select('id_role')
+            ->whereid_login($User->id)
+            ->whereactive(1)->get();
+            foreach ($roles as $r) {
+                         $join=DB::table('user_module_rol')
+                        ->select('access_granted')
+                        ->whereid_role($r->id_role)
+                        ->whereactive(1)->get();
+                        if($join!=null){
+                            foreach ($join as $j) {
+                                $permisoC .=$j->access_granted;
+                            }
+                        }
+                    }
 
-        $gate->define('nuevos-usuario',function($User)
-        {            
-            /*$permisos='admin.nuevo';
-            $json = DB::table('cms_categories')     
-            ->select('cms_categories.title', 'cms_categories.hits')    
-            ->where('cms_categories.active', '=', 1)->get();*/
-
-            $b=True;
-            return $b;
-        });
-
-        $gate->define('total-albums',function($User)
-        {            
-            $b=True;
+            $permisoEspeciales=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user(3)
+            ->whereactive(1)->get();
+            
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Inicio.Estatus:true';
+            $resultado = strpos($p, $ca);
+           
+            if($resultado==null){$b=False;}
+            else{$b=True;}
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Inicio.Estatus:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}             
+             $permisoC="";
+           /********************************/
+            if($User->email=="admin@admin"){$b=true;} 
             return $b;
         });
 
         $gate->define('graficas',function($User)
         {            
-            $b=True;
+          $b=False;
+          $permisoC="";
+          $roles=DB::table('usr_login_roles')
+            ->select('id_role')
+            ->whereid_login($User->id)
+            ->whereactive(1)->get();
+            foreach ($roles as $r) {
+                         $join=DB::table('user_module_rol')
+                        ->select('access_granted')
+                        ->whereid_role($r->id_role)
+                        ->whereactive(1)->get();
+                        if($join!=null){
+                            foreach ($join as $j) {
+                                $permisoC .=$j->access_granted;
+                            }
+                        }
+                    }
+
+            $permisoEspeciales=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user(3)
+            ->whereactive(1)->get();
+            
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Inicio.Graficas:true';
+            $resultado = strpos($p, $ca);
+           
+            if($resultado==null){$b=False;}
+            else{$b=True;}  
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Inicio.Graficas:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}  
+             $permisoC="";
+           /********************************/           
+            if($User->email=="admin@admin"){$b=true;} 
             return $b;
         });
 
@@ -111,7 +190,25 @@ class AuthServiceProvider extends ServiceProvider
 
             if($resultado==null){$b=False;}
             else{$b=True;}if($User->email=="admin@admin"){$b=true;}            
-            
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Menús.ModulodeMenú:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;} 
+             $permisoC="";
+           /********************************/   
+           if($User->email=="admin@admin"){$b=true;}  
             return $b;
         });
 
@@ -143,11 +240,28 @@ class AuthServiceProvider extends ServiceProvider
             $p=str_replace (' ', "", $p);
             $ca='admin.Menú.Crear:true';
             $resultado = strpos($p, $ca);
-           
-
+          
             if($resultado==null){$b=False;}
             else{$b=True;}if($User->email=="admin@admin"){$b=true;}            
-            
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Menú.Crear:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}   
+             $permisoC="";
+           /********************************/  
+           if($User->email=="admin@admin"){$b=true;}   
             return $b;
         });
 
@@ -183,7 +297,26 @@ class AuthServiceProvider extends ServiceProvider
            
 
             if($resultado==null){$b=False;}
-            else{$b=True;}if($User->email=="admin@admin"){$b=true;}            
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;} 
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Menú.Editar:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;} 
+             $permisoC="";
+           /********************************/ 
+           if($User->email=="admin@admin"){$b=true;}               
             return $b;
         });
 
@@ -220,6 +353,25 @@ class AuthServiceProvider extends ServiceProvider
 
             if($resultado==null){$b=False;}
             else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Menú.Eliminar:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}   
+             $permisoC="";
+           /********************************/ 
+           if($User->email=="admin@admin"){$b=true;}   
             return $b;
         });
 
@@ -255,7 +407,26 @@ class AuthServiceProvider extends ServiceProvider
            
 
             if($resultado==null){$b=False;}
-            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;} 
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Menú.Elementos:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}   
+             $permisoC="";
+           /********************************/ 
+           if($User->email=="admin@admin"){$b=true;}    
             return $b;
         });
 
@@ -291,7 +462,26 @@ class AuthServiceProvider extends ServiceProvider
            
 
             if($resultado==null){$b=False;}
-            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;} 
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Menú.Ordenar:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}   
+             $permisoC="";
+           /********************************/ 
+           if($User->email=="admin@admin"){$b=true;}   
             return $b;
         });
 
@@ -328,7 +518,26 @@ class AuthServiceProvider extends ServiceProvider
            
 
             if($resultado==null){$b=False;}
-            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;}
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Publicaciones.ModulodePublicaciones:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}   
+             $permisoC="";
+           /********************************/  
+           if($User->email=="admin@admin"){$b=true;} 
             return $b;
         });
 
@@ -365,6 +574,25 @@ class AuthServiceProvider extends ServiceProvider
 
             if($resultado==null){$b=False;}
             else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Tipos.Submodulodetipos:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}  
+             $permisoC="";
+           /********************************/ 
+           if($User->email=="admin@admin"){$b=true;} 
             return $b;
         });
 
@@ -400,7 +628,26 @@ class AuthServiceProvider extends ServiceProvider
            
 
             if($resultado==null){$b=False;}
-            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;} 
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Tipos.Crear:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}  
+             $permisoC="";
+           /********************************/  
+           if($User->email=="admin@admin"){$b=true;} 
             return $b;
         });
 
@@ -436,7 +683,26 @@ class AuthServiceProvider extends ServiceProvider
            
 
             if($resultado==null){$b=False;}
-            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;} 
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Tipos.Editar:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;} 
+             $permisoC="";
+           /********************************/  
+           if($User->email=="admin@admin"){$b=true;}  
             return $b;
         });
 
@@ -473,6 +739,25 @@ class AuthServiceProvider extends ServiceProvider
 
             if($resultado==null){$b=False;}
             else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Tipos.Eliminar:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;} 
+             $permisoC="";
+           /********************************/ 
+           if($User->email=="admin@admin"){$b=true;}  
             return $b;
         });
 
@@ -509,6 +794,25 @@ class AuthServiceProvider extends ServiceProvider
 
             if($resultado==null){$b=False;}
             else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Secciones.SubmodulodeSecciones:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;} 
+             $permisoC="";
+           /********************************/  
+           if($User->email=="admin@admin"){$b=true;} 
             return $b;
         });
 
@@ -544,7 +848,26 @@ class AuthServiceProvider extends ServiceProvider
            
 
             if($resultado==null){$b=False;}
-            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;} 
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Secciones.Crear:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}   
+             $permisoC="";
+           /********************************/   
+           if($User->email=="admin@admin"){$b=true;} 
             return $b;
         });
 
@@ -575,12 +898,31 @@ class AuthServiceProvider extends ServiceProvider
             $p=str_replace ('"', " ", $permisoC);
             $p=str_replace (' ', "", $p);
            
-            $ca=',admin.Secciones.Editar:true';
+            $ca='admin.Secciones.Editar:true';
             $resultado = strpos($p, $ca);
            
 
             if($resultado==null){$b=False;}
-            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;}
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Secciones.Editar:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;} 
+             $permisoC="";
+           /********************************/  
+           if($User->email=="admin@admin"){$b=true;}    
             return $b;
         });
 
@@ -617,6 +959,25 @@ class AuthServiceProvider extends ServiceProvider
 
             if($resultado==null){$b=False;}
             else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Secciones.Eliminar:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}   
+             $permisoC="";
+           /********************************/ 
+           if($User->email=="admin@admin"){$b=true;} 
             return $b;
         });
 
@@ -653,6 +1014,25 @@ class AuthServiceProvider extends ServiceProvider
 
             if($resultado==null){$b=False;}
             else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Secciones.ordenar:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}  
+             $permisoC="";
+           /********************************/ 
+           if($User->email=="admin@admin"){$b=true;} 
             return $b;
         });
 
@@ -688,7 +1068,26 @@ class AuthServiceProvider extends ServiceProvider
            
 
             if($resultado==null){$b=False;}
-            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;} 
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Secciones.acceso:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}    
+             $permisoC="";
+           /********************************/  
+           if($User->email=="admin@admin"){$b=true;} 
             return $b;
         });
 
@@ -724,7 +1123,26 @@ class AuthServiceProvider extends ServiceProvider
            
 
             if($resultado==null){$b=False;}
-            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;} 
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Secciones.Publicar:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}  
+             $permisoC="";
+           /********************************/   
+           if($User->email=="admin@admin"){$b=true;} 
             return $b;
         });
 
@@ -761,6 +1179,25 @@ class AuthServiceProvider extends ServiceProvider
 
             if($resultado==null){$b=False;}
             else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Categorias.SubmodulodeCategorias:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}   
+             $permisoC="";
+           /********************************/  
+           if($User->email=="admin@admin"){$b=true;}  
             return $b;
         });
 
@@ -795,7 +1232,26 @@ class AuthServiceProvider extends ServiceProvider
            
 
             if($resultado==null){$b=False;}
-            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;} 
+             /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Categorias.Crear:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}   
+             $permisoC="";
+           /********************************/ 
+           if($User->email=="admin@admin"){$b=true;}    
             return $b;
         });
 
@@ -825,12 +1281,31 @@ class AuthServiceProvider extends ServiceProvider
             
             $p=str_replace ('"', " ", $permisoC);
             $p=str_replace (' ', "", $p);
-            $ca=',admin.Categorias.Editar:true';
+            $ca='admin.Categorias.Editar:true';
             $resultado = strpos($p, $ca);
            
 
             if($resultado==null){$b=False;}
             else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Categorias.Editar:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}   
+             $permisoC="";
+           /********************************/
+           if($User->email=="admin@admin"){$b=true;} 
             return $b;
         });
 
@@ -861,12 +1336,31 @@ class AuthServiceProvider extends ServiceProvider
             $p=str_replace ('"', " ", $permisoC);
             $p=str_replace (' ', "", $p);
 
-            $ca=',admin.Categorias.Eliminar:true';
+            $ca='admin.Categorias.Eliminar:true';
             $resultado = strpos($p, $ca);
            
 
             if($resultado==null){$b=False;}
             else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Categorias.Eliminar:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;} 
+             $permisoC="";
+           /********************************/
+           if($User->email=="admin@admin"){$b=true;} 
             return $b;
         });
 
@@ -902,7 +1396,26 @@ class AuthServiceProvider extends ServiceProvider
            
 
             if($resultado==null){$b=False;}
-            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;} 
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Categorias.ordenar:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;} 
+             $permisoC="";
+           /********************************/ 
+           if($User->email=="admin@admin"){$b=true;} 
             return $b;
         });
 
@@ -938,7 +1451,26 @@ class AuthServiceProvider extends ServiceProvider
            
 
             if($resultado==null){$b=False;}
-            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;} 
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Categorias.acceso:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}   
+             $permisoC="";
+           /********************************/  
+           if($User->email=="admin@admin"){$b=true;} 
             return $b;
         });
 
@@ -975,6 +1507,25 @@ class AuthServiceProvider extends ServiceProvider
 
             if($resultado==null){$b=False;}
             else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Categorias.Publicar:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}   
+             $permisoC="";
+           /********************************/  
+           if($User->email=="admin@admin"){$b=true;} 
             return $b;
         });
 
@@ -1011,6 +1562,25 @@ class AuthServiceProvider extends ServiceProvider
 
             if($resultado==null){$b=False;}
             else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Documentos.SubmodulodeDocumentos:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;} 
+             $permisoC="";
+           /********************************/  
+           if($User->email=="admin@admin"){$b=true;} 
             return $b;
         });
 
@@ -1046,7 +1616,26 @@ class AuthServiceProvider extends ServiceProvider
            
 
             if($resultado==null){$b=False;}
-            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;} 
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Documentos.Crear:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;} 
+             $permisoC="";
+           /********************************/   
+           if($User->email=="admin@admin"){$b=true;} 
             return $b;
         });
 
@@ -1082,7 +1671,26 @@ class AuthServiceProvider extends ServiceProvider
            
 
             if($resultado==null){$b=False;}
-            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;} 
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Documentos.Editar:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}  
+             $permisoC="";
+           /********************************/    
+           if($User->email=="admin@admin"){$b=true;} 
             return $b;
         });
 
@@ -1119,6 +1727,25 @@ class AuthServiceProvider extends ServiceProvider
 
             if($resultado==null){$b=False;}
             else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Documentos.Eliminar:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}   
+             $permisoC="";
+           /********************************/   
+           if($User->email=="admin@admin"){$b=true;} 
             return $b;
         });
 
@@ -1154,7 +1781,26 @@ class AuthServiceProvider extends ServiceProvider
            
 
             if($resultado==null){$b=False;}
-            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;} 
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Documentos.ordenar:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}  
+             $permisoC="";
+           /********************************/    
+           if($User->email=="admin@admin"){$b=true;} 
             return $b;
         });
 
@@ -1190,7 +1836,26 @@ class AuthServiceProvider extends ServiceProvider
            
 
             if($resultado==null){$b=False;}
-            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;} 
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Documentos.acceso:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}    
+             $permisoC="";
+           /********************************/    
+           if($User->email=="admin@admin"){$b=true;} 
             return $b;
         });
 
@@ -1227,6 +1892,25 @@ class AuthServiceProvider extends ServiceProvider
 
             if($resultado==null){$b=False;}
             else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Documentos.Publicar:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;} 
+             $permisoC="";
+           /********************************/  
+           if($User->email=="admin@admin"){$b=true;} 
             return $b;
         });
 
@@ -1260,7 +1944,26 @@ class AuthServiceProvider extends ServiceProvider
             $ca='admin.Comentarios.SubmodulodeComentarios:true';
             $resultado = strpos($p, $ca);
             if($resultado==null){$b=False;}
-            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;}
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Comentarios.SubmodulodeComentarios:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}  
+             $permisoC="";
+           /********************************/ 
+           if($User->email=="admin@admin"){$b=true;}    
             return $b;
         });
 
@@ -1295,6 +1998,25 @@ class AuthServiceProvider extends ServiceProvider
             $resultado = strpos($p, $ca);
             if($resultado==null){$b=False;}
             else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Comentarios.Publicar:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}   
+             $permisoC="";
+           /********************************/ 
+           if($User->email=="admin@admin"){$b=true;}   
             return $b;
         });
 
@@ -1328,7 +2050,26 @@ class AuthServiceProvider extends ServiceProvider
             $ca='admin.Comentarios.Eliminar:true';
             $resultado = strpos($p, $ca);
             if($resultado==null){$b=False;}
-            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;}
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Comentarios.Eliminar:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}  
+             $permisoC="";
+           /********************************/ 
+           if($User->email=="admin@admin"){$b=true;}    
             return $b;
         });
 
@@ -1365,6 +2106,25 @@ class AuthServiceProvider extends ServiceProvider
 
             if($resultado==null){$b=False;}
             else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Archivos.ModulodeArchivos:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}              
+             $permisoC="";
+           /********************************/ 
+           if($User->email=="admin@admin"){$b=true;}    
             return $b;
         });
 
@@ -1399,6 +2159,25 @@ class AuthServiceProvider extends ServiceProvider
             $resultado = strpos($p, $ca);
             if($resultado==null){$b=False;}
             else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Albums.SubmodulodeAlbums:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}  
+             $permisoC="";
+           /********************************/ 
+           if($User->email=="admin@admin"){$b=true;}    
             return $b;
         });
 
@@ -1431,7 +2210,26 @@ class AuthServiceProvider extends ServiceProvider
             $ca='admin.Albums.Creargaleria:true';
             $resultado = strpos($p, $ca);
             if($resultado==null){$b=False;}
-            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;} 
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Albums.Creargaleria:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}   
+             $permisoC="";
+           /********************************/  
+           if($User->email=="admin@admin"){$b=true;}   
             return $b;
         });
 
@@ -1465,6 +2263,25 @@ class AuthServiceProvider extends ServiceProvider
             $resultado = strpos($p, $ca);
             if($resultado==null){$b=False;}
             else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Albums.Subirimagenes:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}   
+             $permisoC="";
+           /********************************/    
+           if($User->email=="admin@admin"){$b=true;} 
             return $b;
         });
 
@@ -1497,7 +2314,26 @@ class AuthServiceProvider extends ServiceProvider
             $ca='admin.Albums.ordenar:true';
             $resultado = strpos($p, $ca);
             if($resultado==null){$b=False;}
-            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;} 
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Albums.ordenar:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}   
+             $permisoC="";
+           /********************************/     
+           if($User->email=="admin@admin"){$b=true;} 
             return $b;
         });
 
@@ -1530,7 +2366,26 @@ class AuthServiceProvider extends ServiceProvider
             $ca='admin.Albums.Publicar:true';
             $resultado = strpos($p, $ca);
             if($resultado==null){$b=False;}
-            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;}
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Albums.Publicar:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}  
+             $permisoC="";
+           /********************************/     
+           if($User->email=="admin@admin"){$b=true;} 
             return $b;
         });
 
@@ -1564,7 +2419,26 @@ class AuthServiceProvider extends ServiceProvider
 
             $resultado = strpos($p, $ca);
             if($resultado==null){$b=False;}
-            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;}
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Albums.Colocaralinicio:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}  
+             $permisoC="";
+           /********************************/       
+           if($User->email=="admin@admin"){$b=true;} 
             return $b;
         });
 
@@ -1598,7 +2472,26 @@ class AuthServiceProvider extends ServiceProvider
 
             $resultado = strpos($p, $ca);
             if($resultado==null){$b=False;}
-            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;} 
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Albums.Editar:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}   
+             $permisoC="";
+           /********************************/        
+           if($User->email=="admin@admin"){$b=true;} 
             return $b;
         });
 
@@ -1633,7 +2526,26 @@ class AuthServiceProvider extends ServiceProvider
 
             $resultado = strpos($p, $ca);
             if($resultado==null){$b=False;}
-            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;}
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Albums.Eliminar:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}   
+             $permisoC="";
+           /********************************/    
+           if($User->email=="admin@admin"){$b=true;} 
             return $b;
         });
 
@@ -1673,11 +2585,82 @@ class AuthServiceProvider extends ServiceProvider
             $ca='admin.Directorio.SubmodulodeDirectorio:true';
             $resultado = strpos($p, $ca);
             if($resultado==null){$b=False;}
-            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;}
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Directorio.SubmodulodeDirectorio:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}  
+             $permisoC="";
+           /********************************/  
+           if($User->email=="admin@admin"){$b=true;} 
             return $b;
         });
 
         $gate->define('directorio.Nuevo',function($User)
+        {           
+          $permisoC="";
+          $roles=DB::table('usr_login_roles')
+            ->select('id_role')
+            ->whereid_login($User->id)
+            ->whereactive(1)->get();
+            foreach ($roles as $r) {
+                         $join=DB::table('user_module_rol')
+                        ->select('access_granted')
+                        ->whereid_role($r->id_role)
+                        ->whereactive(1)->get();
+                        if($join!=null){
+                            foreach ($join as $j) {
+                                $permisoC .=$j->access_granted;
+                            }
+                        }
+                    }
+
+            $permisoEspeciales=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user(3)
+            ->whereactive(1)->get();
+            
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Directorio.Creardirectorio:true';
+            $resultado = strpos($p, $ca);
+            if($resultado==null){$b=False;}
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;} 
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Directorio.Creardirectorio:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}  
+             $permisoC="";
+           /********************************/   
+           if($User->email=="admin@admin"){$b=true;} 
+            return $b;
+        });
+
+        $gate->define('directorio-editar',function($User)
         {            
           $permisoC="";
           $roles=DB::table('usr_login_roles')
@@ -1703,46 +2686,289 @@ class AuthServiceProvider extends ServiceProvider
             
             $p=str_replace ('"', " ", $permisoC);
             $p=str_replace (' ', "", $p);
-            $ca='admin.Albums.Eliminar:true';
-            $resultado = strpos($p, $ca);
+            $ca='admin.Directorio.Editar:true';
+            $resultado = strpos($p, $ca);  
             if($resultado==null){$b=False;}
-            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
-            return $b;
-        });
-
-        $gate->define('directorio-editar',function($User)
-        {            
-            $b=True;
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;} 
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Directorio.Editar:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}  
+             $permisoC="";
+           /********************************/    
+           if($User->email=="admin@admin"){$b=true;} 
             return $b;
         });
 
         $gate->define('directorio-eliminar',function($User)
         {            
-            $b=True;
+          $permisoC="";
+          $roles=DB::table('usr_login_roles')
+            ->select('id_role')
+            ->whereid_login($User->id)
+            ->whereactive(1)->get();
+            foreach ($roles as $r) {
+                         $join=DB::table('user_module_rol')
+                        ->select('access_granted')
+                        ->whereid_role($r->id_role)
+                        ->whereactive(1)->get();
+                        if($join!=null){
+                            foreach ($join as $j) {
+                                $permisoC .=$j->access_granted;
+                            }
+                        }
+                    }
+
+            $permisoEspeciales=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user(3)
+            ->whereactive(1)->get();
+            
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Directorio.Eliminar:true';
+            $resultado = strpos($p, $ca); 
+            if($resultado==null){$b=False;}
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;} 
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Directorio.Eliminar:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;} 
+             $permisoC="";
+           /********************************/    
+           if($User->email=="admin@admin"){$b=true;} 
             return $b;
         });
 
         $gate->define('directorio-inicio',function($User)
         {            
-            $b=True;
+          $permisoC="";
+          $roles=DB::table('usr_login_roles')
+            ->select('id_role')
+            ->whereid_login($User->id)
+            ->whereactive(1)->get();
+            foreach ($roles as $r) {
+                         $join=DB::table('user_module_rol')
+                        ->select('access_granted')
+                        ->whereid_role($r->id_role)
+                        ->whereactive(1)->get();
+                        if($join!=null){
+                            foreach ($join as $j) {
+                                $permisoC .=$j->access_granted;
+                            }
+                        }
+                    }
+
+            $permisoEspeciales=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user(3)
+            ->whereactive(1)->get();
+            
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Directorio.Colocaralinicio:true';
+            $resultado = strpos($p, $ca);
+            if($resultado==null){$b=False;}
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Directorio.Colocaralinicio:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}  
+             $permisoC="";
+           /********************************/  
+           if($User->email=="admin@admin"){$b=true;} 
             return $b;
         });
 
         $gate->define('directorio-publicado',function($User)
         {            
-            $b=True;
+          $permisoC="";
+          $roles=DB::table('usr_login_roles')
+            ->select('id_role')
+            ->whereid_login($User->id)
+            ->whereactive(1)->get();
+            foreach ($roles as $r) {
+                         $join=DB::table('user_module_rol')
+                        ->select('access_granted')
+                        ->whereid_role($r->id_role)
+                        ->whereactive(1)->get();
+                        if($join!=null){
+                            foreach ($join as $j) {
+                                $permisoC .=$j->access_granted;
+                            }
+                        }
+                    }
+
+            $permisoEspeciales=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user(3)
+            ->whereactive(1)->get();
+            
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Directorio.Publicar:true';
+            $resultado = strpos($p, $ca);
+            if($resultado==null){$b=False;}
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Directorio.Publicar:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}   
+             $permisoC="";
+           /********************************/  
+           if($User->email=="admin@admin"){$b=true;} 
             return $b;
         });
 
         $gate->define('directorio-orden',function($User)
         {            
-            $b=True;
+          $permisoC="";
+          $roles=DB::table('usr_login_roles')
+            ->select('id_role')
+            ->whereid_login($User->id)
+            ->whereactive(1)->get();
+            foreach ($roles as $r) {
+                         $join=DB::table('user_module_rol')
+                        ->select('access_granted')
+                        ->whereid_role($r->id_role)
+                        ->whereactive(1)->get();
+                        if($join!=null){
+                            foreach ($join as $j) {
+                                $permisoC .=$j->access_granted;
+                            }
+                        }
+                    }
+
+            $permisoEspeciales=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user(3)
+            ->whereactive(1)->get();
+            
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Directorio.Ordenar:true';
+            $resultado = strpos($p, $ca);
+            if($resultado==null){$b=False;}
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;} 
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Directorio.Ordenar:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;} 
+             $permisoC="";
+           /********************************/   
+           if($User->email=="admin@admin"){$b=true;} 
             return $b;
         });
 
         $gate->define('directorio-archivo',function($User)
         {            
-            $b=True;
+          $permisoC="";
+          $roles=DB::table('usr_login_roles')
+            ->select('id_role')
+            ->whereid_login($User->id)
+            ->whereactive(1)->get();
+            foreach ($roles as $r) {
+                         $join=DB::table('user_module_rol')
+                        ->select('access_granted')
+                        ->whereid_role($r->id_role)
+                        ->whereactive(1)->get();
+                        if($join!=null){
+                            foreach ($join as $j) {
+                                $permisoC .=$j->access_granted;
+                            }
+                        }
+                    }
+
+            $permisoEspeciales=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user(3)
+            ->whereactive(1)->get();
+            
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Directorio.Subirarchivos:true';
+            $resultado = strpos($p, $ca);
+            if($resultado==null){$b=False;}
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Directorio.Subirarchivos:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}  
+             $permisoC="";
+           /********************************/   
+           if($User->email=="admin@admin"){$b=true;} 
             return $b;
         });
 
@@ -1778,7 +3004,26 @@ class AuthServiceProvider extends ServiceProvider
            
 
             if($resultado==null){$b=False;}
-            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;} 
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Usuarios.ModulodeUsuarios:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;} 
+             $permisoC="";
+           /********************************/    
+           if($User->email=="admin@admin"){$b=true;} 
             return $b;
         });
 
@@ -1811,7 +3056,26 @@ class AuthServiceProvider extends ServiceProvider
             $ca='admin.Usuarios.SubmodulodeUsuarios:true';
             $resultado = strpos($p, $ca);
             if($resultado==null){$b=False;}
-            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;} 
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Usuarios.SubmodulodeUsuarios:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}  
+             $permisoC="";
+           /********************************/     
+           if($User->email=="admin@admin"){$b=true;} 
             return $b;
         });
 
@@ -1844,7 +3108,26 @@ class AuthServiceProvider extends ServiceProvider
             $ca='admin.Usuarios.Crear:true';
             $resultado = strpos($p, $ca);
             if($resultado==null){$b=False;}
-            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;}
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Usuarios.Crear:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;} 
+             $permisoC="";
+           /********************************/    
+           if($User->email=="admin@admin"){$b=true;}  
             return $b;
         });
 
@@ -1878,6 +3161,25 @@ class AuthServiceProvider extends ServiceProvider
             $resultado = strpos($p, $ca);
             if($resultado==null){$b=False;}
             else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Usuarios.Editar:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}  
+             $permisoC="";
+           /********************************/    
+           if($User->email=="admin@admin"){$b=true;}  
             return $b;
         });
 
@@ -1911,6 +3213,25 @@ class AuthServiceProvider extends ServiceProvider
             $resultado = strpos($p, $ca);
             if($resultado==null){$b=False;}
             else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Usuarios.Asignarroles:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;} 
+             $permisoC="";
+           /********************************/    
+           if($User->email=="admin@admin"){$b=true;}  
             return $b;
         });
 
@@ -1944,6 +3265,25 @@ class AuthServiceProvider extends ServiceProvider
             $resultado = strpos($p, $ca);
             if($resultado==null){$b=False;}
             else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Usuarios.Asignarpermisosespeciales:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}   
+             $permisoC="";
+           /********************************/    
+           if($User->email=="admin@admin"){$b=true;}  
             return $b;
         });
 
@@ -1977,7 +3317,26 @@ class AuthServiceProvider extends ServiceProvider
             $ca='admin.Roles.SubmodulodeRoles:true';
             $resultado = strpos($p, $ca);
             if($resultado==null){$b=False;}
-            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;} 
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Roles.SubmodulodeRoles:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}  
+             $permisoC="";
+           /********************************/  
+           if($User->email=="admin@admin"){$b=true;} 
             return $b;
         });
 
@@ -2010,7 +3369,26 @@ class AuthServiceProvider extends ServiceProvider
             $ca='admin.Roles.Crear:true';
             $resultado = strpos($p, $ca);
             if($resultado==null){$b=False;}
-            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;}
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Roles.Crear:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;} 
+             $permisoC="";
+           /********************************/    
+           if($User->email=="admin@admin"){$b=true;} 
             return $b;
         });
 
@@ -2045,6 +3423,25 @@ class AuthServiceProvider extends ServiceProvider
             $resultado = strpos($p, $ca);
             if($resultado==null){$b=False;}
             else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Roles.Editar:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;} 
+             $permisoC="";
+           /********************************/  
+           if($User->email=="admin@admin"){$b=true;} 
             return $b;
         });
 
@@ -2077,13 +3474,78 @@ class AuthServiceProvider extends ServiceProvider
             $ca='admin.Roles.Eliminar:true';
             $resultado = strpos($p, $ca);
             if($resultado==null){$b=False;}
-            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;} 
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Roles.Eliminar:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;} 
+             $permisoC="";
+           /********************************/  
+           if($User->email=="admin@admin"){$b=true;} 
             return $b;
         });
 
-        $gate->define('roles-activo',function($User)
+        $gate->define('Roles.Activar',function($User)
         {            
-            $b=True;
+          $permisoC="";
+          $roles=DB::table('usr_login_roles')
+            ->select('id_role')
+            ->whereid_login($User->id)
+            ->whereactive(1)->get();
+            foreach ($roles as $r) {
+                         $join=DB::table('user_module_rol')
+                        ->select('access_granted')
+                        ->whereid_role($r->id_role)
+                        ->whereactive(1)->get();
+                        if($join!=null){
+                            foreach ($join as $j) {
+                                $permisoC .=$j->access_granted;
+                            }
+                        }
+                    }
+
+            $permisoEspeciales=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user(3)
+            ->whereactive(1)->get();
+            
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Roles.Activar:true';
+            $resultado = strpos($p, $ca);
+            if($resultado==null){$b=False;}
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;} 
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Roles.Activar:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}  
+             $permisoC="";
+           /********************************/  
+           if($User->email=="admin@admin"){$b=true;} 
             return $b;
         });
 
@@ -2111,13 +3573,32 @@ class AuthServiceProvider extends ServiceProvider
             ->select('access')
             ->whereid_user(3)
             ->whereactive(1)->get();
-            
+          
             $p=str_replace ('"', " ", $permisoC);
             $p=str_replace (' ', "", $p);
-            $ca='admin.Módulos.Asignarpermisos:true';
-            $resultado = strpos($p, $ca);
+            $ca='admin.Módulos.Verpermisos:true';
+            $resultado = strpos($p, $ca); 
             if($resultado==null){$b=False;}
-            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;} 
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Módulos.Verpermisos:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}   
+             $permisoC="";
+           /********************************/   
+           if($User->email=="admin@admin"){$b=true;} 
             return $b;
         });
 
@@ -2182,6 +3663,25 @@ class AuthServiceProvider extends ServiceProvider
             $resultado = strpos($p, $ca);
             if($resultado==null){$b=False;}
             else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Configuración.Asignarpermisosamodulos:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}   
+             $permisoC="";
+           /********************************/   
+           if($User->email=="admin@admin"){$b=true;} 
             return $b;
         });
         
@@ -2217,7 +3717,26 @@ class AuthServiceProvider extends ServiceProvider
            
 
             if($resultado==null){$b=False;}
-            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;} 
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Configuraciónes.Modulodeconfiguraciondemetas:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;} 
+             $permisoC="";
+           /********************************/    
+           if($User->email=="admin@admin"){$b=true;} 
             return $b;
         });
 
@@ -2251,9 +3770,943 @@ class AuthServiceProvider extends ServiceProvider
             $resultado = strpos($p, $ca);
             if($resultado==null){$b=False;}
             else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Configuraciónes.Crearmetas:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;} 
+             $permisoC="";
+           /********************************/    
+           if($User->email=="admin@admin"){$b=true;} 
             return $b;    
         });
 
+        $gate->define('Configuraciónes.Editar',function($User)
+        {            
+          $permisoC="";
+          $roles=DB::table('usr_login_roles')
+            ->select('id_role')
+            ->whereid_login($User->id)
+            ->whereactive(1)->get();
+            foreach ($roles as $r) {
+                         $join=DB::table('user_module_rol')
+                        ->select('access_granted')
+                        ->whereid_role($r->id_role)
+                        ->whereactive(1)->get();
+                        if($join!=null){
+                            foreach ($join as $j) {
+                                $permisoC .=$j->access_granted;
+                            }
+                        }
+                    }
+
+            $permisoEspeciales=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user(3)
+            ->whereactive(1)->get();
+            
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Configuraciónes.Editar:true';
+            $resultado = strpos($p, $ca);
+            if($resultado==null){$b=False;}
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;}
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Configuraciónes.Editar:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;} 
+             $permisoC="";
+           /********************************/      
+           if($User->email=="admin@admin"){$b=true;} 
+            return $b;    
+        });
+
+        $gate->define('Configuraciónes.Eliminar',function($User)
+        {            
+            $permisoC="";
+          $roles=DB::table('usr_login_roles')
+            ->select('id_role')
+            ->whereid_login($User->id)
+            ->whereactive(1)->get();
+            foreach ($roles as $r) {
+                         $join=DB::table('user_module_rol')
+                        ->select('access_granted')
+                        ->whereid_role($r->id_role)
+                        ->whereactive(1)->get();
+                        if($join!=null){
+                            foreach ($join as $j) {
+                                $permisoC .=$j->access_granted;
+                            }
+                        }
+                    }
+
+            $permisoEspeciales=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user(3)
+            ->whereactive(1)->get();
+            
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Configuraciónes.Eliminar:true';
+            $resultado = strpos($p, $ca);
+            if($resultado==null){$b=False;}
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;}
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Configuraciónes.Eliminar:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;} 
+             $permisoC="";
+           /********************************/       
+           if($User->email=="admin@admin"){$b=true;} 
+            return $b;    
+        });
+
+        /****************Reglas para lenguajes**********************/
+        $gate->define('Lenguajes.Modulodelenguaje',function($User)
+        {            
+          $permisoC="";
+          $roles=DB::table('usr_login_roles')
+            ->select('id_role')
+            ->whereid_login($User->id)
+            ->whereactive(1)->get();
+            foreach ($roles as $r) {
+                         $join=DB::table('user_module_rol')
+                        ->select('access_granted')
+                        ->whereid_role($r->id_role)
+                        ->whereactive(1)->get();
+                        if($join!=null){
+                            foreach ($join as $j) {
+                                $permisoC .=$j->access_granted;
+                            }
+                        }
+                    }
+                   
+            $permisoEspeciales=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user(3)
+            ->whereactive(1)->get();
+            
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p); 
+            $ca='admin.Lenguajes.Modulodelenguajes:true';
+            $resultado = strpos($p, $ca); 
+            
+            if($resultado==null){$b=False;}
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Lenguajes.Modulodelenguajes:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}   
+             $permisoC="";
+           /********************************/  
+           if($User->email=="admin@admin"){$b=true;} 
+            
+            return $b;
+        });
+        
+        $gate->define('Lenguajes.Crearlenguaje',function($User)
+        {            
+             $permisoC="";
+          $roles=DB::table('usr_login_roles')
+            ->select('id_role')
+            ->whereid_login($User->id)
+            ->whereactive(1)->get();
+            foreach ($roles as $r) {
+                         $join=DB::table('user_module_rol')
+                        ->select('access_granted')
+                        ->whereid_role($r->id_role)
+                        ->whereactive(1)->get();
+                        if($join!=null){
+                            foreach ($join as $j) {
+                                $permisoC .=$j->access_granted;
+                            }
+                        }
+                    }
+
+            $permisoEspeciales=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user(3)
+            ->whereactive(1)->get();
+            
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Lenguaje.Crear:true';
+            $resultado = strpos($p, $ca); 
+            if($resultado==null){$b=False;}
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Lenguaje.Crear:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}   
+             $permisoC="";
+           /********************************/  
+           if($User->email=="admin@admin"){$b=true;} 
+            return $b;    
+        });
+
+        $gate->define('Lenguajes.Editarlenguaje',function($User)
+        {            
+             $permisoC="";
+          $roles=DB::table('usr_login_roles')
+            ->select('id_role')
+            ->whereid_login($User->id)
+            ->whereactive(1)->get();
+            foreach ($roles as $r) {
+                         $join=DB::table('user_module_rol')
+                        ->select('access_granted')
+                        ->whereid_role($r->id_role)
+                        ->whereactive(1)->get();
+                        if($join!=null){
+                            foreach ($join as $j) {
+                                $permisoC .=$j->access_granted;
+                            }
+                        }
+                    }
+
+            $permisoEspeciales=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user(3)
+            ->whereactive(1)->get();
+            
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Lenguaje.Editar:true';
+            $resultado = strpos($p, $ca); 
+            if($resultado==null){$b=False;}
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;} 
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Lenguaje.Editar:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}  
+             $permisoC="";
+           /********************************/   
+           if($User->email=="admin@admin"){$b=true;} 
+            return $b;    
+        });
+
+        $gate->define('Lenguajes.Eliminarlenguaje',function($User)
+        {            
+             $permisoC="";
+          $roles=DB::table('usr_login_roles')
+            ->select('id_role')
+            ->whereid_login($User->id)
+            ->whereactive(1)->get();
+            foreach ($roles as $r) {
+                         $join=DB::table('user_module_rol')
+                        ->select('access_granted')
+                        ->whereid_role($r->id_role)
+                        ->whereactive(1)->get();
+                        if($join!=null){
+                            foreach ($join as $j) {
+                                $permisoC .=$j->access_granted;
+                            }
+                        }
+                    }
+
+            $permisoEspeciales=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user(3)
+            ->whereactive(1)->get();
+            
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Lenguaje.Eliminar:true';
+            $resultado = strpos($p, $ca); 
+            if($resultado==null){$b=False;}
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Lenguaje.Eliminar:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}  
+             $permisoC="";
+           /********************************/   
+           if($User->email=="admin@admin"){$b=true;} 
+            return $b;    
+        });
+
+        /****************Reglas para reservaciones**********************/
+        $gate->define('Reservaciones.ModulodeReservaciones',function($User)
+        {            
+          $permisoC="";
+          $roles=DB::table('usr_login_roles')
+            ->select('id_role')
+            ->whereid_login($User->id)
+            ->whereactive(1)->get();
+            foreach ($roles as $r) {
+                         $join=DB::table('user_module_rol')
+                        ->select('access_granted')
+                        ->whereid_role($r->id_role)
+                        ->whereactive(1)->get();
+                        if($join!=null){
+                            foreach ($join as $j) {
+                                $permisoC .=$j->access_granted;
+                            }
+                        }
+                    }
+                   
+            $permisoEspeciales=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user(3)
+            ->whereactive(1)->get();
+            
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p); 
+            $ca='admin.Reservaciones.Modulodereservaciones:true';
+            $resultado = strpos($p, $ca);
+            //echo  $p;
+            if($resultado==null){$b=False;}
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Reservaciones.Modulodereservaciones:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}  
+             $permisoC="";
+           /********************************/ 
+           if($User->email=="admin@admin"){$b=true;} 
+            
+            return $b;
+        });
+        
+        /********************** precios *************************************/
+        $gate->define('Reservaciones.modulodePrecios',function($User)
+        {            
+             $permisoC="";
+          $roles=DB::table('usr_login_roles')
+            ->select('id_role')
+            ->whereid_login($User->id)
+            ->whereactive(1)->get();
+            foreach ($roles as $r) {
+                         $join=DB::table('user_module_rol')
+                        ->select('access_granted')
+                        ->whereid_role($r->id_role)
+                        ->whereactive(1)->get();
+                        if($join!=null){
+                            foreach ($join as $j) {
+                                $permisoC .=$j->access_granted;
+                            }
+                        }
+                    }
+
+            $permisoEspeciales=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user(3)
+            ->whereactive(1)->get();
+            
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Precios.Submodulodeprecios:true';
+            $resultado = strpos($p, $ca); 
+            if($resultado==null){$b=False;}
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;} 
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Precios.Submodulodeprecios:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}   
+             $permisoC="";
+           /********************************/  
+           if($User->email=="admin@admin"){$b=true;} 
+            return $b;    
+        });
+
+        $gate->define('Reservaciones.PreciosCrear',function($User)
+        {            
+             $permisoC="";
+          $roles=DB::table('usr_login_roles')
+            ->select('id_role')
+            ->whereid_login($User->id)
+            ->whereactive(1)->get();
+            foreach ($roles as $r) {
+                         $join=DB::table('user_module_rol')
+                        ->select('access_granted')
+                        ->whereid_role($r->id_role)
+                        ->whereactive(1)->get();
+                        if($join!=null){
+                            foreach ($join as $j) {
+                                $permisoC .=$j->access_granted;
+                            }
+                        }
+                    }
+
+            $permisoEspeciales=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user(3)
+            ->whereactive(1)->get();
+            
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Precios.Crear:true';
+            $resultado = strpos($p, $ca); 
+            if($resultado==null){$b=False;}
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Precios.Crear:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}  
+             $permisoC="";
+           /********************************/  
+           if($User->email=="admin@admin"){$b=true;} 
+            return $b;    
+        });
+
+        $gate->define('Reservaciones.PreciosEliminar',function($User)
+        {            
+          $permisoC="";
+          $roles=DB::table('usr_login_roles')
+            ->select('id_role')
+            ->whereid_login($User->id)
+            ->whereactive(1)->get();
+            foreach ($roles as $r) {
+                         $join=DB::table('user_module_rol')
+                        ->select('access_granted')
+                        ->whereid_role($r->id_role)
+                        ->whereactive(1)->get();
+                        if($join!=null){
+                            foreach ($join as $j) {
+                                $permisoC .=$j->access_granted;
+                            }
+                        }
+                    }
+
+            $permisoEspeciales=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user(3)
+            ->whereactive(1)->get();
+            
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Precios.Eliminar:true';
+            $resultado = strpos($p, $ca); 
+            if($resultado==null){$b=False;}
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Precios.Eliminar:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}   
+             $permisoC="";
+           /********************************/  
+           if($User->email=="admin@admin"){$b=true;} 
+            return $b;    
+        });
+
+        $gate->define('Reservaciones.PreciosActivar',function($User)
+        {            
+          $permisoC="";
+          $roles=DB::table('usr_login_roles')
+            ->select('id_role')
+            ->whereid_login($User->id)
+            ->whereactive(1)->get();
+            foreach ($roles as $r) {
+                         $join=DB::table('user_module_rol')
+                        ->select('access_granted')
+                        ->whereid_role($r->id_role)
+                        ->whereactive(1)->get();
+                        if($join!=null){
+                            foreach ($join as $j) {
+                                $permisoC .=$j->access_granted;
+                            }
+                        }
+                    }
+
+            $permisoEspeciales=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user(3)
+            ->whereactive(1)->get();
+            
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Precios.Activar:true';
+            $resultado = strpos($p, $ca); 
+            if($resultado==null){$b=False;}
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;} 
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Precios.Activar:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}   
+             $permisoC="";
+           /********************************/   
+           if($User->email=="admin@admin"){$b=true;} 
+            return $b;    
+        });
+
+        /****************Reglas para reservaciones pagadas**********************/
+        $gate->define('Reservaciones.ReservacionesPagadas',function($User)
+        {            
+          $permisoC="";
+          $roles=DB::table('usr_login_roles')
+            ->select('id_role')
+            ->whereid_login($User->id)
+            ->whereactive(1)->get();
+            foreach ($roles as $r) {
+                         $join=DB::table('user_module_rol')
+                        ->select('access_granted')
+                        ->whereid_role($r->id_role)
+                        ->whereactive(1)->get();
+                        if($join!=null){
+                            foreach ($join as $j) {
+                                $permisoC .=$j->access_granted;
+                            }
+                        }
+                    }
+                   
+            $permisoEspeciales=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user(3)
+            ->whereactive(1)->get();
+            
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Reservaciones-pagadas.Submodulodereservaciones:true';
+            $resultado = strpos($p, $ca); 
+           
+            if($resultado==null){$b=False;}
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;} 
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Reservaciones-pagadas.Submodulodereservaciones:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}   
+             $permisoC="";
+           /********************************/    
+           if($User->email=="admin@admin"){$b=true;} 
+            
+            return $b;
+        });
+
+        $gate->define('Reservaciones.Reservacionesverdetalles',function($User)
+        {            
+          $permisoC="";
+          $roles=DB::table('usr_login_roles')
+            ->select('id_role')
+            ->whereid_login($User->id)
+            ->whereactive(1)->get();
+            foreach ($roles as $r) {
+                         $join=DB::table('user_module_rol')
+                        ->select('access_granted')
+                        ->whereid_role($r->id_role)
+                        ->whereactive(1)->get();
+                        if($join!=null){
+                            foreach ($join as $j) {
+                                $permisoC .=$j->access_granted;
+                            }
+                        }
+                    }
+                   
+            $permisoEspeciales=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user(3)
+            ->whereactive(1)->get();
+            
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Reservaciones-pagadas.Verdetalles:true';
+            $resultado = strpos($p, $ca); 
+            
+            if($resultado==null){$b=False;}
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;} 
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Reservaciones-pagadas.Verdetalles:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}   
+             $permisoC="";
+           /********************************/    
+           if($User->email=="admin@admin"){$b=true;} 
+            
+            return $b;
+        });
+
+        /****************Reglas para suscripciones**********************/
+        $gate->define('Suscripciones.ModulodeSuscripciones',function($User)
+        {            
+          $permisoC="";
+          $roles=DB::table('usr_login_roles')
+            ->select('id_role')
+            ->whereid_login($User->id)
+            ->whereactive(1)->get();
+            foreach ($roles as $r) {
+                         $join=DB::table('user_module_rol')
+                        ->select('access_granted')
+                        ->whereid_role($r->id_role)
+                        ->whereactive(1)->get();
+                        if($join!=null){
+                            foreach ($join as $j) {
+                                $permisoC .=$j->access_granted;
+                            }
+                        }
+                    }
+                   
+            $permisoEspeciales=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user(3)
+            ->whereactive(1)->get();
+            
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Suscripciones.Modulodesuscripciones:true';
+            $resultado = strpos($p, $ca); 
+           
+            if($resultado==null){$b=False;}
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;} 
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Suscripciones.Modulodesuscripciones:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}   
+             $permisoC="";
+           /********************************/     
+           if($User->email=="admin@admin"){$b=true;} 
+            
+            return $b;
+        });
+
+        $gate->define('Suscripciones.SuscriptoresEditar',function($User)
+        {            
+          $permisoC="";
+          $roles=DB::table('usr_login_roles')
+            ->select('id_role')
+            ->whereid_login($User->id)
+            ->whereactive(1)->get();
+            foreach ($roles as $r) {
+                         $join=DB::table('user_module_rol')
+                        ->select('access_granted')
+                        ->whereid_role($r->id_role)
+                        ->whereactive(1)->get();
+                        if($join!=null){
+                            foreach ($join as $j) {
+                                $permisoC .=$j->access_granted;
+                            }
+                        }
+                    }
+                   
+            $permisoEspeciales=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user(3)
+            ->whereactive(1)->get();
+            
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Suscriptores.Editar:true';
+            $resultado = strpos($p, $ca); 
+           
+            if($resultado==null){$b=False;}
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Suscriptores.Editar:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;}  
+             $permisoC="";
+           /********************************/     
+            if($User->email=="admin@admin"){$b=true;} 
+            return $b;
+        });
+
+        $gate->define('Suscripciones.SuscriptoresEliminar',function($User)
+        {            
+          $permisoC="";
+          $roles=DB::table('usr_login_roles')
+            ->select('id_role')
+            ->whereid_login($User->id)
+            ->whereactive(1)->get();
+            foreach ($roles as $r) {
+                         $join=DB::table('user_module_rol')
+                        ->select('access_granted')
+                        ->whereid_role($r->id_role)
+                        ->whereactive(1)->get();
+                        if($join!=null){
+                            foreach ($join as $j) {
+                                $permisoC .=$j->access_granted;
+                            }
+                        }
+                    }
+                   
+            $permisoEspeciales=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user(3)
+            ->whereactive(1)->get();
+            
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Suscriptores.Eliminar:true';
+            $resultado = strpos($p, $ca); 
+           
+            if($resultado==null){$b=False;}
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            /****** permisos especiales *********/
+            $permisoC="";
+            $special=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user($User->id)
+            ->whereactive(1)->get();
+            foreach ($special as $r) {
+                        if($r->access!=null){                            
+                                $permisoC .=$r->access;
+                        }
+                    }     
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Suscriptores.Eliminar:true';
+            $resultado = strpos($p, $ca);
+             if($resultado==True){$b=True;} 
+             $permisoC="";
+           /********************************/    
+           if($User->email=="admin@admin"){$b=true;} 
+            return $b;
+        });
+        /*
+        $gate->define('Lenguajes.Editarlenguaje',function($User)
+        {            
+             $permisoC="";
+          $roles=DB::table('usr_login_roles')
+            ->select('id_role')
+            ->whereid_login($User->id)
+            ->whereactive(1)->get();
+            foreach ($roles as $r) {
+                         $join=DB::table('user_module_rol')
+                        ->select('access_granted')
+                        ->whereid_role($r->id_role)
+                        ->whereactive(1)->get();
+                        if($join!=null){
+                            foreach ($join as $j) {
+                                $permisoC .=$j->access_granted;
+                            }
+                        }
+                    }
+
+            $permisoEspeciales=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user(3)
+            ->whereactive(1)->get();
+            
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Lenguaje.Editar:true';
+            $resultado = strpos($p, $ca); 
+            if($resultado==null){$b=False;}
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            return $b;    
+        });
+
+        $gate->define('Lenguajes.Eliminarlenguaje',function($User)
+        {            
+             $permisoC="";
+          $roles=DB::table('usr_login_roles')
+            ->select('id_role')
+            ->whereid_login($User->id)
+            ->whereactive(1)->get();
+            foreach ($roles as $r) {
+                         $join=DB::table('user_module_rol')
+                        ->select('access_granted')
+                        ->whereid_role($r->id_role)
+                        ->whereactive(1)->get();
+                        if($join!=null){
+                            foreach ($join as $j) {
+                                $permisoC .=$j->access_granted;
+                            }
+                        }
+                    }
+
+            $permisoEspeciales=DB::table('special_permissions')
+            ->select('access')
+            ->whereid_user(3)
+            ->whereactive(1)->get();
+            
+            $p=str_replace ('"', " ", $permisoC);
+            $p=str_replace (' ', "", $p);
+            $ca='admin.Lenguaje.Eliminar:true';
+            $resultado = strpos($p, $ca); 
+            if($resultado==null){$b=False;}
+            else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
+            return $b;    
+        });
+        /*
         $gate->define('Configuraciónes.Editar',function($User)
         {            
           $permisoC="";
@@ -2318,6 +4771,6 @@ class AuthServiceProvider extends ServiceProvider
             if($resultado==null){$b=False;}
             else{$b=True;}if($User->email=="admin@admin"){$b=true;}  
             return $b;    
-        });
+        });*/
     }
 }

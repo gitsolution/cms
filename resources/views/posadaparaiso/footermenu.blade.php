@@ -47,7 +47,7 @@ foreach ($itemsFooter as $key => $menF) {
         
          <div class="row "><br>
                     <div class="col-md-8">
-                     <b> SAN CRISTOBAL DE LAS CASAS</b>
+                     <b> SAN CRISTOBAL CHIAPAS</b>
                      
                    </div>
           </div>

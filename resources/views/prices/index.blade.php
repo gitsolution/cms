@@ -19,9 +19,11 @@
  	  <!-- {!! link_to('admin/menus', 'Menús',array('class'=>'btn btn-info')) !!}-->
 	</div>
 	<div class="col-md-2">
+    @can('Reservaciones.PreciosCrear')
  	{!!Form::open()!!}
        {!! link_to('admin/prices/create', 'Registrar precio',array('class'=>'btn btn-success')) !!}
     {!!Form::close()!!}
+	@endcan
 	</div>
 </div>
 <div class="row text-center">
@@ -37,9 +39,12 @@
 			<th class="ColumColor">IVA</th>
 			<th class="ColumColor">Fecha de inicio</th>
 			<th class="ColumColor">Fecha de finalización</th>
-			<th class="ColumColor">Activo</th>
-			<!--<th class="ColumColor">Status</th>-->
-			<th class="ColumColor">Acciones</th>
+			@can('Reservaciones.PreciosActivar')
+			  <th class="ColumColor">Activo</th>
+			@endcan
+			@can('Reservaciones.PreciosEliminar')
+			  <th class="ColumColor">Acciones</th>
+			@endcan
 		  </thead>
 		  @if($prices==null)
 		      <span style="color:red">No hay precios activos para las reservaciones </span>
@@ -56,6 +61,7 @@
 				</td>											
 			    <td> {{$price->date_start}}</td>
 			    <td> {{$price->date_end}}</td>
+			    @can('Reservaciones.PreciosActivar')
 			    <td>
                     @if($price->active_price==1)
                         @if($price->date_start <= $fechaActaul && $price->date_end >= $fechaActaul)<!--Si cumple con las fechas para que el sistema lo tome en cuenta llegando esas fechas-->
@@ -74,10 +80,12 @@
                     @endif
 
  			    </td>
-			    
+ 			    @endcan
+			    @can('Reservaciones.PreciosEliminar')
 			    <td>
 					{!! link_to('admin/prices/'.$price->id.'/destroy', '',array('class'=>'img-responsive btn btn-danger glyphicon glyphicon-trash')) !!}
-				</td> 
+				</td>
+				@endcan 
 			</tr>
 		  @endforeach
 		</table>

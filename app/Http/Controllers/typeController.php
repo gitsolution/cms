@@ -8,6 +8,8 @@ use DB;
 use Session; 
 use User;
 use Auth;
+use Redirect;
+use Gate;
 
 class typeController extends Controller
 {
@@ -18,6 +20,17 @@ class typeController extends Controller
     
   public function index()
    {
+      if(Gate::denies('Publicaciones.ModulodePublicaciones'))
+      {
+        Auth::logout();
+        return Redirect('login');
+      }
+
+      if(Gate::denies('Tipos.Submodulodetipos'))
+      {
+        Auth::logout();
+        return Redirect('login');
+      }
       
     $flag='1';  
     $Types =  DB::table('cms_types')->where('active','=', $flag)->paginate(20);
@@ -29,16 +42,62 @@ class typeController extends Controller
 
    public function type()
     {
+       if(Gate::denies('Publicaciones.ModulodePublicaciones'))
+      {
+        Auth::logout();
+        return Redirect('login');
+      }
+
+      if(Gate::denies('Tipos.Submodulodetipos'))
+      {
+        Auth::logout();
+        return Redirect('login');
+      }
           $Types=null;
         return view('types.typeform','Types');
     }
 public function typenew(){
+   if(Gate::denies('Publicaciones.ModulodePublicaciones'))
+      {
+        Auth::logout();
+        return Redirect('login');
+      }
+
+      if(Gate::denies('Tipos.Submodulodetipos'))
+      {
+        Auth::logout();
+        return Redirect('login');
+      }
+
+      if(Gate::denies('admin.Tipos.Crear'))
+      {
+        Auth::logout();
+        return Redirect('login');
+      }
     return view('types/typeform');
   }
 
 
-      public function store(Request $request)
+    public function store(Request $request)
     {
+       if(Gate::denies('Publicaciones.ModulodePublicaciones'))
+      {
+        Auth::logout();
+        return Redirect('login');
+      }
+
+      if(Gate::denies('Tipos.Submodulodetipos'))
+      {
+        Auth::logout();
+        return Redirect('login');
+      }
+
+      if(Gate::denies('admin.Tipos.Crear'))
+      {
+        Auth::logout();
+        return Redirect('login');
+      }
+
       \App\cms_type::create([
       'title' => $request['title'],
       'description'=>$request['description'],
@@ -54,12 +113,46 @@ public function typenew(){
     }
      public function edit($id)
       {
+        if(Gate::denies('Publicaciones.ModulodePublicaciones'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Tipos.Submodulodetipos'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('tipos-editar'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
 
           $Types = \App\cms_type::find($id);
           return view('types/typeform')->with('Types',$Types);
       }
      public function update($id, Request $request)
       {
+        if(Gate::denies('Publicaciones.ModulodePublicaciones'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Tipos.Submodulodetipos'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('tipos-editar'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
             $Types = \App\cms_type::find($id);
             $Types->fill($request->all());
             $Types->modify_by=Auth::User()->id;
@@ -68,8 +161,25 @@ public function typenew(){
             return redirect('admin/types')->with('message','store');       
       }
 
-          public function delete($id)
+      public function delete($id)
       {
+        if(Gate::denies('Publicaciones.ModulodePublicaciones'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('Tipos.Submodulodetipos'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
+
+        if(Gate::denies('tipos-eliminar'))
+        {
+          Auth::logout();
+          return Redirect('login');
+        }
           $Types = \App\cms_type::find($id);
           $Types->active=0;
           $Types->save();
