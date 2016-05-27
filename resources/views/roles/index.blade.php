@@ -32,7 +32,7 @@
             <th  class="ColumColor text-left" >
             Descripcion
             </th>
-            @can('roles-activo')
+            @can('Roles.Activar')
               <th  class="ColumColor text-left" >
                Activo
               </th>
@@ -54,7 +54,7 @@
 				<td>{{$rol->title}}</td>
 				<td>{{$rol->description}}</td>
 				  
-        @can('roles-activo')
+        @can('Roles.Activar')
             <td> 
               <?php 
                 if($rol->active=='1'){

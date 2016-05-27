@@ -15,7 +15,6 @@ use Auth;
 use Gate;
 use Redirect;
 
-
 class pp_reservationController extends Controller
 {      
   public function __construct(Request $request){
@@ -30,6 +29,12 @@ class pp_reservationController extends Controller
     
   public function index()
   {
+       if(Gate::denies('Reservaciones.ReservacionesPagadas'))
+      {
+        Auth::logout();
+        return Redirect('login');
+      }
+
          $reservations = DB::table('pp_reservation')->paginate(20);             
       
          return view('posadaparaiso/reservations/index',['reservations'=>$reservations]);
@@ -37,12 +42,22 @@ class pp_reservationController extends Controller
   
   public function store(Request $request){
      
+    if(Gate::denies('Reservaciones.ReservacionesPagadas'))
+    {
+      Auth::logout();
+      return Redirect('login');
+    }
+
     $arrayItemToPay=unserialize($request['arrayItemToPay']);
     $arrayItemToPay['total']= $request['total'];
     $num_hab=$arrayItemToPay["habitacion"];
 
 
     $arrayIdPricesHab=$request['precios'];
+    /*for($i=0;$i<$num_hab;$i++){
+        $arrayIdPricesHab[$i];
+    }
+    dd($array);*/
 
     $arrayItemToPay;
     $arrayIdPricesHab;
@@ -64,7 +79,6 @@ class pp_reservationController extends Controller
  
     }
     public function reservationDetails(Request $request){
-    
    
     $arrayItemToPay = array(
       'nombre'=>$request['nombre'],
@@ -110,9 +124,8 @@ class pp_reservationController extends Controller
          
          return view('posadaparaiso/reservations/details',['detailsReservation'=>$detailsReservation]);
     }
-
-
-    public function serviceReservation(Request $request){
+  
+   public function serviceReservation(Request $request){
      //return response()->json($request,200);
      
      $tokenServer="23asdfghjt5432345678tre";
@@ -124,4 +137,5 @@ class pp_reservationController extends Controller
         return response()->json("Erroor",400);
      
     }
+
 }

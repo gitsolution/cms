@@ -1,0 +1,45 @@
+http://www.sistemas.unach.mx/~a120111/notification/notification.php
+
+
+Pega este código en la consola/terminal y reemplaza con tus credenciales los datos CLIENT_ID y CLIENT_SECRET:
+curl -H "Accept:application/json" -H "Content-Type:application/x-www-form-urlencoded" -X POST -d "grant_type=client_credentials&client_id=TU_CLIENT_ID&client_secret=TU_CLIENT_SECRET" -v "https://api.mercadolibre.com/oauth/token"
+
+Obtendrás un JSON con varios datos, entre estos encontrarás tu access_token. 
+
+Pega este código en la consola/terminal y reemplaza con tu access_token obtenido:
+curl -X POST -H "Content-Type: application/json" -d '{"site_id":"MLA"}' https://api.mercadolibre.com/users/test_user?access_token=tu_access_token
+
+crea un usuario con el acces token x cada ejecución.
+curl -X POST -H "Content-Type: application/json" -d '{"site_id":"MLM"}' https://api.mercadolibre.com/users/test_user?access_token=APP_USR-3763616876393218-051609-081d0ac77c6399429a1a0e2b1681015e__H_E__-203156188
+
+
+id":213975057,"nickname":"TETE4986126","password":"qatest9994","site_status":"active","email":"test_user_99761197@testuser.com"}
+/________________________________________________________
+Mi cunta 
+id_user:3763616876393218
+pass_ser:yfjYtjoDXWQowRZ9kZSSBNFHD7jgeCpF
+acces_token:APP_USR-3763616876393218-051609-081d0ac77c6399429a1a0e2b1681015e__H_E__-203156188
+_______________________________
+Usuarios de prueba
+Argentina
+{"id":214225022,"nickname":"TETE5426727","password":"qatest2298","site_status":"active","email":"test_user_19271062@testuser.com"}
+{"id":214223426,"nickname":"TETE7329186","password":"qatest2443","site_status":"active","email":"test_user_64182588@testuser.com"}
+
+
+Mexico
+Vendedor
+Aplicación: 214231274 - MercadoPago application (mp-app-214231274)
+CLIENT_ID: 850785406949633
+CLIENT_SECRET: L9Iv1YaKRvHZtuKCgAdrrq86fFFApYbj
+{"id":214231274,"nickname":"TETE8837304","password":"qatest3129","site_status":"active","email":"test_user_96743798@testuser.com"}
+
+Comprador
+{"id":214230486,"nickname":"TETE1410673","password":"qatest3837","site_status":"active","email":"test_user_29333272@testuser.com"}
+
+
+
+
+
+
+
+

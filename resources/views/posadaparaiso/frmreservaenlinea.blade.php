@@ -1,7 +1,6 @@
 
-<?php $fechaActaul=date('Y-m-d');?>
 <h2 >{{trans('posadapraiso/pagina_index.reservaenlinea')}}</h2>    
-   {{Form::open(['url' => 'reservationDetails'])}} 
+{!!Form::open(['route'=>'Reservation.store','method','PUT'])!!} 
   <div class="row">
       <div class="col-md-12">
       <div class="form-group "  >
@@ -15,14 +14,14 @@
     <div class="col-md-6">
     <div class="form-group">
     	{{Form::label(trans('posadapraiso/labels.llegada'),'' )  }}
-      <input name="llegada" class="form-control" type="date" min="{{$fechaActaul}}" required>
-   </div>
+      {{Form::date('llegada',NULL,['class'=>'form-control','placeholder'=>'','required'])   }}
+    </div>
     </div> 
   
     <div class="col-md-6">
     <div class="form-group">
     	{{Form::label(trans('posadapraiso/labels.salida'),'')  }}
-      <input name="salida" class="form-control" type="date" min="{{$fechaActaul}}" required>
+      {{Form::date('salida',NULL,['class'=>'form-control','placeholder'=>'','required'])   }}
     </div>
     </div>
   </div>

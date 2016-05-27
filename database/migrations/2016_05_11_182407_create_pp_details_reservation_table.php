@@ -12,7 +12,7 @@ class CreatePpDetailsReservationTable extends Migration
      */
     public function up()
     {
-          Schema::create('pp_details_reservation', function (Blueprint $table) {
+         Schema::create('pp_details_reservation', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('id_price')->unsigned();
             $table->foreign('id_price')->references('id')->on('pp_prices');
@@ -29,6 +29,6 @@ class CreatePpDetailsReservationTable extends Migration
      */
     public function down()
     {
-        Schema::drop('pp_details_reservation');
+        //
     }
 }

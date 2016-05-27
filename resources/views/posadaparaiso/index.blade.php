@@ -28,7 +28,7 @@
     <!-- <img src="../img-cresolido/paraisonaranja-22.png"  class="img-responsive logocre">-->
     </header>
  <!-- Navigation -->
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="menu">
+    <nav class="navbar navbar-fixed-top navbar-inverse" role="navigation" id="menu">
         <div class="container-fluid main-menu">
             <div class="container ">                
                 <!-- Brand and toggle get grouped for better mobile display -->          
@@ -56,10 +56,12 @@
             </div>
         </div>         
     </nav>
-    <div class="relleno"></div>
-         	@yield('maincontent') 	
-    <div class="container-fluid footer-menu sombrainterior-naranja">  
+            <div class="relleno"></div>
+        	@yield('maincontent') 	
+    <div class="container-fluid footer-menu sombrainterior-naranja">
+        
         	 @include('posadaparaiso.footermenu')	 		
+ 
     </div> 
   
     <!--ligthBox-->
@@ -102,12 +104,11 @@
 
     /*Animacion de deslizamiento hacia abajo para los enlaces en la misma pagina */
     $("li a").each(function (index)//recorreo todos lo li 
-    {   
-     $(this).on("click", function(e){
-          // e.preventDefault();
+    {      
+      $(this).on("click", function(){
            href=$(this).attr('href');
                  if(href.split('#').length>1)//si el elemento del menu tiene #
-                {
+           {
                  var posicion = $(href).offset().top;
                  $("html, body").animate({
                      scrollTop: posicion

@@ -56,7 +56,8 @@ class pp_pricesController extends Controller
   }
    
   public function getPricesActive(){/*Obtiene los precios que estan activos*/
-    
+   
+
       $flag='1'; 
 
      $activePrice=null;

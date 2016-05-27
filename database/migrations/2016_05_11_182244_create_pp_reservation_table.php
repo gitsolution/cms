@@ -12,7 +12,7 @@ class CreatePpReservationTable extends Migration
      */
     public function up()
     {
-        Schema::create('pp_reservation', function (Blueprint $table) {
+          Schema::create('pp_reservation', function (Blueprint $table) {
             $table->increments('id');
             $table->text('name');
             $table->date('arrival');
@@ -22,10 +22,7 @@ class CreatePpReservationTable extends Migration
             $table->text('minors');
             $table->text('promotions');
             $table->double('amount');
-			$table->text('topic');//Para mercado de pago(Almacena el status del pago puede ser payment(Pagado) o merchan_order(transacción en prceso))
-			$table->integer('id_topic');//para posteriormente acerle peticiones a mercado de pago con este id
-           
-		   /*$table->integer('id_price')->unsigned();
+            /*$table->integer('id_price')->unsigned();
             $table->foreign('id_price')->references('id')->on('pp_prices');*/
             $table->timestamps();
         });
