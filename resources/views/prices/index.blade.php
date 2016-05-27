@@ -24,11 +24,7 @@
  	{!!Form::open()!!}
        {!! link_to('admin/prices/create', 'Registrar precio',array('class'=>'btn btn-success')) !!}
     {!!Form::close()!!}
-<<<<<<< HEAD
 	@endcan
-=======
-    @endcan
->>>>>>> e702eb0b987cbae5d56d8e8baa841d42aa82c5be
 	</div>
 </div>
 <div class="row text-center">
@@ -45,18 +41,10 @@
 			<th class="ColumColor">Fecha de inicio</th>
 			<th class="ColumColor">Fecha de finalización</th>
 			@can('Reservaciones.PreciosActivar')
-<<<<<<< HEAD
 			  <th class="ColumColor">Activo</th>
 			@endcan
 			@can('Reservaciones.PreciosEliminar')
 			  <th class="ColumColor">Acciones</th>
-=======
-			<th class="ColumColor">Activo</th>
-			@endcan
-			<!--<th class="ColumColor">Status</th>-->
-			@can('Reservaciones.PreciosEliminar')
-			<th class="ColumColor">Acciones</th>
->>>>>>> e702eb0b987cbae5d56d8e8baa841d42aa82c5be
 			@endcan
 		  </thead>
 		  @if($prices==null)
@@ -97,13 +85,8 @@
 			    @can('Reservaciones.PreciosEliminar')
 			    <td>
 					{!! link_to('admin/prices/'.$price->id.'/destroy', '',array('class'=>'img-responsive btn btn-danger glyphicon glyphicon-trash')) !!}
-<<<<<<< HEAD
 				</td>
 				@endcan 
-=======
-				</td> 
-				@endcan
->>>>>>> e702eb0b987cbae5d56d8e8baa841d42aa82c5be
 			</tr>
 		  @endforeach
 		</table>
