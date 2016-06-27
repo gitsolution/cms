@@ -18,7 +18,6 @@
 	<div class="col-md-2 text-right">	
  	  <!-- {!! link_to('admin/menus', 'Menús',array('class'=>'btn btn-info')) !!}-->
 	</div>
-	@can('Reservaciones.PreciosCrear')
 	<div class="col-md-2">
     @can('Reservaciones.PreciosCrear')
  	{!!Form::open()!!}

@@ -8,7 +8,8 @@ return [
     'adultos' => 'GROWN UPS:',   
     'menores' => 'MINORS:',   
     'promo' => 'PROMOTIONS:',   
-	'vertarifa' => 'SEE RATE',   
+	'vertarifa' => 'SEE RATE', 
+    'noches'=>'NIGHTS',  
     
 	/*labels form suscribite*/
 	

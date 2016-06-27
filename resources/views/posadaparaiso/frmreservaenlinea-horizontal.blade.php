@@ -4,10 +4,22 @@
 <div class="row">
     <!--{!!Form::open(['route'=>'Reservation.store','method','PUT'])!!} -->
     {{Form::open(['url' => 'reservationDetails'])}}
-  <div class="col-md-12">
+  <div class="col-md-4">
     <div class="form-group "  >
         {{Form::label(trans('posadapraiso/labels.nombre'),'' )  }}
         {{Form::text('nombre',NULL,['class'=>'form-control','placeholder'=>'','required'])   }}
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="form-group "  >
+        {{Form::label(trans('posadapraiso/labels.apellidos'),'' )  }}
+        {{Form::text('apellidos',NULL,['class'=>'form-control','placeholder'=>'','required'])   }}
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="form-group "  >
+        {{Form::label(trans('posadapraiso/labels.noches'),'' )  }}
+        {{Form::number('noches',NULL,['class'=>'form-control','placeholder'=>'','min'=>'1','max'=>'30','step'=>'1','required'] )   }}
     </div>
   </div>
 

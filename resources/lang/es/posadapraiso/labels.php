@@ -8,7 +8,8 @@ return [
     'adultos' => 'ADULTOS:',   
     'menores' => 'MENORES:',   
     'promo' => 'PROMO:',   
-	'vertarifa' => 'VER TARIFA',   
+	'vertarifa' => 'VER TARIFA', 
+    'noches'=>'NOCHES',  
     
 	/*labels form suscribite*/
 	

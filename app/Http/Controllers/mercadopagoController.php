@@ -51,6 +51,8 @@ class mercadopagoController extends Controller
       $price=(float)$price;
      
       $name_client=$arrayItemToPay['nombre'];
+      $apellidos=$arrayItemToPay['apellidos']; 
+      $noches=$arrayItemToPay['noches'];     
       $llegada=$arrayItemToPay['llegada'];
       $salida=$arrayItemToPay['salida'];
       $habitacion=$arrayItemToPay['habitacion'];
@@ -67,6 +69,8 @@ class mercadopagoController extends Controller
       $costoDeEnvio=0;
 
       Session::put('nombre', $arrayItemToPay['nombre']);
+      Session::put('apellidos', $arrayItemToPay['apellidos']);
+      Session::put('noches', $arrayItemToPay['noches']);
       Session::put('llegada', $arrayItemToPay['llegada']);//Respaldo mis datos antes de enviar a la pagina depaypal(para no perderlos)
       Session::put('salida', $arrayItemToPay['salida']);
       Session::put('habitacion', $arrayItemToPay['habitacion']);
@@ -128,7 +132,9 @@ class mercadopagoController extends Controller
     }
 
     public function paymentFailed(){
-           Session::forget('nombre'); 
+           Session::forget('nombre');
+           Session::forget('noches');
+           Session::forget('apellidos'); 
            Session::forget('llegada');
            Session::forget('salida');
            Session::forget('habitacion');
@@ -136,7 +142,7 @@ class mercadopagoController extends Controller
            Session::forget('menores');
            Session::forget('promo');
            Session::forget('arrayIdPricesHab');
-     return redirect('Inicio/#Reservacion')
+           return redirect('Inicio/#Reservacion')
             ->with('message',  trans('posadapraiso/alertas.nosepudoreaizarreservaion') );
     }
   
@@ -187,12 +193,14 @@ class mercadopagoController extends Controller
         {
             pp_reservation::create([
             'name'=>Session::get('nombre'),
+            'surnames'=>Session::get('apellidos'),
+            'nights'=>Session::get('noches'),
             'arrival'=>Session::get('llegada'),
             'departure'=>Session::get('salida'),
             'room'=>Session::get('habitacion'),
             'grownups'=>Session::get('adultos'),
             'minors'=>Session::get('menores'),
-            'promotions'=>"promo",
+            'promotions'=>Session::get('promo'),
             'amount'=>Session::get('price'),
             ]);
              
@@ -206,7 +214,9 @@ class mercadopagoController extends Controller
                 ]);
             }
 		
-           Session::forget('nombre'); 
+           Session::forget('nombre');
+           Session::forget('noches');
+           Session::forget('apellidos'); 
            Session::forget('llegada');
            Session::forget('salida');
            Session::forget('habitacion');

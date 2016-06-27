@@ -29,14 +29,17 @@
 	    <table class="table table-responsive table-hover"> 
 		  <thead class="center-text">
 			<th class="ColumColor">ID</th>
-			<th class="ColumColor">Nombre</th>	
+			<th class="ColumColor">Nombre</th>
+			<th class="ColumColor">Apellidos</th>		
 			<th class="ColumColor">Llegada</th>	
 			<th class="ColumColor">Salida</th>
 			<th class="ColumColor">Habitaciones</th>
 			<th class="ColumColor">Adultos</th>
 			<th class="ColumColor">Menores</th>
+			<th class="ColumColor">Noches</th>
 			<th class="ColumColor">Promociones</th>
 			<!--<th class="ColumColor">Status</th>-->
+			<th class="ColumColor">Sincronizado</th>
 			<th class="ColumColor">Monto</th>
 			@can('Reservaciones.Reservacionesverdetalles')
 			<th class="ColumColor">Detalles</th>
@@ -47,12 +50,15 @@
 			<tr>
 				<td> {{$reservation->id}}</td>
 				<td> {{$reservation->name}}</td>
+				<td> {{$reservation->surnames}}</td>
 				<td> {{$reservation->arrival}}</td>
 				<td> {{$reservation->departure}}</td>
 				<td> {{$reservation->room}}</td>											
 			    <td> {{$reservation->grownups}}</td>
 			    <td> {{$reservation->minors}}</td>
+			    <td> {{$reservation->nights}}</td>
 			    <td> {{$reservation->promotions}}</td> 
+			    <td> @if($reservation->sincronizado=='si')<span class=" glyphicon glyphicon-ok" style="color:blue"></span> @else  <span  class="glyphicon glyphicon-ban-circle" ></span>  @endif</td> 
 			    <td> $ {{$reservation->amount}}</td> 
 			    @can('Reservaciones.Reservacionesverdetalles')
 			    <td>{!! link_to('admin/reservations/'.$reservation->id.'/details', ' ',array('class'=>'img-responsive btn btn-primary glyphicon glyphicon-eye-open')) !!}</td>

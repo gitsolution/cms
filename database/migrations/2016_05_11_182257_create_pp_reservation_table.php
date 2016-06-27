@@ -15,13 +15,16 @@ class CreatePpReservationTable extends Migration
           Schema::create('pp_reservation', function (Blueprint $table) {
             $table->increments('id');
             $table->text('name');
+            $table->text('surnames');
+            $table->integer('nights');
             $table->date('arrival');
             $table->date('departure');
             $table->integer('room');            
             $table->integer('grownups');
-            $table->text('minors');
+            $table->integer('minors');
             $table->text('promotions');
             $table->double('amount');
+            $table->text('sincronizado');
             /*$table->integer('id_price')->unsigned();
             $table->foreign('id_price')->references('id')->on('pp_prices');*/
             $table->timestamps();

@@ -162,11 +162,12 @@ $("#bttsubmit-mercadopago").click(function(){
                      totalConIva=total+sumaDeIvas;
                     }
             }
-            $("#total-reservation").html(total);
+            numeroDeNoches=parseFloat ($("#numero-noches").html());
+            $("#total-reservation").html(total+" X "+numeroDeNoches+" = $ " +(total*numeroDeNoches) );
             $("#suma-de-ivas").html(sumaDeIvas);
-            $("#total-reservation-con-iva").html(totalConIva);
+            $("#total-reservation-con-iva").html(totalConIva*numeroDeNoches);
             
-            $("#total-input").val(totalConIva);
+            $("#total-input").val(totalConIva*numeroDeNoches);
             $i++;
 
          }) 

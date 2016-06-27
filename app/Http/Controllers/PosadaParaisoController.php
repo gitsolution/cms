@@ -134,7 +134,39 @@ class PosadaParaisoController extends Controller
          
         return view('posadaparaiso.hotel',['sectionHotel'=>$sectionHotel,'media'=>$media,'albumGaleryHotel'=>$albumGaleryHotel,'albumGaleryRooms'=>$albumGaleryRooms]);
     }
+   
+    public function rooms(){
+        $uri=trans('posadapraiso/secciones.restaurante');
+        $sectionRestaurant = null;
+        $sectionRestaurant =  DB::table('cms_sections')->where('id_language','=',$this->id_language)->where('uri','=', $uri)->where('publish','=',1)->where('active','=',1)->first();   
+     
+        $uri=trans('posadapraiso/secciones.habitaciones');
+        $sectionRooms = null;
+        $sectionRooms =  DB::table('cms_sections')->where('id_language','=',$this->id_language)->where('uri','=', $uri)->where('publish','=',1)->where('active','=',1)->first();   
+        
+        $album="slider Habitaciones";//(para el slider del Header)
+        $flag='1';  
+        $band='1';  
+        $publish='1';  
+        $media=null;
 
+         $media =  DB::table('med_albums')
+            ->join('med_pictures', 'med_albums.id', '=', 'med_pictures.id_album')            
+            ->select('med_albums.*', 'med_pictures.path as pic', 'med_pictures.id_album as idal')        
+            ->where('med_albums.active','=', $flag)
+            ->where('med_albums.publish','=', $publish)
+            ->where('med_pictures.active','=', $flag)   
+            ->where('med_pictures.publish','=',$publish)
+            ->where('med_albums.title','=',$album)        
+            ->orderBy('med_albums.order_by','DESC')->get();
+
+    
+        $albumGaleryHotel = $this->getAlbumGallery("hotel");
+        $albumGaleryRooms= $this->getAlbumGallery("HabitacionesGaleria");
+        
+        return view('posadaparaiso.habitaciones',['sectionRestaurant'=>$sectionRestaurant,'sectionRooms'=>$sectionRooms,'media'=>$media,'albumGaleryRooms'=>$albumGaleryRooms]);
+   
+    }
 
     private function getAlbumGallery($album_name){
         $flag='1';  

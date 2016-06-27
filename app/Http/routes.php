@@ -78,6 +78,7 @@ Route::get('DocList/{option}','moldeandoController@listDocument');
 //Rutas en español
 Route::resource('Inicio','PosadaParaisoController');
 Route::get('Restaurante','PosadaParaisoController@restaurant');
+Route::get('Habitaciones','PosadaParaisoController@rooms');
 Route::get('Hotel','PosadaParaisoController@hotel');
 
 //Route::get('galerias','PosadaParaisoController@listGalleries');
@@ -89,9 +90,9 @@ Route::get('Historia',function(){
 Route::get('Contacto',function(){
     return Redirect::to("Inicio#Contacto");
 });
-Route::get('Habitaciones',function(){
-    return Redirect::to("Restaurante#Habitaciones");
-});
+/*Route::get('Habitaciones',function(){
+    return Redirect::to("Habitaciones");
+});*/
 Route::get('Galeria',function(){
     return Redirect::to("Hotel#Galeria");
 });
@@ -100,6 +101,7 @@ Route::get('Galeria',function(){
 Route::resource('Start','PosadaParaisoController@index');
 Route::get('Restaurant','PosadaParaisoController@restaurant');
 Route::get('Hotel','PosadaParaisoController@hotel');
+Route::get('Rooms','PosadaParaisoController@rooms');
 
 Route::get('History',function(){
     return Redirect::to("Start#History");
@@ -107,9 +109,10 @@ Route::get('History',function(){
 Route::get('Contact',function(){
     return Redirect::to("Start#Contact");
 });
+/*
 Route::get('Rooms',function(){
     return Redirect::to("Restaurant#Rooms");
-});
+});*/
 Route::get('Gallery',function(){
     return Redirect::to("Hotel#Galery");
 });
@@ -118,6 +121,7 @@ Route::get('Gallery',function(){
 Route::resource('Debut','PosadaParaisoController@index');
 Route::get('Restaurant','PosadaParaisoController@restaurant');
 Route::get('Hotel','PosadaParaisoController@hotel');
+Route::get('Chambres','PosadaParaisoController@rooms');
 
 Route::get('Histoire',function(){
     return Redirect::to("Debut#histoire");
@@ -125,9 +129,10 @@ Route::get('Histoire',function(){
 Route::get('Contact',function(){
     return Redirect::to("Debut#Contact");
 });
+/*
 Route::get('Chambres',function(){
     return Redirect::to("Restaurant#Chambres");
-});
+});*/
 Route::get('Galerie',function(){
     return Redirect::to("Hotel#Galerie");
 });
@@ -186,15 +191,17 @@ Route::get('admin/prices/{id}/destroy','pp_pricesController@destroy');
 Route::get('pay','pp_reservationController@payReservation');
 Route::post('reservationDetails','pp_reservationController@reservationDetails');
 Route::resource('admin/reservation','pp_reservationController@index');
-
-Route::post('reservationService','pp_reservationController@serviceReservation');//servicio
-
+  
+Route::GET('reservationService','pp_reservationController@serviceReservation');//servicio
+Route::POST('reservationService','pp_reservationController@serviceReservation');//eliminar
+Route::POST('notifyService','pp_reservationController@notificacionSincronizado');//Recibe la notificacion de la reservacion almacenada en foxpro  
+Route::GET('notifyService','pp_reservationController@notificacionSincronizado');//eliminar
+  
 //Rutas para las  suscripciones
 Route::resource('admin/suscription','pp_subscribe');
 Route::get('admin/suscription/{id}/destroy','pp_subscribe@destroy');
 
 Route::post('Email','PosadaParaisoController@sendEmail');
-
 
 
 /****************************************************/

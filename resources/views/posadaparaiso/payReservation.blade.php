@@ -18,6 +18,8 @@
 <div class="row sectionFormPay">
 <?php    
       $nombre=$arrayItemToPay['nombre'];
+      $apellidos=$arrayItemToPay['apellidos'];
+      $noches=$arrayItemToPay['noches'];
       $llegada=$arrayItemToPay['llegada'];
       $salida=$arrayItemToPay['salida'];
       $habitacion=$arrayItemToPay['habitacion'];
@@ -36,7 +38,7 @@
      
       @for ($i = 0; $i < $numRooms; $i++)
                     <table class="table table-bordered table-hover habitacionClass" id="numHabTable{{$i}}">
-                      <th class="text-center" style="background:rgb(225,213,170);"><b>{{trans('posadapraiso/pagina_reservacion.habitacion')}} {{$i+1}} </b></th>
+                      <th class="text-center" style="background:rgba(231,91,17,.8);"><b>{{trans('posadapraiso/pagina_reservacion.habitacion')}} {{$i+1}} </b></th>
                      <tr>
                          <td  id="numHab{{$i}}">
                          {{trans('posadapraiso/pagina_reservacion.tipo')}}:
@@ -68,7 +70,7 @@
        <ul class="list-group">        
                <li class="list-group-item">
                     <b> {{trans('posadapraiso/pagina_reservacion.nombre')}}:</b> 
-                    {{$nombre}}  
+                    {{$nombre}} {{$apellidos}}  
                </li>
                <li class="list-group-item">
                     <b>{{trans('posadapraiso/pagina_reservacion.numerodehabitaciones')}}: </b> 
@@ -89,6 +91,10 @@
                  <li class="list-group-item" >
                      <b>{{trans('posadapraiso/pagina_reservacion.menores')}}: </b>
                      {{$menores}}   
+               </li>
+               <li class="list-group-item">
+                    <b>Noches: </b> 
+                    <span id="numero-noches"> {{$noches}} </span>
                </li>
 
  

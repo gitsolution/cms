@@ -15,13 +15,14 @@ use Auth;
 use Gate;
 use Redirect;
 
+
 class pp_reservationController extends Controller
 {      
   public function __construct(Request $request){
        if(session('lang')!=null)
           App::setLocale(session('lang'));/*Asigno el idioma a laravel para este controlador*/
         else
-          App::setLocale('es');
+          App::setLocale('es'); 
        $language=App::getLocale();/*Obtengo el idioma definido en laravel*/
        $this->id_language=DB::table('cms_language')->where('code','=', $language)->max('id'); 
 
@@ -82,6 +83,8 @@ class pp_reservationController extends Controller
    
     $arrayItemToPay = array(
       'nombre'=>$request['nombre'],
+      'apellidos'=>$request['apellidos'],
+      'noches'=>$request['noches'],
       'llegada'=>$request['llegada'],
       'salida'=>$request['salida'],
       'habitacion'=>$request['habitacion'],
@@ -130,12 +133,22 @@ class pp_reservationController extends Controller
      
      $tokenServer="23asdfghjt5432345678tre";
        if($request['token']==$tokenServer){
-           $Data = DB::table('pp_reservation')->get();  
+           $Data = DB::table('pp_reservation')->where('sincronizado','<>','si')->get();  
           return response()->json($Data,200);
        }
      else
         return response()->json("Erroor",400);
      
+    }
+
+    public function  notificacionSincronizado(Request $request){
+        $id=$request['id'];
+         
+          $reservation = \App\pp_reservation::find($id);
+          $reservation->sincronizado='si';   
+          $reservation->save();   
+
+          return response()->json("Ok");
     }
 
 }
